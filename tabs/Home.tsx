@@ -35,6 +35,8 @@ export function HomeScreen() {
                     flex: 1,
                     alignItems: "center",
                     justifyContent: "center",
+                    width: md ? "100%" : "100%",
+                    height: md ? "100%" : "100%",
 
                     // aspectRatio: "16 / 9",
                 }}
@@ -54,18 +56,18 @@ export function HomeScreen() {
                             backgroundColor: "rgba(0, 0, 0, 0.4)",
                             width: md ? "100%" : "100%",
                             height: md ? "100%" : "100%",
-                            padding: "1rem",
-                            borderRadius: "5px",
+                            padding: "2%",
+                            borderRadius: 5,
                             // flex: 1,
                             alignItems: "center",
                             justifyContent: "center",
-                            gap: "2rem",
+                            gap: 20,
                         }}
                     >
                         <Text
                             style={{
                                 color: "white",
-                                fontSize: "3rem",
+                                fontSize: 30,
                                 textAlign: "center",
                                 fontWeight: "700",
                             }}
@@ -78,8 +80,8 @@ export function HomeScreen() {
                                     backgroundColor: pressed
                                         ? "#A06AAE"
                                         : "#C683D7",
-                                    padding: "1.25rem",
-                                    borderRadius: "0.5rem",
+                                    padding: "1.25%",
+                                    borderRadius: 5,
                                 },
                             ]}
                             onPress={() => navigation.navigate("Test")}
@@ -88,7 +90,7 @@ export function HomeScreen() {
                                 <Text
                                     style={{
                                         color: pressed ? "white" : "white",
-                                        fontSize: "1.5rem",
+                                        fontSize: 15,
                                         fontWeight: "500",
                                     }}
                                 >
