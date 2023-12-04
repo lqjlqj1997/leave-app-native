@@ -23,7 +23,7 @@ export function HomeScreen() {
     const doubleXl = windowWidth > 1536;
 
     const navigation =
-        useNavigation<NativeStackNavigationProp<RootStackParamList, "Test">>();
+        useNavigation<NativeStackNavigationProp<RootStackParamList, "Home">>();
     return (
         <View
             style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
@@ -84,7 +84,7 @@ export function HomeScreen() {
                                     borderRadius: 5,
                                 },
                             ]}
-                            onPress={() => navigation.navigate("Test")}
+                            onPress={() => navigation.navigate("Login")}
                         >
                             {({ pressed }) => (
                                 <Text
