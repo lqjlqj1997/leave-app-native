@@ -19,7 +19,7 @@ export default function Router() {
     return (
         <NavigationContainer>
             <Stack.Navigator
-                initialRouteName="Home"
+                initialRouteName="Register"
                 screenOptions={{
                     headerShown: false,
                     // presentation: "modal",

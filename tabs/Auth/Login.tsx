@@ -20,12 +20,14 @@ export function LoginScreen() {
                 <View
                     style={{
                         backgroundColor: "rgba(0, 0, 200, 0.2)",
-                        // width: ,
+                        // width: "100%",
                         // height: "100%",
                         paddingHorizontal: 80,
                         paddingVertical: 100,
                         borderRadius: 5,
                         // flex: 1,
+                        display: "flex",
+                        // flexGrow: 1,
                         alignItems: "center",
                         justifyContent: "center",
                         gap: 20,
@@ -33,6 +35,7 @@ export function LoginScreen() {
                 >
                     <Text
                         style={{
+                            flex: 1,
                             color: "white",
                             fontSize: 30,
                             textAlign: "center",
@@ -43,8 +46,9 @@ export function LoginScreen() {
                     </Text>
                     <TextInput
                         style={{
-                            borderWidth: 2,
-                            borderBlockColor: "gray",
+                            flex: 1,
+                            borderWidth: 1,
+                            borderColor: "gray",
                             borderRadius: 5,
                             backgroundColor: "rgba(255,255,255,0.8)",
                             paddingHorizontal: 15,
@@ -56,8 +60,9 @@ export function LoginScreen() {
                     <TextInput
                         secureTextEntry={true}
                         style={{
-                            borderWidth: 2,
-                            borderBlockColor: "gray",
+                            flex: 1,
+                            borderWidth: 0.5,
+                            borderColor: "gray",
                             borderRadius: 5,
                             backgroundColor: "rgba(255,255,255,0.8)",
                             paddingHorizontal: 15,
@@ -69,6 +74,7 @@ export function LoginScreen() {
                     <Pressable
                         style={({ pressed }) => [
                             {
+                                flex: 1,
                                 backgroundColor: pressed
                                     ? "#A06AAE"
                                     : "#C683D7",
@@ -77,7 +83,7 @@ export function LoginScreen() {
                                 borderRadius: 5,
                             },
                         ]}
-                        onPress={() => navigation.navigate("Register")}
+                        onPress={() => navigation.navigate("Test")}
                     >
                         {({ pressed }) => (
                             <Text
