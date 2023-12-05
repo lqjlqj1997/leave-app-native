@@ -1,40 +1,47 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Text, TextInput } from "react-native";
 import { RootStackParamList } from "../../Router";
-import { Button, Pressable, Text, TextInput, View } from "react-native";
-import { Layout } from "./Layout";
+import { Button } from "../../lib/components/Button";
 import { ContainerView } from "../../lib/components/ContainerView";
+import { getBaseStyle } from "../../lib/style/GlobalStyle";
+import { Layout } from "./Layout";
 
 export function LoginScreen() {
     const navigation =
         useNavigation<NativeStackNavigationProp<RootStackParamList, "Home">>();
+
+    const isDark = false;
+    const baseStyle = getBaseStyle(false);
     return (
         <Layout>
             <ContainerView
-                style={{
-                    backgroundColor: "rgba(0, 0, 200, 0.2)",
-                    width: "80%",
-                    maxWidth: 400,
-                    height: "50%",
-                    paddingHorizontal: 50,
-                    paddingVertical: 50,
-                    borderRadius: 5,
-                    // flex: 1,
-                    display: "flex",
-                    // flexGrow: 1,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 20,
-                }}
+                style={
+                    {
+                        // backgroundColor: "rgba(0, 0, 200, 0.2)",
+                        // width: "80%",
+                        // maxWidth: 400,
+                        // height: "50%",
+                        // paddingHorizontal: 50,
+                        // paddingVertical: 50,
+                        // borderRadius: 5,
+                        // // flex: 1,
+                        // display: "flex",
+                        // // flexGrow: 1,
+                        // alignItems: "center",
+                        // justifyContent: "center",
+                        // gap: 20,
+                    }
+                }
             >
                 <Text
                     style={{
                         // flex: 1,
-                        width: "100%",
-                        color: "white",
-                        fontSize: 30,
-                        textAlign: "center",
-                        fontWeight: "700",
+                        // width: "100%",
+                        color: baseStyle.cardForeground,
+                        fontSize: baseStyle.fontSize.lg,
+                        // textAlign: "center",
+                        // fontWeight: "700",
                     }}
                 >
                     Login
@@ -43,59 +50,46 @@ export function LoginScreen() {
                 <TextInput
                     style={{
                         // flex: 1,
+                        display: "flex",
+                        height: baseStyle.space.p10,
                         width: "100%",
                         borderWidth: 1,
-                        borderColor: "gray",
-                        borderRadius: 5,
-                        backgroundColor: "rgba(255,255,255,0.8)",
-                        paddingHorizontal: 15,
-                        paddingVertical: 10,
+                        borderColor: baseStyle.input,
+                        borderRadius: baseStyle.rounded.md,
+                        backgroundColor: baseStyle.background,
+                        paddingHorizontal: baseStyle.space.p3,
+                        paddingVertical: baseStyle.space.p2,
+                        fontSize: baseStyle.fontSize.base,
+                        shadowColor: baseStyle.background,
                     }}
+                    placeh
                     placeholder="Email"
-                    placeholderTextColor={"gray"}
+                    placeholderTextColor={baseStyle.mutedForeground}
                 />
 
                 <TextInput
                     secureTextEntry={true}
                     style={{
                         // flex: 1,
+                        display: "flex",
+                        height: baseStyle.space.p10,
                         width: "100%",
-                        borderWidth: 0.5,
-                        borderColor: "gray",
-                        borderRadius: 5,
-                        backgroundColor: "rgba(255,255,255,0.8)",
-                        paddingHorizontal: 15,
-                        paddingVertical: 10,
+                        borderWidth: 1,
+                        borderColor: baseStyle.input,
+                        borderRadius: baseStyle.rounded.md,
+                        backgroundColor: baseStyle.background,
+                        paddingHorizontal: baseStyle.space.p3,
+                        paddingVertical: baseStyle.space.p2,
+                        fontSize: baseStyle.fontSize.base,
+                        shadowColor: baseStyle.background,
                     }}
                     placeholder="Password"
-                    placeholderTextColor={"gray"}
+                    placeholderTextColor={baseStyle.mutedForeground}
                 />
-                <Pressable
-                    style={({ pressed }) => [
-                        {
-                            // flex: 1,
-                            width: "100%",
-                            backgroundColor: pressed ? "#A06AAE" : "#C683D7",
-                            paddingHorizontal: 20,
-                            paddingVertical: 10,
-                            borderRadius: 5,
-                        },
-                    ]}
+                <Button
+                    title="Login"
                     onPress={() => navigation.navigate("Test")}
-                >
-                    {({ pressed }) => (
-                        <Text
-                            style={{
-                                color: pressed ? "white" : "white",
-                                fontSize: 15,
-                                fontWeight: "500",
-                                textAlign: "center",
-                            }}
-                        >
-                            Login
-                        </Text>
-                    )}
-                </Pressable>
+                ></Button>
             </ContainerView>
         </Layout>
     );
