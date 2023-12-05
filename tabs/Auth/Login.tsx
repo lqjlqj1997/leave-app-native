@@ -1,18 +1,24 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Text, TextInput } from "react-native";
+import { Text, TextInput, Switch } from "react-native";
 import { RootStackParamList } from "../../Router";
 import { Button } from "../../lib/components/Button";
 import { ContainerView } from "../../lib/components/ContainerView";
 import { getBaseStyle } from "../../lib/style/GlobalStyle";
 import { Layout } from "./Layout";
+import React, {useState} from 'react';
 
 export function LoginScreen() {
     const navigation =
         useNavigation<NativeStackNavigationProp<RootStackParamList, "Home">>();
 
-    const isDark = false;
-    const baseStyle = getBaseStyle(false);
+    // const isDark = false;
+    // const baseStyle = getBaseStyle(false);
+    const [isDark, setDarkMode] = useState(false);
+    const toggleSwitch = () => setDarkMode(previousState => !previousState);
+    isDark ? getBaseStyle(isDark) : getBaseStyle(!isDark);
+    const baseStyle = getBaseStyle(isDark);
+
     return (
         <Layout>
             <ContainerView
@@ -64,7 +70,7 @@ export function LoginScreen() {
                     }}
                     placeholder="Email"
                     placeholderTextColor={baseStyle.mutedForeground}
-                    keyboardType= "email-address"                />
+                    keyboardType="email-address" />
 
                 <TextInput
                     secureTextEntry={true}
@@ -89,6 +95,13 @@ export function LoginScreen() {
                     title="Login"
                     onPress={() => navigation.navigate("Test")}
                 ></Button>
+                <Switch
+                    trackColor={{ false: '#767577', true: '#81b0ff' }}
+                    thumbColor={isDark ? '#f5dd4b' : '#f4f3f4'}
+                    ios_backgroundColor="#3e3e3e"
+                    onValueChange={toggleSwitch}
+                    value={isDark}
+                />
             </ContainerView>
         </Layout>
     );
