@@ -19,7 +19,7 @@ export function LoginScreen() {
                 style={
                     {
                         // backgroundColor: "rgba(0, 0, 200, 0.2)",
-                        // width: "80%",
+                        width: "80%",
                         // maxWidth: 400,
                         // height: "50%",
                         // paddingHorizontal: 50,
@@ -64,7 +64,7 @@ export function LoginScreen() {
                     }}
                     placeholder="Email"
                     placeholderTextColor={baseStyle.mutedForeground}
-                />
+                    keyboardType= "email-address"                />
 
                 <TextInput
                     secureTextEntry={true}
