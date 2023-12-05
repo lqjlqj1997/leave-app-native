@@ -4,10 +4,37 @@ import { RootStackParamList } from "../../Router";
 import { Button, Pressable, Text, TextInput, View } from "react-native";
 import { Layout } from "./Layout";
 import { ContainerView } from "../../lib/components/ContainerView";
+import axios from "axios";
+import { useState } from "react";
 
 export function LoginScreen() {
+
     const navigation =
         useNavigation<NativeStackNavigationProp<RootStackParamList, "Home">>();
+
+    const [loginEmail, setLoginEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+
+    const handleSubmit = (loginEmail: string, password: string) => {
+        console.log(loginEmail);
+        console.log(password)
+        try {
+            axios.post("http://localhost:8080/employee/login", {
+                loginEmail,
+                password,
+            }).then(function(response){
+                const {token, roleList} = response.data;
+                localStorage.setItem("token",token);
+                localStorage.setItem("role", JSON.stringify(roleList));
+                navigation.navigate("Test");
+                console.log("success");
+            }
+            );
+        } catch (error) {
+            console.log("error");
+        }
+    }
+
     return (
         <Layout>
             <ContainerView
@@ -53,6 +80,8 @@ export function LoginScreen() {
                     }}
                     placeholder="Email"
                     placeholderTextColor={"gray"}
+                    onChangeText={setLoginEmail}
+
                 />
 
                 <TextInput
@@ -69,6 +98,7 @@ export function LoginScreen() {
                     }}
                     placeholder="Password"
                     placeholderTextColor={"gray"}
+                    onChangeText={setPassword}
                 />
                 <Pressable
                     style={({ pressed }) => [
@@ -81,7 +111,8 @@ export function LoginScreen() {
                             borderRadius: 5,
                         },
                     ]}
-                    onPress={() => navigation.navigate("Test")}
+                    // onPress={() => navigation.navigate("Test")}
+                    onPress={() => handleSubmit(loginEmail, password)}
                 >
                     {({ pressed }) => (
                         <Text
