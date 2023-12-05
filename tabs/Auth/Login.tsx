@@ -62,7 +62,6 @@ export function LoginScreen() {
                         fontSize: baseStyle.fontSize.base,
                         shadowColor: baseStyle.background,
                     }}
-                    placeh
                     placeholder="Email"
                     placeholderTextColor={baseStyle.mutedForeground}
                 />
