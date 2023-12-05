@@ -3,14 +3,14 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../Router";
 import { Button, Pressable, Text, TextInput, View } from "react-native";
 import { Layout } from "./Layout";
+import { ContainerView } from "../../lib/components/ContainerView";
 
 export function LoginScreen() {
     const navigation =
         useNavigation<NativeStackNavigationProp<RootStackParamList, "Home">>();
     return (
         <Layout>
-
-            <View
+            <ContainerView
                 style={{
                     backgroundColor: "rgba(0, 0, 200, 0.2)",
                     width: "80%",
@@ -39,6 +39,7 @@ export function LoginScreen() {
                 >
                     Login
                 </Text>
+
                 <TextInput
                     style={{
                         // flex: 1,
@@ -74,9 +75,7 @@ export function LoginScreen() {
                         {
                             // flex: 1,
                             width: "100%",
-                            backgroundColor: pressed
-                                ? "#A06AAE"
-                                : "#C683D7",
+                            backgroundColor: pressed ? "#A06AAE" : "#C683D7",
                             paddingHorizontal: 20,
                             paddingVertical: 10,
                             borderRadius: 5,
@@ -90,15 +89,14 @@ export function LoginScreen() {
                                 color: pressed ? "white" : "white",
                                 fontSize: 15,
                                 fontWeight: "500",
-                                textAlign: "center"
+                                textAlign: "center",
                             }}
                         >
                             Login
                         </Text>
                     )}
                 </Pressable>
-            </View>
-
+            </ContainerView>
         </Layout>
     );
 }
