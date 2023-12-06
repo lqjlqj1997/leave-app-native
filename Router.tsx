@@ -5,12 +5,14 @@ import { HomeScreen } from "./tabs/Home";
 import { TestScreen } from "./tabs/Test";
 import { LoginScreen } from "./tabs/Auth/Login";
 import { RegisterScreen } from "./tabs/Auth/Register";
+import { DashboardScreen } from "./tabs/Leave/Dashboard";
 
 export type RootStackParamList = {
     Home: undefined;
     Test: undefined;
     Login: undefined;
     Register: undefined;
+    Dashboard: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -32,6 +34,7 @@ export default function Router() {
                 <Stack.Screen name="Test" component={TestScreen} />
                 <Stack.Screen name="Login" component={LoginScreen} />
                 <Stack.Screen name="Register" component={RegisterScreen} />
+                <Stack.Screen name="Dashboard" component={DashboardScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );
