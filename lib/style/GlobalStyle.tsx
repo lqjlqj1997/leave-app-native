@@ -1,5 +1,19 @@
 import { useThemeStore } from "../../global-store/ThemeStore";
 
+type weightType = 'normal'
+    | 'bold'
+    | '100'
+    | '200'
+    | '300'
+    | '400'
+    | '500'
+    | '600'
+    | '700'
+    | '800'
+    | '900'
+    | undefined
+
+
 export const DarkStyle = {
     background: "hsl(224 71% 4%)",
     foreground: "hsl(213 31% 91%)",
@@ -66,15 +80,15 @@ export const DarkStyle = {
         lx2: 24,
     },
     fontWeight: {
-        thin: "100",
-        extralight: "200",
-        light: "300",
-        normal: "400",
-        medium: "500",
-        semibold: "600",
-        bold: "700",
-        extrabold: "800",
-        black: "900",
+        thin: "100" as weightType,
+        extralight: "200" as weightType,
+        light: "300" as weightType,
+        normal: "400" as weightType,
+        medium: "500" as weightType,
+        semibold: "600" as weightType,
+        bold: "700" as weightType,
+        extrabold: "800" as weightType,
+        black: "900" as weightType,
     },
     borderWidth: 1,
     rounded: {
@@ -155,15 +169,15 @@ export const LightStyle = {
         lx2: 24,
     },
     fontWeight: {
-        thin: "100",
-        extralight: "200",
-        light: "300",
-        normal: "400",
-        medium: "500",
-        semibold: "600",
-        bold: "700",
-        extrabold: "800",
-        black: "900",
+        thin: "100" as weightType,
+        extralight: "200" as weightType,
+        light: "300" as weightType,
+        normal: "400" as weightType,
+        medium: "500" as weightType,
+        semibold: "600" as weightType,
+        bold: "700" as weightType,
+        extrabold: "800" as weightType,
+        black: "900" as weightType,
     },
     rounded: {
         sm: 2,
