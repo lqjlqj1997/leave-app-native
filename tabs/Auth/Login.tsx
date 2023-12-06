@@ -12,8 +12,8 @@ import { Layout } from "./Layout";
 // import axios from "axios";
 
 export function LoginScreen() {
-
-    const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, "Home">>();
+    const navigation =
+        useNavigation<NativeStackNavigationProp<RootStackParamList, "Home">>();
 
     const isDark = useThemeStore((state) => state.isDark);
     const baseStyle = getBaseStyle(isDark);
@@ -64,8 +64,8 @@ export function LoginScreen() {
                     style={{
                         // flex: 1,
                         // width: "100%",
-                        color: "white",
-                        fontSize: 30,
+                        color: baseStyle.cardForeground,
+                        fontSize: baseStyle.fontSize.lg,
                         // textAlign: "center",
                         // fontWeight: "700",
                     }}
@@ -88,10 +88,10 @@ export function LoginScreen() {
                         fontSize: baseStyle.fontSize.base,
                         shadowColor: baseStyle.background,
                     }}
+                    placeholder="Email"
                     placeholderTextColor={baseStyle.mutedForeground}
                     keyboardType="email-address"
                     // onChangeText={setLoginEmail}
-
                 />
 
                 <TextInput
@@ -112,14 +112,14 @@ export function LoginScreen() {
                     }}
                     placeholder="Password"
                     placeholderTextColor={baseStyle.mutedForeground}
-                    />
-                    <Button
-                        title="Login"
-                        onPress={() => navigation.navigate("Dashboard")}
-                        // onPress={() => handleSubmit(loginEmail, password)}
-                    ></Button>
-                    <ThemeSwitch />
-                </ContainerView>
+                />
+                <Button
+                    title="Login"
+                    onPress={() => navigation.navigate("Dashboard")}
+                    // onPress={() => handleSubmit(loginEmail, password)}
+                ></Button>
+                <ThemeSwitch />
+            </ContainerView>
         </Layout>
     );
 }
