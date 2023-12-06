@@ -1,4 +1,4 @@
-const isDark = false;
+import { useThemeStore } from "../../global-store/ThemeStore";
 
 export const DarkStyle = {
     background: "hsl(224 71% 4%)",
@@ -178,5 +178,9 @@ export const LightStyle = {
     radius: 20,
 };
 
-export const getBaseStyle = (isDark: boolean) =>
-    isDark ? DarkStyle : LightStyle;
+export const getBaseStyle = (isDark?: boolean) => {
+    if (isDark === undefined) {
+        isDark = useThemeStore((state) => state.isDark);
+    }
+    return isDark ? DarkStyle : LightStyle;
+};
