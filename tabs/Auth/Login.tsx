@@ -8,6 +8,7 @@ import { getBaseStyle } from "../../lib/style/GlobalStyle";
 import { Layout } from "./Layout";
 import React, { useState } from "react";
 import { useThemeStore } from "../../global-store/ThemeStore";
+import { ThemeSwitch } from "../../lib/components/ThemeToggle";
 
 export function LoginScreen() {
     const navigation =
@@ -91,13 +92,7 @@ export function LoginScreen() {
                     title="Login"
                     onPress={() => navigation.navigate("Dashboard")}
                 ></Button>
-                <Switch
-                    trackColor={{ false: "#767577", true: "#81b0ff" }}
-                    thumbColor={isDark ? "#f5dd4b" : "#f4f3f4"}
-                    ios_backgroundColor="#3e3e3e"
-                    onValueChange={useThemeStore((state) => state.setTheme)}
-                    value={isDark}
-                />
+                <ThemeSwitch />
             </ContainerView>
         </Layout>
     );
