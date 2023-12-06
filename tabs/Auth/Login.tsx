@@ -1,15 +1,15 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Text, TextInput, Switch } from "react-native";
+import React from "react";
+import { Text, TextInput } from "react-native";
 import { RootStackParamList } from "../../Router";
+import { useThemeStore } from "../../global-store/ThemeStore";
 import { Button } from "../../lib/components/Button";
 import { ContainerView } from "../../lib/components/ContainerView";
+import { ThemeSwitch } from "../../lib/components/ThemeToggle";
 import { getBaseStyle } from "../../lib/style/GlobalStyle";
 import { Layout } from "./Layout";
-import React, { useState } from "react";
-import { useThemeStore } from "../../global-store/ThemeStore";
-import { ThemeSwitch } from "../../lib/components/ThemeToggle";
-import axios from "axios";
+// import axios from "axios";
 
 export function LoginScreen() {
 

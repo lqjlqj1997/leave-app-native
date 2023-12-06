@@ -1,10 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Button, Text, View } from "react-native";
-import { getBaseStyle } from "../../lib/style/GlobalStyle";
+import { Text, View } from "react-native";
 import { RootStackParamList } from "../../Router";
 import { ContainerView } from "../../lib/components/ContainerView";
-import { useThemeStore } from "../../global-store/ThemeStore";
+import { getBaseStyle } from "../../lib/style/GlobalStyle";
 
 const fullMonth = [
     "January",
@@ -36,8 +35,7 @@ const month = [
 ];
 
 export function DashboardScreen() {
-    const isDark = useThemeStore((state) => state.isDark);
-    const baseStyle = getBaseStyle(isDark);
+    const baseStyle = getBaseStyle();
     const dayList = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const fullMonth = [
         "January",
@@ -170,8 +168,10 @@ export function DashboardScreen() {
                             }}
                         >
                             {rowDate.map((date) => {
-                                const isSelectedMonth =
-                                    date.getMonth() == selectedMonth;
+                                const notSelectedMonth =
+                                    date.getMonth() != selectedMonth;
+                                // const isWeekend =
+                                //     date.getDay() == 0 || date.getDay() == 6;
                                 return (
                                     <View
                                         id="Cell"
@@ -188,9 +188,10 @@ export function DashboardScreen() {
                                                 display: "flex",
                                                 justifyContent: "center",
                                                 alignItems: "center",
-                                                backgroundColor: isSelectedMonth
-                                                    ? baseStyle.background
-                                                    : baseStyle.muted,
+                                                backgroundColor:
+                                                    notSelectedMonth
+                                                        ? baseStyle.muted
+                                                        : baseStyle.background,
                                                 padding: baseStyle.space.p2,
                                                 aspectRatio: "1/1",
                                                 borderRadius:
@@ -199,9 +200,9 @@ export function DashboardScreen() {
                                         >
                                             <Text
                                                 style={{
-                                                    color: isSelectedMonth
-                                                        ? baseStyle.foreground
-                                                        : baseStyle.mutedForeground,
+                                                    color: notSelectedMonth
+                                                        ? baseStyle.mutedForeground
+                                                        : baseStyle.foreground,
                                                 }}
                                             >
                                                 {date.getDate()}

@@ -3,19 +3,16 @@ import {
     PressableProps,
     StyleProp,
     Text,
-    View,
     ViewStyle,
 } from "react-native";
 import { getBaseStyle } from "../style/GlobalStyle";
-import { useThemeStore } from "../../global-store/ThemeStore";
 
 interface ButtonProps extends PressableProps {
     title: string;
     style?: StyleProp<ViewStyle>;
 }
 export function Button({ title, style, onPress }: ButtonProps) {
-    const isDark = useThemeStore((state) => state.isDark);
-    const baseStyle = getBaseStyle(isDark);
+    const baseStyle = getBaseStyle();
     return (
         <Pressable
             style={({ pressed }) => [
