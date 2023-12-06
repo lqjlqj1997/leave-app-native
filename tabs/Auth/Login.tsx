@@ -6,39 +6,34 @@ import { Button } from "../../lib/components/Button";
 import { ContainerView } from "../../lib/components/ContainerView";
 import { getBaseStyle } from "../../lib/style/GlobalStyle";
 import { Layout } from "./Layout";
-import React, {useState} from 'react';
+import React, { useState } from "react";
+import { useThemeStore } from "../../global-store/ThemeStore";
 
 export function LoginScreen() {
     const navigation =
         useNavigation<NativeStackNavigationProp<RootStackParamList, "Home">>();
 
-    // const isDark = false;
-    // const baseStyle = getBaseStyle(false);
-    const [isDark, setDarkMode] = useState(false);
-    const toggleSwitch = () => setDarkMode(previousState => !previousState);
-    isDark ? getBaseStyle(isDark) : getBaseStyle(!isDark);
+    const isDark = useThemeStore((state) => state.isDark);
     const baseStyle = getBaseStyle(isDark);
 
     return (
         <Layout>
             <ContainerView
-                style={
-                    {
-                        // backgroundColor: "rgba(0, 0, 200, 0.2)",
-                        width: "80%",
-                        // maxWidth: 400,
-                        // height: "50%",
-                        // paddingHorizontal: 50,
-                        // paddingVertical: 50,
-                        // borderRadius: 5,
-                        // // flex: 1,
-                        // display: "flex",
-                        // // flexGrow: 1,
-                        // alignItems: "center",
-                        // justifyContent: "center",
-                        // gap: 20,
-                    }
-                }
+                style={{
+                    // backgroundColor: "rgba(0, 0, 200, 0.2)",
+                    width: "80%",
+                    // maxWidth: 400,
+                    // height: "50%",
+                    // paddingHorizontal: 50,
+                    // paddingVertical: 50,
+                    // borderRadius: 5,
+                    // // flex: 1,
+                    // display: "flex",
+                    // // flexGrow: 1,
+                    // alignItems: "center",
+                    // justifyContent: "center",
+                    // gap: 20,
+                }}
             >
                 <Text
                     style={{
@@ -70,7 +65,8 @@ export function LoginScreen() {
                     }}
                     placeholder="Email"
                     placeholderTextColor={baseStyle.mutedForeground}
-                    keyboardType="email-address" />
+                    keyboardType="email-address"
+                />
 
                 <TextInput
                     secureTextEntry={true}
@@ -96,10 +92,10 @@ export function LoginScreen() {
                     onPress={() => navigation.navigate("Dashboard")}
                 ></Button>
                 <Switch
-                    trackColor={{ false: '#767577', true: '#81b0ff' }}
-                    thumbColor={isDark ? '#f5dd4b' : '#f4f3f4'}
+                    trackColor={{ false: "#767577", true: "#81b0ff" }}
+                    thumbColor={isDark ? "#f5dd4b" : "#f4f3f4"}
                     ios_backgroundColor="#3e3e3e"
-                    onValueChange={toggleSwitch}
+                    onValueChange={useThemeStore((state) => state.setTheme)}
                     value={isDark}
                 />
             </ContainerView>

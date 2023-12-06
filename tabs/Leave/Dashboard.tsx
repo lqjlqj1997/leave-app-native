@@ -4,6 +4,7 @@ import { Button, Text, View } from "react-native";
 import { getBaseStyle } from "../../lib/style/GlobalStyle";
 import { RootStackParamList } from "../../Router";
 import { ContainerView } from "../../lib/components/ContainerView";
+import { useThemeStore } from "../../global-store/ThemeStore";
 
 const fullMonth = [
     "January",
@@ -35,7 +36,8 @@ const month = [
 ];
 
 export function DashboardScreen() {
-    const baseStyle = getBaseStyle(false);
+    const isDark = useThemeStore((state) => state.isDark);
+    const baseStyle = getBaseStyle(isDark);
     const dayList = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const fullMonth = [
         "January",
@@ -138,6 +140,7 @@ export function DashboardScreen() {
                                 <Text
                                     style={{
                                         fontWeight: baseStyle.fontWeight.bold,
+                                        color: baseStyle.foreground,
                                     }}
                                 >
                                     {day}
@@ -258,6 +261,7 @@ export function DashboardScreen() {
                                 <Text
                                     style={{
                                         fontWeight: baseStyle.fontWeight.bold,
+                                        color: baseStyle.foreground,
                                     }}
                                 >
                                     {day}

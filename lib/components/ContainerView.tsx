@@ -3,14 +3,15 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../../Router";
 import { Button, StyleProp, Text, View, ViewStyle } from "react-native";
 import { getBaseStyle } from "../style/GlobalStyle";
+import { useThemeStore } from "../../global-store/ThemeStore";
 
 interface ContainerProps {
     children: React.ReactNode;
     style?: StyleProp<ViewStyle>;
 }
 export function ContainerView({ children, style }: ContainerProps) {
-    const isDark = false;
-    const baseStyle = getBaseStyle(false);
+    const isDark = useThemeStore((state) => state.isDark);
+    const baseStyle = getBaseStyle(isDark);
     return (
         <View
             style={[
