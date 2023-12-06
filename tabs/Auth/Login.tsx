@@ -93,7 +93,7 @@ export function LoginScreen() {
                 />
                 <Button
                     title="Login"
-                    onPress={() => navigation.navigate("Test")}
+                    onPress={() => navigation.navigate("Dashboard")}
                 ></Button>
                 <Switch
                     trackColor={{ false: '#767577', true: '#81b0ff' }}
