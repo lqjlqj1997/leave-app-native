@@ -260,7 +260,7 @@ export function DashboardScreen() {
                             width: "100%",
                             display: "flex",
                             flexDirection: "row",
-                            justifyContent: "ßcenter",
+                            justifyContent: "center",
                             alignItems: "center",
                             borderColor: baseStyle.border,
                             borderBottomWidth: baseStyle.borderWidth,
