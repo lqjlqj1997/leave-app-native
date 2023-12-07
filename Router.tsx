@@ -44,7 +44,7 @@ function MyTab() {
                 // animation: "fade_from_bottom",
             }}
             sceneContainerStyle={{ backgroundColor: baseStyle.background }}>
-            <Tab.Screen name="Profile" component={EmployeeScreen} />
+            {/* <Tab.Screen name="Profile" component={EmployeeScreen} /> */}
             <Tab.Screen name="Account" component={AccountScreen} />
             <Tab.Screen name="Employee" component={EmployeeScreen} />
             <Tab.Screen name="Dashboard" component={DashboardScreen} />
