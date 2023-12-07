@@ -1,23 +1,24 @@
 import { useThemeStore } from "../../global-store/ThemeStore";
 
-type weightType = 'normal'
-    | 'bold'
-    | '100'
-    | '200'
-    | '300'
-    | '400'
-    | '500'
-    | '600'
-    | '700'
-    | '800'
-    | '900'
-    | undefined
-
+type weightType =
+    | "normal"
+    | "bold"
+    | "100"
+    | "200"
+    | "300"
+    | "400"
+    | "500"
+    | "600"
+    | "700"
+    | "800"
+    | "900"
+    | undefined;
 
 export const DarkStyle = {
     background: "hsl(224 71% 4%)",
     foreground: "hsl(213 31% 91%)",
     muted: "hsl(223 47% 11%)",
+    overlay: "hsla(223,47%,11%, 0.8)",
     mutedForeground: "hsl(215.4 16.3% 56.9%)",
     accent: "hsl(216 34% 17%)",
     accentForeground: "hsl(210 40% 98%)",
@@ -107,6 +108,7 @@ export const LightStyle = {
     background: "hsl(0 0% 100%)",
     foreground: "hsl(222.2 47.4% 11.2%)",
     muted: "hsl(210 40% 96.1%)",
+    overlay: "hsla(223,47%,11%, 0.8)",
     mutedForeground: "hsl(215.4 16.3% 46.9%)",
     accent: "hsl(210 40% 96.1%)",
     accentForeground: "hsl(222.2 47.4% 11.2%)",

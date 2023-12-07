@@ -16,16 +16,15 @@ export function ContainerView({ children, style }: ContainerProps) {
                     justifyContent: "center",
                     paddingVertical: 10,
                     paddingHorizontal: 15,
-                    overflow: "hidden",
                     borderRadius: baseStyle.rounded.lg,
                     borderWidth: baseStyle.borderWidth,
                     borderColor: baseStyle.border,
                     backgroundColor: baseStyle.card,
-                    // 0 1px 2px 0 rgb(0 0 0 / 0.05);
+                    shadowOpacity: 0.1,
+                    shadowColor: "#000",
+                    shadowOffset: { width: 0, height: 2 },
+                    shadowRadius: 4,
 
-                    shadowColor: "rgb(0 0 0 / 0.05)",
-                    shadowOffset: { width: 0, height: 1 },
-                    shadowRadius: 2,
                     gap: 20,
                 },
                 style,
@@ -42,21 +41,19 @@ export function ScrollContainerView({ children, style }: ContainerProps) {
         <ScrollView
             style={[
                 {
-                    // display: "flex",
-                    // alignItems: "center",
-                    // justifyContent: "center",
                     paddingVertical: 10,
                     paddingHorizontal: 15,
-                    overflow: "hidden",
+                    // overflow: "hidden",
                     borderRadius: baseStyle.rounded.lg,
                     borderWidth: baseStyle.borderWidth,
                     borderColor: baseStyle.border,
                     backgroundColor: baseStyle.card,
                     // 0 1px 2px 0 rgb(0 0 0 / 0.05);
 
-                    shadowColor: "rgb(0 0 0 / 0.05)",
-                    shadowOffset: { width: 0, height: 1 },
-                    shadowRadius: 2,
+                    shadowOpacity: 0.1,
+                    shadowColor: "#000",
+                    shadowOffset: { width: 0, height: 2 },
+                    shadowRadius: 4,
                     // gap: 100
                 },
                 style,

@@ -1,30 +1,33 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as React from "react";
 import { getBaseStyle } from "../lib/style/GlobalStyle";
+import { LeaveDetailModal } from "../tabs/Leave/LeaveDetailModal";
+import { EmployeeScreen } from "../tabs/Employee/EmployeeScreen";
+import { DashboardScreen } from "../tabs/Leave/Dashboard";
+import { AccountScreen } from "../tabs/Account/AccountScreen";
+import { HomeScreen } from "../tabs/Home";
+import { TestScreen } from "../tabs/Test";
 import { LoginScreen } from "../tabs/Auth/Login";
 import { RegisterScreen } from "../tabs/Auth/Register";
-import { HomeScreen } from "../tabs/Home";
-import { DashboardScreen } from "../tabs/Leave/Dashboard";
-import { TestScreen } from "../tabs/Test";
-import { EmployeeScreen } from "../tabs/Employee/EmployeeScreen";
-import { AccountScreen } from "../tabs/Account/AccountScreen";
+import { SignOutScreen } from "../tabs/Auth/SignOut";
 
 export type RootStackParamList = {
-    
     Home: undefined;
     Test: undefined;
     Login: undefined;
     Register: undefined;
     Dashboard: undefined;
-    EmployeeScreen : undefined;
+    EmployeeScreen: undefined;
 };
 
 export type RootTabParamList = {
+    Test: undefined;
     Account: undefined;
     Employee: undefined;
     Dashboard: undefined;
+    SignOut: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -35,18 +38,21 @@ function MyTab() {
     return (
         <Tab.Navigator
             initialRouteName="Dashboard"
-            screenOptions={{    
+            screenOptions={{
                 headerShown: false,
                 // presentation: "modal",
                 // animationDuration: 500,
                 // animationTypeForReplace: "pop",
                 // animation: "fade_from_bottom",
             }}
-            sceneContainerStyle={{ backgroundColor: baseStyle.background }}>
+            sceneContainerStyle={{ backgroundColor: baseStyle.background }}
+        >
             {/* <Tab.Screen name="Profile" component={EmployeeScreen} /> */}
+            <Tab.Screen name="Test" component={LeaveDetailModal} />
             <Tab.Screen name="Account" component={AccountScreen} />
             <Tab.Screen name="Employee" component={EmployeeScreen} />
             <Tab.Screen name="Dashboard" component={DashboardScreen} />
+            <Tab.Screen name="SignOut" component={SignOutScreen} />
         </Tab.Navigator>
     );
 }
@@ -70,7 +76,10 @@ export default function Router() {
                 <Stack.Screen name="Test" component={TestScreen} />
                 <Stack.Screen name="Login" component={LoginScreen} />
                 <Stack.Screen name="Register" component={RegisterScreen} />
-                <Stack.Screen name="EmployeeScreen" component={EmployeeScreen} />
+                <Stack.Screen
+                    name="EmployeeScreen"
+                    component={EmployeeScreen}
+                />
                 <Stack.Screen name="Dashboard" component={MyTab} />
             </Stack.Navigator>
         </NavigationContainer>
