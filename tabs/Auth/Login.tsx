@@ -13,6 +13,8 @@ import { Layout } from "./Layout";
 
 export function LoginScreen() {
     const navigation =
+        useNavigation<NativeStackNavigationProp<RootStackParamList, "Home">>();
+    const tabNavigation =
         useNavigation<NativeStackNavigationProp<RootTabParamList, "Tab.Login">>();
 
     const isDark = useThemeStore((state) => state.isDark);
@@ -91,7 +93,7 @@ export function LoginScreen() {
                     placeholder="Email"
                     placeholderTextColor={baseStyle.mutedForeground}
                     keyboardType="email-address"
-                    // onChangeText={setLoginEmail}
+                // onChangeText={setLoginEmail}
                 />
 
                 <TextInput
@@ -115,8 +117,13 @@ export function LoginScreen() {
                 />
                 <Button
                     title="Login"
-                    onPress={() => navigation.navigate("Tab.Dashboard")}
-                    // onPress={() => handleSubmit(loginEmail, password)}
+                    onPress={() => tabNavigation.navigate("Tab.Dashboard")}
+                // onPress={() => handleSubmit(loginEmail, password)}
+                ></Button>
+                <Button
+                    title="Home"
+                    onPress={() => navigation.navigate("Home")}
+                // onPress={() => handleSubmit(loginEmail, password)}
                 ></Button>
                 <ThemeSwitch />
             </ContainerView>
