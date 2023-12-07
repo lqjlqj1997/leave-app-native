@@ -98,6 +98,54 @@ export function HomeScreen() {
                                 </Text>
                             )}
                         </Pressable>
+                        <Pressable
+                            style={({ pressed }) => [
+                                {
+                                    backgroundColor: pressed
+                                        ? "#A06AAE"
+                                        : "#C683D7",
+                                    padding: "1.25%",
+                                    borderRadius: 5,
+                                },
+                            ]}
+                            onPress={() => navigation.navigate("Register")}
+                        >
+                            {({ pressed }) => (
+                                <Text
+                                    style={{
+                                        color: pressed ? "white" : "white",
+                                        fontSize: 15,
+                                        fontWeight: "500",
+                                    }}
+                                >
+                                    Register
+                                </Text>
+                            )}
+                        </Pressable>
+                        <Pressable
+                            style={({ pressed }) => [
+                                {
+                                    backgroundColor: pressed
+                                        ? "#A06AAE"
+                                        : "#C683D7",
+                                    padding: "1.25%",
+                                    borderRadius: 5,
+                                },
+                            ]}
+                            onPress={() => navigation.navigate("Dashboard")}
+                        >
+                            {({ pressed }) => (
+                                <Text
+                                    style={{
+                                        color: pressed ? "white" : "white",
+                                        fontSize: 15,
+                                        fontWeight: "500",
+                                    }}
+                                >
+                                    Dashboard
+                                </Text>
+                            )}
+                        </Pressable>
                     </View>
                 </View>
             </ImageBackground>

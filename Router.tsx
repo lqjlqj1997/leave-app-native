@@ -69,7 +69,7 @@ export default function Router() {
             >
                 <Stack.Screen name="Home" component={HomeScreen} />
                 <Stack.Screen name="Test" component={TestScreen} />
-                <Stack.Screen name="Login" component={MyTab} />
+                <Stack.Screen name="Login" component={LoginScreen} />
                 <Stack.Screen name="Register" component={RegisterScreen} />
                 <Stack.Screen name="EmployeeScreen" component={EmployeeScreen} />
                 <Stack.Screen name="Dashboard" component={MyTab} />
