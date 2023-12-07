@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList, RootTabParamList } from "../Router";
+import { RootStackParamList } from "../Router";
 import {
     Button,
     Dimensions,
@@ -24,8 +24,6 @@ export function HomeScreen() {
 
     const navigation =
         useNavigation<NativeStackNavigationProp<RootStackParamList, "Home">>();
-    const tabNavigation =
-        useNavigation<NativeStackNavigationProp<RootTabParamList, "Dashboard">>();
     return (
         <View
             style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
@@ -97,54 +95,6 @@ export function HomeScreen() {
                                     }}
                                 >
                                     Apply Leave Now
-                                </Text>
-                            )}
-                        </Pressable>
-                        <Pressable
-                            style={({ pressed }) => [
-                                {
-                                    backgroundColor: pressed
-                                        ? "#A06AAE"
-                                        : "#C683D7",
-                                    padding: "1.25%",
-                                    borderRadius: 5,
-                                },
-                            ]}
-                            onPress={() => navigation.navigate("Register")}
-                        >
-                            {({ pressed }) => (
-                                <Text
-                                    style={{
-                                        color: pressed ? "white" : "white",
-                                        fontSize: 15,
-                                        fontWeight: "500",
-                                    }}
-                                >
-                                    Register
-                                </Text>
-                            )}
-                        </Pressable>
-                        <Pressable
-                            style={({ pressed }) => [
-                                {
-                                    backgroundColor: pressed
-                                        ? "#A06AAE"
-                                        : "#C683D7",
-                                    padding: "1.25%",
-                                    borderRadius: 5,
-                                },
-                            ]}
-                            onPress={() => tabNavigation.navigate("Dashboard")}
-                        >
-                            {({ pressed }) => (
-                                <Text
-                                    style={{
-                                        color: pressed ? "white" : "white",
-                                        fontSize: 15,
-                                        fontWeight: "500",
-                                    }}
-                                >
-                                    Dashboard
                                 </Text>
                             )}
                         </Pressable>

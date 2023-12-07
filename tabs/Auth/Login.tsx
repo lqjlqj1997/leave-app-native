@@ -15,7 +15,7 @@ export function LoginScreen() {
     const navigation =
         useNavigation<NativeStackNavigationProp<RootStackParamList, "Home">>();
     const tabNavigation =
-        useNavigation<NativeStackNavigationProp<RootTabParamList, "Dashboard">>();
+        useNavigation<NativeStackNavigationProp<RootTabParamList, "Tab.Login">>();
 
     const isDark = useThemeStore((state) => state.isDark);
     const baseStyle = getBaseStyle(isDark);
@@ -117,7 +117,7 @@ export function LoginScreen() {
                 />
                 <Button
                     title="Login"
-                    onPress={() => tabNavigation.navigate("Dashboard")}
+                    onPress={() => tabNavigation.navigate("Tab.Dashboard")}
                 // onPress={() => handleSubmit(loginEmail, password)}
                 ></Button>
                 <Button
