@@ -17,14 +17,20 @@ export type RootStackParamList = {
     Dashboard: undefined;
 };
 
+export type RootTabParamList = {
+    "Tab.Login": undefined;
+    "Tab.Register": undefined;
+    "Tab.Dashboard": undefined;
+};
+
 const Stack = createNativeStackNavigator<RootStackParamList>();
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<RootTabParamList>();
 
 function MyTab() {
     const baseStyle = getBaseStyle();
     return (
         <Tab.Navigator
-            initialRouteName="Tab.FirstPage"
+            initialRouteName="Tab.Login"
             screenOptions={{    
                 headerShown: false,
                 // presentation: "modal",

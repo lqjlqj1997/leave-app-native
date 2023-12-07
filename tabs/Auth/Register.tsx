@@ -1,23 +1,31 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../Router";
-import { Button, Pressable, Text, TextInput, View } from "react-native";
+import { RootStackParamList, RootTabParamList } from "../../Router";
+import { Text, TextInput, View } from "react-native";
 import { Layout } from "./Layout";
+import { ContainerView } from "../../lib/components/ContainerView";
+import { getBaseStyle } from "../../lib/style/GlobalStyle";
+import { ThemeSwitch } from "../../lib/components/ThemeToggle";
+import { useThemeStore } from "../../global-store/ThemeStore";
+import { Button } from "../../lib/components/Button";
 
 export function RegisterScreen() {
     const navigation =
-        useNavigation<NativeStackNavigationProp<RootStackParamList, "Home">>();
+        useNavigation<NativeStackNavigationProp<RootTabParamList, "Tab.Login">>();
+    const isDark = useThemeStore((state) => state.isDark);
+    const baseStyle = getBaseStyle(isDark);
     return (
         <Layout>
-            <View
+            <ContainerView
                 style={{
-                    flex: 1,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 20,
+                    // flex: 1,
+                    // alignItems: "center",
+                    // justifyContent: "center",
+                    // gap: 20,
+                    width: "80%"
                 }}
             >
-                <View
+                {/* <View
                     style={{
                         backgroundColor: "rgba(0, 0, 200, 0.2)",
                         // width: "100%",
@@ -32,73 +40,66 @@ export function RegisterScreen() {
                         justifyContent: "center",
                         gap: 20,
                     }}
+                > */}
+                <Text
+                    style={{
+                        // flex: 1,
+                        // color: "white",
+                        // fontSize: 30,
+                        // textAlign: "center",
+                        // fontWeight: "700",
+                        color: baseStyle.cardForeground,
+                        fontSize: baseStyle.fontSize.lg,
+                    }}
                 >
-                    <Text
-                        style={{
-                            flex: 1,
-                            color: "white",
-                            fontSize: 30,
-                            textAlign: "center",
-                            fontWeight: "700",
-                        }}
-                    >
-                        Register
-                    </Text>
-                    <TextInput
-                        style={{
-                            flex: 1,
-                            borderWidth: 1,
-                            borderColor: "gray",
-                            borderRadius: 5,
-                            backgroundColor: "rgba(255,255,255,0.8)",
-                            paddingHorizontal: 15,
-                            paddingVertical: 10,
-                        }}
-                        placeholder="Email"
-                        placeholderTextColor={"gray"}
-                    />
-                    <TextInput
-                        secureTextEntry={true}
-                        style={{
-                            flex: 1,
-                            borderWidth: 0.5,
-                            borderColor: "gray",
-                            borderRadius: 5,
-                            backgroundColor: "rgba(255,255,255,0.8)",
-                            paddingHorizontal: 15,
-                            paddingVertical: 10,
-                        }}
-                        placeholder="Password"
-                        placeholderTextColor={"gray"}
-                    />
-                    <Pressable
-                        style={({ pressed }) => [
-                            {
-                                flex: 1,
-                                backgroundColor: pressed
-                                    ? "#A06AAE"
-                                    : "#C683D7",
-                                paddingHorizontal: 20,
-                                paddingVertical: 10,
-                                borderRadius: 5,
-                            },
-                        ]}
-                        onPress={() => navigation.navigate("Test")}
-                    >
-                        {({ pressed }) => (
-                            <Text
-                                style={{
-                                    color: pressed ? "white" : "white",
-                                    fontSize: 15,
-                                    fontWeight: "500",
-                                }}
-                            >
-                                Register
-                            </Text>
-                        )}
-                    </Pressable>
-                </View>
-            </View>
+                    Register
+                </Text>
+                <TextInput
+                    style={{
+                        // flex: 1,
+                        display: "flex",
+                        height: baseStyle.space.p10,
+                        width: "100%",
+                        borderWidth: 1,
+                        borderColor: baseStyle.input,
+                        borderRadius: baseStyle.rounded.md,
+                        backgroundColor: baseStyle.background,
+                        paddingHorizontal: baseStyle.space.p3,
+                        paddingVertical: baseStyle.space.p2,
+                        fontSize: baseStyle.fontSize.base,
+                        shadowColor: baseStyle.background,
+                    }}
+                    placeholder="Email"
+                    placeholderTextColor={baseStyle.mutedForeground}
+                    keyboardType="email-address"
+                />
+                <TextInput
+                   secureTextEntry={true}
+                   style={{
+                       // flex: 1,
+                       display: "flex",
+                       height: baseStyle.space.p10,
+                       width: "100%",
+                       borderWidth: 1,
+                       borderColor: baseStyle.input,
+                       borderRadius: baseStyle.rounded.md,
+                       backgroundColor: baseStyle.background,
+                       paddingHorizontal: baseStyle.space.p3,
+                       paddingVertical: baseStyle.space.p2,
+                       fontSize: baseStyle.fontSize.base,
+                       shadowColor: baseStyle.background,
+                   }}
+                   placeholder="Password"
+                   placeholderTextColor={baseStyle.mutedForeground}
+                />
+                <Button
+                    title="Register"
+                    onPress={() => navigation.navigate("Tab.Login")}
+                    // onPress={() => handleSubmit(loginEmail, password)}
+                ></Button>
+                <ThemeSwitch />
+                {/* </View> */}
+            </ContainerView>
         </Layout>
     );
 }

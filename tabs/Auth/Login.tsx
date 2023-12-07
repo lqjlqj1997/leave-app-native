@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React from "react";
 import { Text, TextInput } from "react-native";
-import { RootStackParamList } from "../../Router";
+import { RootStackParamList, RootTabParamList } from "../../Router";
 import { useThemeStore } from "../../global-store/ThemeStore";
 import { Button } from "../../lib/components/Button";
 import { ContainerView } from "../../lib/components/ContainerView";
@@ -13,7 +13,7 @@ import { Layout } from "./Layout";
 
 export function LoginScreen() {
     const navigation =
-        useNavigation<NativeStackNavigationProp<RootStackParamList, "Home">>();
+        useNavigation<NativeStackNavigationProp<RootTabParamList, "Tab.Login">>();
 
     const isDark = useThemeStore((state) => state.isDark);
     const baseStyle = getBaseStyle(isDark);
@@ -115,7 +115,7 @@ export function LoginScreen() {
                 />
                 <Button
                     title="Login"
-                    onPress={() => navigation.navigate("Dashboard")}
+                    onPress={() => navigation.navigate("Tab.Dashboard")}
                     // onPress={() => handleSubmit(loginEmail, password)}
                 ></Button>
                 <ThemeSwitch />
