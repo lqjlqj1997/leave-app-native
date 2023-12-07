@@ -22,7 +22,6 @@ export type RootStackParamList = {
 };
 
 export type RootTabParamList = {
-    Profile:undefined;
     Account: undefined;
     Employee: undefined;
     Dashboard: undefined;
