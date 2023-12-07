@@ -1,5 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from "react";
 import { getBaseStyle } from "./lib/style/GlobalStyle";
 import { LoginScreen } from "./tabs/Auth/Login";
@@ -17,6 +18,27 @@ export type RootStackParamList = {
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
+const Tab = createBottomTabNavigator();
+
+function MyTab() {
+    const baseStyle = getBaseStyle();
+    return (
+        <Tab.Navigator
+            initialRouteName="Tab.FirstPage"
+            screenOptions={{    
+                headerShown: false,
+                // presentation: "modal",
+                // animationDuration: 500,
+                // animationTypeForReplace: "pop",
+                // animation: "fade_from_bottom",
+            }}
+            sceneContainerStyle={{ backgroundColor: baseStyle.background }}>
+            <Tab.Screen name="Tab.Register" component={RegisterScreen} />
+            <Tab.Screen name="Tab.Login" component={LoginScreen} />
+            <Tab.Screen name="Tab.Dashboard" component={DashboardScreen} />
+        </Tab.Navigator>
+    );
+}
 
 export default function Router() {
     const baseStyle = getBaseStyle();
@@ -35,7 +57,7 @@ export default function Router() {
             >
                 <Stack.Screen name="Home" component={HomeScreen} />
                 <Stack.Screen name="Test" component={TestScreen} />
-                <Stack.Screen name="Login" component={LoginScreen} />
+                <Stack.Screen name="Login" component={MyTab} />
                 <Stack.Screen name="Register" component={RegisterScreen} />
                 <Stack.Screen name="Dashboard" component={DashboardScreen} />
             </Stack.Navigator>
