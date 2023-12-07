@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList, RootTabParamList } from "../../Router";
+import { RootStackParamList, RootTabParamList } from "../../router/Router";
 import { Text, TextInput, View } from "react-native";
 import { Layout } from "./Layout";
 import { ContainerView } from "../../lib/components/ContainerView";

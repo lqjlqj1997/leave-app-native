@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { SafeAreaView, ScrollView, Text, View } from "react-native";
-import { RootStackParamList } from "../../Router";
+import { RootStackParamList } from "../../router/Router";
 import { ContainerView, ScrollContainerView } from "../../lib/components/ContainerView";
 import { getBaseStyle } from "../../lib/style/GlobalStyle";
 

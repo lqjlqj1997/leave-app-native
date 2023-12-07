@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React from "react";
 import { Text, TextInput } from "react-native";
-import { RootStackParamList, RootTabParamList } from "../../Router";
+import { RootStackParamList, RootTabParamList } from "../../router/Router";
 import { useThemeStore } from "../../global-store/ThemeStore";
 import { Button } from "../../lib/components/Button";
 import { ContainerView } from "../../lib/components/ContainerView";

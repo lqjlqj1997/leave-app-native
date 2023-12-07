@@ -2,14 +2,14 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as React from "react";
-import { getBaseStyle } from "./lib/style/GlobalStyle";
-import { LoginScreen } from "./tabs/Auth/Login";
-import { RegisterScreen } from "./tabs/Auth/Register";
-import { HomeScreen } from "./tabs/Home";
-import { DashboardScreen } from "./tabs/Leave/Dashboard";
-import { TestScreen } from "./tabs/Test";
-import { EmployeeScreen } from "./tabs/Employee/EmployeeScreen";
-import { AccountScreen } from "./tabs/Account/AccountScreen";
+import { getBaseStyle } from "../lib/style/GlobalStyle";
+import { LoginScreen } from "../tabs/Auth/Login";
+import { RegisterScreen } from "../tabs/Auth/Register";
+import { HomeScreen } from "../tabs/Home";
+import { DashboardScreen } from "../tabs/Leave/Dashboard";
+import { TestScreen } from "../tabs/Test";
+import { EmployeeScreen } from "../tabs/Employee/EmployeeScreen";
+import { AccountScreen } from "../tabs/Account/AccountScreen";
 
 export type RootStackParamList = {
     

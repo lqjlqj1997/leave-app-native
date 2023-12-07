@@ -1,10 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { SafeAreaView, Text, Image } from "react-native";
-import { RootStackParamList } from "../../Router";
-import { ContainerView, ScrollContainerView } from "../../lib/components/ContainerView";
+import { RootStackParamList } from "../../router/Router";
+import { ScrollContainerView } from "../../lib/components/ContainerView";
 import { getBaseStyle } from "../../lib/style/GlobalStyle";
 import { Button } from "../../lib/components/Button";
+import { ContainerView } from "../../lib/components/ContainerView";
 import { MapPin } from 'lucide-react';
 
 export function AccountScreen() {
