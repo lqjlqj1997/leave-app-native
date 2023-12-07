@@ -11,7 +11,7 @@ import { Button } from "../../lib/components/Button";
 
 export function RegisterScreen() {
     const navigation =
-        useNavigation<NativeStackNavigationProp<RootTabParamList, "Tab.Login">>();
+        useNavigation<NativeStackNavigationProp<RootStackParamList, "Home">>();
     const isDark = useThemeStore((state) => state.isDark);
     const baseStyle = getBaseStyle(isDark);
     return (
@@ -94,7 +94,7 @@ export function RegisterScreen() {
                 />
                 <Button
                     title="Register"
-                    onPress={() => navigation.navigate("Tab.Login")}
+                    onPress={() => navigation.navigate("Login")}
                     // onPress={() => handleSubmit(loginEmail, password)}
                 ></Button>
                 <ThemeSwitch />

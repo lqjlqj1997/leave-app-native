@@ -8,9 +8,11 @@ import { RegisterScreen } from "./tabs/Auth/Register";
 import { HomeScreen } from "./tabs/Home";
 import { DashboardScreen } from "./tabs/Leave/Dashboard";
 import { TestScreen } from "./tabs/Test";
+import { AccountScreen } from "./tabs/Account/AccountScreen";
 import { EmployeeScreen } from "./tabs/Employee/EmployeeScreen";
 
 export type RootStackParamList = {
+    
     Home: undefined;
     Test: undefined;
     Login: undefined;
@@ -20,9 +22,10 @@ export type RootStackParamList = {
 };
 
 export type RootTabParamList = {
-    "Tab.Login": undefined;
-    "Tab.Register": undefined;
-    "Tab.Dashboard": undefined;
+    Profile:undefined;
+    Account: undefined;
+    Employee: undefined;
+    Dashboard: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -32,7 +35,7 @@ function MyTab() {
     const baseStyle = getBaseStyle();
     return (
         <Tab.Navigator
-            initialRouteName="Tab.Login"
+            initialRouteName="Dashboard"
             screenOptions={{    
                 headerShown: false,
                 // presentation: "modal",
@@ -41,10 +44,10 @@ function MyTab() {
                 // animation: "fade_from_bottom",
             }}
             sceneContainerStyle={{ backgroundColor: baseStyle.background }}>
-            <Tab.Screen name="Tab.Register" component={RegisterScreen} />
-            <Tab.Screen name="Tab.Login" component={LoginScreen} />
-            <Tab.Screen name="Tab.Dashboard" component={DashboardScreen} />
             <Tab.Screen name="Profile" component={EmployeeScreen} />
+            <Tab.Screen name="Account" component={AccountScreen} />
+            <Tab.Screen name="Employee" component={EmployeeScreen} />
+            <Tab.Screen name="Dashboard" component={DashboardScreen} />
         </Tab.Navigator>
     );
 }
@@ -65,11 +68,11 @@ export default function Router() {
                 }}
             >
                 <Stack.Screen name="Home" component={HomeScreen} />
-                <Stack.Screen name="Test" component={TestScreen} />
-                <Stack.Screen name="Login" component={MyTab} />
+                <Stack.Screen name="Test" component={MyTab} />
+                <Stack.Screen name="Login" component={LoginScreen} />
                 <Stack.Screen name="Register" component={RegisterScreen} />
-                <Stack.Screen name="Dashboard" component={DashboardScreen} />
                 <Stack.Screen name="EmployeeScreen" component={EmployeeScreen} />
+                <Stack.Screen name="Dashboard" component={MyTab} />
             </Stack.Navigator>
         </NavigationContainer>
     );

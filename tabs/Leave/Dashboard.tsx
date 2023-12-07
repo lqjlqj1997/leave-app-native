@@ -82,7 +82,7 @@ export function DashboardScreen() {
     console.log(dateList);
     const navigation =
         useNavigation<
-            NativeStackNavigationProp<RootStackParamList, "Dashboard">
+            NativeStackNavigationProp<RootStackParamList, "Home">
         >();
     return (
         <SafeAreaView>
