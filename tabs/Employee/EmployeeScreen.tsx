@@ -1,42 +1,77 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React, { useState } from 'react';
-import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, View } from "react-native";
+import { ShieldCheck, Skull, UserRound } from 'lucide-react-native';
+import React from 'react';
+import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { getBaseStyle } from "../../lib/style/GlobalStyle";
 import { RootStackParamList } from "../../router/Router";
 
 const DATA = [
-    { id: '1', value: 'Ali' },
-    { id: '2', value: 'B' },
-    { id: '3', value: 'C' },
-    { id: '4', value: 'D' },
-    { id: '5', value: 'E' },
-    { id: '6', value: 'F' },
-    { id: '7', value: 'G' },
-    { id: '8', value: 'H' },
-    { id: '9', value: 'I' },
-    { id: '10', value: 'J' },
-    { id: '11', value: 'K' },
-    { id: '12', value: 'L' },
-    { id: '13', value: 'M' },
-    { id: '14', value: 'N' },
-    { id: '15', value: 'O' },
-    { id: '16', value: 'P' },
-    { id: '17', value: 'Q' },
-    { id: '18', value: 'R' },
-    { id: '19', value: 'S' },
-    { id: '20', value: 'T' },
-    { id: '21', value: 'U' },
-    { id: '22', value: 'V' },
-    { id: '23', value: 'W' },
-    { id: '24', value: 'X' },
-    { id: '25', value: 'Y' },
-    { id: '26', value: 'Z' },
+    {
+        id: '1',
+        value: 'Ali',
+        email: 'ali8888@hotmail.com',
+        role: 'Admin'
+    },
+    {
+        id: '2',
+        value: 'Ben',
+        email: 'Ben3688@gmail.com',
+        role: 'Employee'
+    },
+    {
+        id: '3',
+        value: 'Cat',
+        email: 'Cat9335@yyahoo.com',
+        role: 'Employee'
+    },
+    {
+        id: '4',
+        value: 'Dannish',
+        email: 'Dannnn@yandex.com',
+        role: 'Employee'
+    },
+    {
+        id: '5',
+        value: 'Elia',
+        email: 'Eli8888@hotmail.com',
+        role: 'Employee'
+    },
+    {
+        id: '6',
+        value: 'Frankie',
+        email: 'Fran8888@hotmail.com',
+        role: 'Manager'
+    },
+    {
+        id: '7',
+        value: 'Gene',
+        email: 'Gene8888@hotmail.com',
+        role: 'Employee'
+    },
+    {
+        id: '8',
+        value: 'Helio',
+        email: 'Helio8888@hotmail.com',
+        role: 'Employee'
+    },
+    {
+        id: '9',
+        value: 'Ivan',
+        email: 'Ivan8888@hotmail.com',
+        role: 'Manager'
+    },
+    {
+        id: '10',
+        value: 'Jane',
+        email: 'Jane8888@hotmail.com',
+        role: 'Employee'
+    },
 ];
 // const isDark = useThemeStore((state) => state.isDark);
 // const baseStyle = getBaseStyle(isDark);
-
-const getItem = (item: { id: string, value: string }) => {
+;
+const getItem = (item: { id: string, value: string, email: string }) => {
     //Function for click on an item
     alert('Id: ' + item.id + ' Value: ' + item.value);
 };
@@ -60,43 +95,65 @@ export function EmployeeScreen() {
         useNavigation<
             NativeStackNavigationProp<RootStackParamList, "Dashboard">
         >();
-    const [listItems, setListItems] = useState(DATA);
+    // const RoleIcon = ({ item }: { item: { role: string  } }) => {
+    //     if (item.role === 'Admin') {
+    //         return <UserRound
+    //             color={baseStyle.primary} />
+    //     }
+    //     else if (item.role === 'Manager') {
+    //         return <Skull
+    //             color={baseStyle.primary} />
+    //     }
+    //     else {
+    //         return <ShieldCheck
+    //             color={baseStyle.primary} />
+    //     }
+    // }
 
-    const ItemView = ({ item }: { item: { id: string, value: string } }) => {
+    const ItemView = ({ item }: { item: { id: string, value: string, email: string, role: string } }) => {
         return (
             // FlatList Item
-            <View style={{flexDirection: "row"}}>
-                <Text 
-                    style={styles.name}>
-                    Name:
-                </Text>
+            <TouchableOpacity
+                style={{ width: '100%' }}
+                onPress={() => getItem(item)}>
+                <View style={{ flexDirection: "row" }}>
+                    <Text
+                        style={styles.item}>
+                        {item.value}
+                    </Text>
+                    <View style={[styles.role]}>
+                        {item.role === 'Employee' ? <UserRound
+                            color={baseStyle.primary} /> : ( item.role === 'Manager' ? <Skull
+                            color={baseStyle.primary} /> : <ShieldCheck
+                            color={baseStyle.primary} />)}
+                    </View>
+                </View>
                 <Text
                     style={styles.item}
-                    onPress={() => getItem(item)}>
-                    {item.value}
+                >
+                    {item.email}
                 </Text>
-            </View>
+            </TouchableOpacity>
         );
     };
 
     return (
-        <SafeAreaView 
-        style={{flex:1}}
+        <SafeAreaView
+            style={[{ flex: 1 }]}
         >
             <View
                 style={
                     {
-                        flex:1,
+                        flex: 1,
                         width: "100%",
-                        paddingTop: baseStyle.space.p20,
+                        paddingTop: baseStyle.space.p8,
                         borderWidth: 0,
                         gap: 20,
                     }
                 }
             >
-                <Text  style={{
-                    textAlign:"center",
-                    // gap:20
+                <Text style={{
+                    textAlign: "center",
                 }}>Employee Screen</Text>
                 <FlatList
                     style={{
@@ -105,7 +162,7 @@ export function EmployeeScreen() {
                     data={DATA}
                     renderItem={ItemView}
                     ItemSeparatorComponent={ItemSeparatorView}
-                    // keyExtractor={item => item.id}
+                // keyExtractor={item => item.id}
                 // extraData={selectedId}
                 />
             </View>
@@ -119,22 +176,18 @@ const styles = StyleSheet.create({
         marginTop: StatusBar.currentHeight || 0,
     },
     item: {
-        // flex:1,
-        // padding: 20,
+        flex: 1,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        width: '80%',
         // marginVertical: 8,
         // marginHorizontal: 16,
-        flex: 6,
-        padding: 10,
-        paddingLeft: 5,
-        width: '10%',
-        // marginVertical: 8,
-        marginHorizontal: 16,
     },
-    name: {
+    role: {
         // flex: 1,
-        padding: 10,
-        // marginVertical: 8,
-        marginHorizontal: 16,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        width: "20%",
     },
     title: {
         fontSize: 32,
