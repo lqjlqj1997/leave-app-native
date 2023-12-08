@@ -59,6 +59,7 @@ export const LeaveDetailModal = () => {
                     <ContainerView
                         style={{
                             padding: 0,
+                            paddingTop: baseStyle.space.p4,
                             width: "100%",
                             height: "100%",
                             minWidth: 350,
@@ -68,72 +69,95 @@ export const LeaveDetailModal = () => {
                         }}
                     >
                         <View
-                            id="CloseButton"
                             style={{
-                                width: "100%",
                                 display: "flex",
                                 flexDirection: "row",
-                                alignItems: "center",
-                                justifyContent: "flex-end",
+                                maxWidth: "100%",
+                                alignContent: "center",
+                                justifyContent: "center",
                             }}
                         >
-                            <Pressable
-                                style={({ pressed }) => [
-                                    {
-                                        // flex: 1,
-                                        // display:"inline"
-                                        height: baseStyle.space.p10,
-                                        // width: "100%",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        flexWrap: "nowrap",
-                                        borderRadius: baseStyle.rounded.xl3,
-                                        aspectRatio: "1/1",
-                                        fontSize: baseStyle.fontSize.sm,
-                                        fontWeight: baseStyle.fontWeight.medium,
-                                        shadowColor: baseStyle.background,
-                                        backgroundColor: pressed
-                                            ? baseStyle.secondary
-                                            : baseStyle.secondary,
-                                        // paddingHorizontal: baseStyle.space.p1,
-                                        // paddingVertical: baseStyle.space.p1,
-                                    },
-                                ]}
-                                onPress={() => setModalVisible(false)}
+                            <View
+                                style={{
+                                    flex: 9,
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                }}
                             >
-                                {({ pressed }) => (
-                                    <XCircle
-                                        color={
-                                            pressed
-                                                ? baseStyle.mutedForeground
-                                                : baseStyle.secondaryForeground
-                                        }
-                                        style={{
-                                            color: pressed
-                                                ? baseStyle.secondaryForeground
-                                                : baseStyle.secondaryForeground,
+                                <ContainerView>
+                                    <Text>{leaveType}</Text>
+                                </ContainerView>
+                            </View>
+                            <View
+                                id="CloseButton"
+                                style={{
+                                    width: "100%",
+                                    position: "absolute",
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                    justifyContent: "flex-end",
+                                }}
+                            >
+                                <Pressable
+                                    style={({ pressed }) => [
+                                        {
+                                            // flex: 1,
+                                            // display:"inline"
+                                            height: baseStyle.space.p10,
                                             // width: "100%",
                                             alignItems: "center",
                                             justifyContent: "center",
-                                            textAlign: "center",
                                             flexWrap: "nowrap",
-                                            borderRadius: baseStyle.rounded.md,
+                                            borderRadius: baseStyle.rounded.xl3,
+                                            aspectRatio: "1/1",
                                             fontSize: baseStyle.fontSize.sm,
                                             fontWeight:
                                                 baseStyle.fontWeight.medium,
-                                            // shadowColor: baseStyle.background,?
-                                            // backgroundColor: pressed
-                                            //     ? baseStyle.primaryHover
-                                            //     : baseStyle.primary,
-                                        }}
-                                    />
-                                )}
-                            </Pressable>
+                                            shadowColor: baseStyle.background,
+                                            backgroundColor: pressed
+                                                ? baseStyle.secondary
+                                                : baseStyle.secondary,
+                                            // paddingHorizontal: baseStyle.space.p1,
+                                            // paddingVertical: baseStyle.space.p1,
+                                        },
+                                    ]}
+                                    onPress={() => setModalVisible(false)}
+                                >
+                                    {({ pressed }) => (
+                                        <XCircle
+                                            color={
+                                                pressed
+                                                    ? baseStyle.mutedForeground
+                                                    : baseStyle.secondaryForeground
+                                            }
+                                            style={{
+                                                color: pressed
+                                                    ? baseStyle.secondaryForeground
+                                                    : baseStyle.secondaryForeground,
+                                                // width: "100%",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                textAlign: "center",
+                                                flexWrap: "nowrap",
+                                                borderRadius:
+                                                    baseStyle.rounded.md,
+                                                fontSize: baseStyle.fontSize.sm,
+                                                fontWeight:
+                                                    baseStyle.fontWeight.medium,
+                                                // shadowColor: baseStyle.background,?
+                                                // backgroundColor: pressed
+                                                //     ? baseStyle.primaryHover
+                                                //     : baseStyle.primary,
+                                            }}
+                                        />
+                                    )}
+                                </Pressable>
+                            </View>
                         </View>
 
-                        <ContainerView>
-                            <Text>{leaveType}</Text>
-                        </ContainerView>
                         <ScrollContainerView
                             style={{
                                 padding: 0,
@@ -179,17 +203,47 @@ export const LeaveDetailModal = () => {
                                             paddingVertical: baseStyle.space.p4,
                                         }}
                                     >
-                                        <View>
+                                        <View style={{ width: "100%" }}>
                                             <Text>
                                                 {leaveBalance.leaveDescription}
                                             </Text>
-                                            <Text>
-                                                {leaveBalance.expiredDate.toDateString()}
-                                            </Text>
-                                        </View>
-                                        <View>
-                                            <Text>{leaveBalance.balance}</Text>
-                                            <Text>{leaveBalance.status}</Text>
+
+                                            <View
+                                                style={{
+                                                    width: "100%",
+                                                    display: "flex",
+                                                    flexDirection: "row",
+                                                    gap: baseStyle.space.p2,
+                                                    // borderWidth: 1,
+                                                }}
+                                            >
+                                                <Text style={{ flex: 2 }}>
+                                                    {leaveBalance.expiredDate.toDateString()}
+                                                </Text>
+                                                <Text
+                                                    style={{
+                                                        flex: 1,
+                                                        textAlign: "center",
+                                                        color: baseStyle.destructive,
+                                                    }}
+                                                >
+                                                    {leaveBalance.status}
+                                                </Text>
+                                                <Text
+                                                    style={{
+                                                        flex: 1,
+                                                        textAlign: "center",
+                                                    }}
+                                                >
+                                                    {`${
+                                                        leaveBalance.balance
+                                                    } day${
+                                                        leaveBalance.balance > 1
+                                                            ? "s"
+                                                            : ""
+                                                    }`}
+                                                </Text>
+                                            </View>
                                         </View>
                                     </View>
                                 ))

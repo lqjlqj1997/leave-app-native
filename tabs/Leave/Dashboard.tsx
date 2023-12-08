@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { SafeAreaView, ScrollView, Text, View } from "react-native";
+import { Pressable, SafeAreaView, ScrollView, Text, View } from "react-native";
 import { getBaseStyle } from "../../lib/style/GlobalStyle";
 import { DAY_LIST, FULL_MONTH } from "../../lib/util/DateConstant";
 import { IconButton } from "../../lib/components/IconButton";
@@ -18,6 +18,7 @@ import {
     ContainerView,
     ScrollContainerView,
 } from "../../lib/components/ContainerView";
+import { LeaveBalanceModal } from "./LeaveBalanceModal";
 
 const LEAVE_TYPE = ["AL", "ML", "RL", "etc"];
 
@@ -54,6 +55,8 @@ export function DashboardScreen() {
     const today = new Date();
     const [selectedYear, setSelectedYear] = useState(today.getFullYear());
     const [selectedMonth, setSelectedMonth] = useState(today.getMonth());
+    const [openLeaveBalanceModal, setOpenLeaveBalanceModal] = useState(false);
+    const [selectedLeaveType, setSelectedLeaveType] = useState("");
     const baseStyle = getBaseStyle();
 
     const changeMonth = (months: number) => {
@@ -76,6 +79,11 @@ export function DashboardScreen() {
         >();
     return (
         <SafeAreaView style={{ flex: 1 }}>
+            <LeaveBalanceModal
+                leaveType={selectedLeaveType}
+                modalVisible={openLeaveBalanceModal}
+                onDemise={() => setOpenLeaveBalanceModal(false)}
+            ></LeaveBalanceModal>
             <ScrollContainerView
                 style={{
                     width: "100%",
@@ -120,7 +128,7 @@ export function DashboardScreen() {
                                 padding: 0,
                             }}
                         >
-                            <View
+                            <Pressable
                                 id="Header"
                                 style={{
                                     flex: 1,
@@ -131,10 +139,15 @@ export function DashboardScreen() {
                                     paddingHorizontal: baseStyle.space.p2,
                                     borderColor: baseStyle.border,
                                 }}
+                                onPress={() => {
+                                    setSelectedLeaveType("Annual Leave");
+                                    setOpenLeaveBalanceModal(true);
+                                }}
                             >
                                 <CalendarCheck
                                     color={baseStyle.primary}
                                 ></CalendarCheck>
+
                                 <Text
                                     style={{
                                         flex: 1,
@@ -145,8 +158,8 @@ export function DashboardScreen() {
                                 >
                                     {leaveBalance.AL}
                                 </Text>
-                            </View>
-                            <View
+                            </Pressable>
+                            <Pressable
                                 id="Header"
                                 style={{
                                     flex: 1,
@@ -158,8 +171,13 @@ export function DashboardScreen() {
                                     borderColor: baseStyle.border,
                                     borderLeftWidth: baseStyle.borderWidth,
                                 }}
+                                onPress={() => {
+                                    setSelectedLeaveType("Medical Leave");
+                                    setOpenLeaveBalanceModal(true);
+                                }}
                             >
                                 <Cross color={baseStyle.primary}></Cross>
+
                                 <Text
                                     style={{
                                         flex: 1,
@@ -170,8 +188,8 @@ export function DashboardScreen() {
                                 >
                                     {leaveBalance.ML}
                                 </Text>
-                            </View>
-                            <View
+                            </Pressable>
+                            <Pressable
                                 id="Header"
                                 style={{
                                     flex: 1,
@@ -183,8 +201,13 @@ export function DashboardScreen() {
                                     borderColor: baseStyle.border,
                                     borderLeftWidth: baseStyle.borderWidth,
                                 }}
+                                onPress={() => {
+                                    setSelectedLeaveType("Replacement Leave");
+                                    setOpenLeaveBalanceModal(true);
+                                }}
                             >
                                 <Bike color={baseStyle.primary}></Bike>
+
                                 <Text
                                     style={{
                                         flex: 1,
@@ -195,8 +218,8 @@ export function DashboardScreen() {
                                 >
                                     {leaveBalance.RL}
                                 </Text>
-                            </View>
-                            <View
+                            </Pressable>
+                            <Pressable
                                 id="Header"
                                 style={{
                                     flex: 1,
@@ -207,6 +230,10 @@ export function DashboardScreen() {
                                     paddingHorizontal: baseStyle.space.p2,
                                     borderColor: baseStyle.border,
                                     borderLeftWidth: baseStyle.borderWidth,
+                                }}
+                                onPress={() => {
+                                    setSelectedLeaveType("Other Leave");
+                                    setOpenLeaveBalanceModal(true);
                                 }}
                             >
                                 <HelpCircle
@@ -220,9 +247,9 @@ export function DashboardScreen() {
                                         color: baseStyle.foreground,
                                     }}
                                 >
-                                    {leaveBalance.etc}
+                                    {leaveBalance.AL}
                                 </Text>
-                            </View>
+                            </Pressable>
                         </View>
                     </ContainerView>
                     <ContainerView
