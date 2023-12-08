@@ -7,11 +7,12 @@ import { getBaseStyle } from "../../lib/style/GlobalStyle";
 import { Button } from "../../lib/components/Button";
 import { ContainerView } from "../../lib/components/ContainerView";
 // import { MapPin } from 'lucide-react';
-import { Cake, CheckSquare, Mail, MapPin, User } from 'lucide-react-native';
+import { Cake, CheckSquare, Mail, MapPin, Settings, User } from 'lucide-react-native';
 import { ScrollView } from "react-native";
 import { Phone } from "lucide-react-native";
 import { View } from "react-native";
 import { useState } from "react";
+import ProfileTab from "./ProfileTab";
 
 export function AccountScreen() {
     const baseStyle = getBaseStyle();
@@ -25,6 +26,12 @@ export function AccountScreen() {
         // navigation.navigate("")
     }
     const [modalVisible, setModalVisible] = useState(false);
+    const [a, setA] = useState(false);
+
+    const toggleContent = () => {
+        setA(!a);
+    };
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ScrollContainerView
@@ -50,6 +57,22 @@ export function AccountScreen() {
                         maxWidth: 800,
                         alignItems: "flex-start",
                     }}>
+                        {/* <TouchableOpacity onPress={()=>{navigation.navigate("Setting")}}>
+                        <ContainerView style={{ flexDirection: "row", width: "100%", }}>
+                            <User color={baseStyle.primary}/>
+                            <Text>Profile</Text>
+                        </ContainerView>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={()=>{navigation.navigate("Setting")}}>
+                        <ContainerView style={{ flexDirection: "row", width: "100%", }}>
+                            <Settings color={baseStyle.primary}/>
+                            <Text>Settings</Text>
+                        </ContainerView>
+                        </TouchableOpacity> */}
+
+                        <TouchableOpacity onPress={toggleContent}>
+                            
+                        </TouchableOpacity>
                         <Text>User Details</Text>
                         <ContainerView style={{ flexDirection: "row", width: "100%", }}>
                             <Mail color={baseStyle.primary} />
@@ -61,7 +84,7 @@ export function AccountScreen() {
                             <MapPin color={baseStyle.primary} />
                             <Text style={{ flex: 6, width: "100%", }}>Address</Text>
                         </ContainerView>
-                        {/* <TouchableOpacity
+                        <TouchableOpacity
                             onPress={() => {
                                 setModalVisible(true);
                             }}
@@ -71,7 +94,7 @@ export function AccountScreen() {
                                 <MapPin color={baseStyle.primary} />
                                 <Text style={{ flex: 6, width: "100%", }}>Test</Text>
                             </ContainerView>
-                        </TouchableOpacity> */}
+                        </TouchableOpacity>
 
                         <ContainerView style={{ flexDirection: "row", width: "100%", }}>
                             <Cake color={baseStyle.primary} />
