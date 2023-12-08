@@ -1,23 +1,35 @@
+import { XCircle } from "lucide-react-native";
 import React, { useState } from "react";
-import {
-    Alert,
-    Modal,
-    StyleSheet,
-    Text,
-    Pressable,
-    View,
-    TouchableWithoutFeedback,
-} from "react-native";
-import { getBaseStyle } from "../../lib/style/GlobalStyle";
+import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import {
     ContainerView,
     ScrollContainerView,
 } from "../../lib/components/ContainerView";
-import { Button } from "../../lib/components/Button";
+import { getBaseStyle } from "../../lib/style/GlobalStyle";
+import { useQuery } from "@tanstack/react-query";
+import { fetchLeaveBalance } from "./_api/LeaveApi";
+
+type dateDetail = {
+    startDate: Date;
+    endDate: Date;
+    leaveType: Date;
+    description: string;
+    approvals: {
+        name: string;
+        status: string;
+    };
+};
 
 export const LeaveDetailModal = () => {
     const baseStyle = getBaseStyle();
-    const [modalVisible, setModalVisible] = useState(false);
+    const [modalVisible, setModalVisible] = useState(true);
+    const [leaveType, setLeaveType] = useState("Annual Leave");
+
+    const query = useQuery({
+        queryKey: ["leaveBalance", leaveType],
+        queryFn: () => fetchLeaveBalance({ leaveType: leaveType }),
+    });
+
     return (
         <View style={styles.centeredView}>
             <Pressable
@@ -55,10 +67,73 @@ export const LeaveDetailModal = () => {
                             maxHeight: 600,
                         }}
                     >
-                        <Button
-                            title="Close"
-                            onPress={() => setModalVisible(false)}
-                        ></Button>
+                        <View
+                            id="CloseButton"
+                            style={{
+                                width: "100%",
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "flex-end",
+                            }}
+                        >
+                            <Pressable
+                                style={({ pressed }) => [
+                                    {
+                                        // flex: 1,
+                                        // display:"inline"
+                                        height: baseStyle.space.p10,
+                                        // width: "100%",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        flexWrap: "nowrap",
+                                        borderRadius: baseStyle.rounded.xl3,
+                                        aspectRatio: "1/1",
+                                        fontSize: baseStyle.fontSize.sm,
+                                        fontWeight: baseStyle.fontWeight.medium,
+                                        shadowColor: baseStyle.background,
+                                        backgroundColor: pressed
+                                            ? baseStyle.secondary
+                                            : baseStyle.secondary,
+                                        // paddingHorizontal: baseStyle.space.p1,
+                                        // paddingVertical: baseStyle.space.p1,
+                                    },
+                                ]}
+                                onPress={() => setModalVisible(false)}
+                            >
+                                {({ pressed }) => (
+                                    <XCircle
+                                        color={
+                                            pressed
+                                                ? baseStyle.mutedForeground
+                                                : baseStyle.secondaryForeground
+                                        }
+                                        style={{
+                                            color: pressed
+                                                ? baseStyle.secondaryForeground
+                                                : baseStyle.secondaryForeground,
+                                            // width: "100%",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            textAlign: "center",
+                                            flexWrap: "nowrap",
+                                            borderRadius: baseStyle.rounded.md,
+                                            fontSize: baseStyle.fontSize.sm,
+                                            fontWeight:
+                                                baseStyle.fontWeight.medium,
+                                            // shadowColor: baseStyle.background,?
+                                            // backgroundColor: pressed
+                                            //     ? baseStyle.primaryHover
+                                            //     : baseStyle.primary,
+                                        }}
+                                    />
+                                )}
+                            </Pressable>
+                        </View>
+
+                        <ContainerView>
+                            <Text>{leaveType}</Text>
+                        </ContainerView>
                         <ScrollContainerView
                             style={{
                                 padding: 0,
@@ -68,11 +143,57 @@ export const LeaveDetailModal = () => {
                                 shadowOpacity: 0,
                             }}
                         >
-                            <View style={styles.modalView}>
-                                <Text style={styles.modalText}>
-                                    Hello World!
-                                </Text>
-                            </View>
+                            {query.isLoading ? (
+                                <ContainerView>
+                                    <Text>Is Loading</Text>
+                                </ContainerView>
+                            ) : query.isError ? (
+                                <ContainerView>
+                                    <Text>Is Error</Text>
+                                </ContainerView>
+                            ) : !query.data ? (
+                                <ContainerView>
+                                    <Text>Is Error</Text>
+                                </ContainerView>
+                            ) : query.data.length == 0 ? (
+                                <ContainerView>
+                                    <Text>No Data</Text>
+                                </ContainerView>
+                            ) : (
+                                query.data.map((leaveBalance, i) => (
+                                    <View
+                                        id="Row"
+                                        key={`row${i}`}
+                                        style={{
+                                            // flex: 1,0
+                                            width: "100%",
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            justifyContent: "space-between",
+                                            alignItems: "center",
+                                            borderColor: baseStyle.border,
+                                            borderTopWidth:
+                                                i == 0
+                                                    ? 0
+                                                    : baseStyle.borderWidth,
+                                            paddingVertical: baseStyle.space.p4,
+                                        }}
+                                    >
+                                        <View>
+                                            <Text>
+                                                {leaveBalance.leaveDescription}
+                                            </Text>
+                                            <Text>
+                                                {leaveBalance.expiredDate.toDateString()}
+                                            </Text>
+                                        </View>
+                                        <View>
+                                            <Text>{leaveBalance.balance}</Text>
+                                            <Text>{leaveBalance.status}</Text>
+                                        </View>
+                                    </View>
+                                ))
+                            )}
                         </ScrollContainerView>
                     </ContainerView>
                 </ContainerView>
@@ -91,14 +212,14 @@ const styles = StyleSheet.create({
     modalView: {
         // margin: 20,
         backgroundColor: "white",
-        // borderWidth:1,
+        // borderWidth: 1,
         borderRadius: 20,
         padding: 35,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 2,
+            height: 4,
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,

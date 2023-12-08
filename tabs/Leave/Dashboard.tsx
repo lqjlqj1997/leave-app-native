@@ -4,13 +4,22 @@ import { SafeAreaView, ScrollView, Text, View } from "react-native";
 import { getBaseStyle } from "../../lib/style/GlobalStyle";
 import { DAY_LIST, FULL_MONTH } from "../../lib/util/DateConstant";
 import { IconButton } from "../../lib/components/IconButton";
-import { ChevronLeft, ChevronRight } from "lucide-react-native";
+import {
+    Bike,
+    CalendarCheck,
+    ChevronLeft,
+    ChevronRight,
+    Cross,
+    HelpCircle,
+} from "lucide-react-native";
 import { useState } from "react";
 import { RootStackParamList } from "../../router/Router";
 import {
     ContainerView,
     ScrollContainerView,
 } from "../../lib/components/ContainerView";
+
+const LEAVE_TYPE = ["AL", "ML", "RL", "etc"];
 
 const getCalendarList = (year: number, month: number) => {
     const firstDayMonth = new Date(year, month, 1);
@@ -55,13 +64,18 @@ export function DashboardScreen() {
     };
 
     const dateList = getCalendarList(selectedYear, selectedMonth);
-
+    const leaveBalance = {
+        AL: 12,
+        ML: 14,
+        RL: 2,
+        etc: 0,
+    };
     const navigation =
         useNavigation<
             NativeStackNavigationProp<RootStackParamList, "Dashboard">
         >();
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{ flex: 1 }}>
             <ScrollContainerView
                 style={{
                     width: "100%",
@@ -80,6 +94,137 @@ export function DashboardScreen() {
                         shadowOpacity: 0,
                     }}
                 >
+                    <ContainerView
+                        style={{
+                            padding: 0,
+                            paddingHorizontal: 0,
+                            // paddingTop: baseStyle.space.p20,
+                            // paddingBottom: baseStyle.space.p8,
+                            borderWidth: 1,
+                            shadowOpacity: 0,
+                            gap: 0,
+                        }}
+                    >
+                        <View
+                            id="Header"
+                            style={{
+                                // flex: 1,
+                                width: "100%",
+                                minWidth: 300,
+                                display: "flex",
+                                flexDirection: "row",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                borderColor: baseStyle.border,
+                                // borderBottomWidth: baseStyle.borderWidth,
+                                padding: 0,
+                            }}
+                        >
+                            <View
+                                id="Header"
+                                style={{
+                                    flex: 1,
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    justifyContent: "space-evenly",
+                                    alignItems: "center",
+                                    paddingHorizontal: baseStyle.space.p2,
+                                    borderColor: baseStyle.border,
+                                }}
+                            >
+                                <CalendarCheck
+                                    color={baseStyle.primary}
+                                ></CalendarCheck>
+                                <Text
+                                    style={{
+                                        flex: 1,
+                                        textAlign: "center",
+                                        fontWeight: baseStyle.fontWeight.bold,
+                                        color: baseStyle.foreground,
+                                    }}
+                                >
+                                    {leaveBalance.AL}
+                                </Text>
+                            </View>
+                            <View
+                                id="Header"
+                                style={{
+                                    flex: 1,
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    justifyContent: "space-evenly",
+                                    alignItems: "center",
+                                    paddingHorizontal: baseStyle.space.p2,
+                                    borderColor: baseStyle.border,
+                                    borderLeftWidth: baseStyle.borderWidth,
+                                }}
+                            >
+                                <Cross color={baseStyle.primary}></Cross>
+                                <Text
+                                    style={{
+                                        flex: 1,
+                                        textAlign: "center",
+                                        fontWeight: baseStyle.fontWeight.bold,
+                                        color: baseStyle.foreground,
+                                    }}
+                                >
+                                    {leaveBalance.ML}
+                                </Text>
+                            </View>
+                            <View
+                                id="Header"
+                                style={{
+                                    flex: 1,
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    justifyContent: "space-evenly",
+                                    alignItems: "center",
+                                    paddingHorizontal: baseStyle.space.p2,
+                                    borderColor: baseStyle.border,
+                                    borderLeftWidth: baseStyle.borderWidth,
+                                }}
+                            >
+                                <Bike color={baseStyle.primary}></Bike>
+                                <Text
+                                    style={{
+                                        flex: 1,
+                                        textAlign: "center",
+                                        fontWeight: baseStyle.fontWeight.bold,
+                                        color: baseStyle.foreground,
+                                    }}
+                                >
+                                    {leaveBalance.RL}
+                                </Text>
+                            </View>
+                            <View
+                                id="Header"
+                                style={{
+                                    flex: 1,
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    justifyContent: "space-evenly",
+                                    alignItems: "center",
+                                    paddingHorizontal: baseStyle.space.p2,
+                                    borderColor: baseStyle.border,
+                                    borderLeftWidth: baseStyle.borderWidth,
+                                }}
+                            >
+                                <HelpCircle
+                                    color={baseStyle.primary}
+                                ></HelpCircle>
+                                <Text
+                                    style={{
+                                        flex: 1,
+                                        textAlign: "center",
+                                        fontWeight: baseStyle.fontWeight.bold,
+                                        color: baseStyle.foreground,
+                                    }}
+                                >
+                                    {leaveBalance.etc}
+                                </Text>
+                            </View>
+                        </View>
+                    </ContainerView>
                     <ContainerView
                         style={{
                             borderWidth: 0,
@@ -173,6 +318,7 @@ export function DashboardScreen() {
                             )}
                         </IconButton>
                     </ContainerView>
+
                     <ContainerView
                         style={{
                             // flex: 1,
