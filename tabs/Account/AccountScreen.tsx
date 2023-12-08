@@ -113,10 +113,10 @@ export function AccountScreen() {
                             <Text style={{ flex: 6 }}>Role</Text>
                         </ContainerView>
 
-                    </ContainerView>
                     <Button title="Update Profile"
                         onPress={() => setModalVisible(true)}
                     ></Button>
+                    </ContainerView>
                 </ContainerView>
 
                 <View style={{
