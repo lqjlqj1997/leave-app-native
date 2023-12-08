@@ -1,79 +1,90 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ShieldCheck, Skull, UserRound } from 'lucide-react-native';
+import { ShieldCheck, Skull, UserRound, Pencil } from 'lucide-react-native';
 import React from 'react';
-import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { getBaseStyle } from "../../lib/style/GlobalStyle";
+import { FlatList, Platform, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { LightStyle, getBaseStyle } from "../../lib/style/GlobalStyle";
 import { RootStackParamList } from "../../router/Router";
+
 
 const DATA = [
     {
         id: '1',
-        value: 'Ali',
+        name: 'Ali',
         email: 'ali8888@hotmail.com',
-        role: 'Admin'
+        role: 'Admin',
+        // secondRole: 'Manager'
     },
     {
         id: '2',
-        value: 'Ben',
+        name: 'Ben',
         email: 'Ben3688@gmail.com',
-        role: 'Employee'
+        role: 'Employee',
+        // secondRole: ''
     },
     {
         id: '3',
-        value: 'Cat',
+        name: 'Cat',
         email: 'Cat9335@yyahoo.com',
-        role: 'Employee'
+        role: 'Employee',
+        // secondRole: 'Manager'
     },
     {
         id: '4',
-        value: 'Dannish',
+        name: 'Dannish',
         email: 'Dannnn@yandex.com',
-        role: 'Employee'
+        role: 'Employee',
+        // secondRole: 'Manager'
     },
     {
         id: '5',
-        value: 'Elia',
+        name: 'Elia',
         email: 'Eli8888@hotmail.com',
-        role: 'Employee'
+        role: 'Employee',
+        // secondRole: 'Manager'
     },
     {
         id: '6',
-        value: 'Frankie',
+        name: 'Frankie',
         email: 'Fran8888@hotmail.com',
-        role: 'Manager'
+        role: 'Manager',
+        // secondRole: 'Manager'
     },
     {
         id: '7',
-        value: 'Gene',
+        name: 'Gene',
         email: 'Gene8888@hotmail.com',
-        role: 'Employee'
+        role: 'Employee',
+        // secondRole: 'Manager'
     },
     {
         id: '8',
-        value: 'Helio',
+        name: 'Helio',
         email: 'Helio8888@hotmail.com',
-        role: 'Employee'
+        role: 'Employee',
+        // secondRole: 'Manager'
     },
     {
         id: '9',
-        value: 'Ivan',
+        name: 'Ivan',
         email: 'Ivan8888@hotmail.com',
-        role: 'Manager'
+        role: 'Manager',
+        // secondRole: ''
     },
     {
         id: '10',
-        value: 'Jane',
+        name: 'Jane',
         email: 'Jane8888@hotmail.com',
-        role: 'Employee'
+        role: 'Employee',
+        // secondRole: ''
     },
 ];
 // const isDark = useThemeStore((state) => state.isDark);
 // const baseStyle = getBaseStyle(isDark);
 ;
-const getItem = (item: { id: string, value: string, email: string }) => {
+const getItem = (item: { id: string, name: string, email: string }) => {
     //Function for click on an item
-    alert('Id: ' + item.id + ' Value: ' + item.value);
+    alert('Id: ' + item.id + ' Value: ' + item.name);
 };
 
 const ItemSeparatorView = () => {
@@ -110,29 +121,41 @@ export function EmployeeScreen() {
     //     }
     // }
 
-    const ItemView = ({ item }: { item: { id: string, value: string, email: string, role: string } }) => {
+    const ItemView = ({ item }: { item: { id: string, name: string, email: string, role: string } }) => {
         return (
             // FlatList Item
             <TouchableOpacity
                 style={{ width: '100%' }}
                 onPress={() => getItem(item)}>
                 <View style={{ flexDirection: "row" }}>
-                    <Text
-                        style={styles.item}>
-                        {item.value}
-                    </Text>
-                    <View style={[styles.role]}>
-                        {item.role === 'Employee' ? <UserRound
-                            color={baseStyle.primary} /> : ( item.role === 'Manager' ? <Skull
-                            color={baseStyle.primary} /> : <ShieldCheck
-                            color={baseStyle.primary} />)}
+                    <View style={{ flex: 1 }}>
+                        <Text
+                            style={styles.name}>
+                            {item.name}
+                        </Text>
+                        <Text
+                            style={styles.email}
+                        >
+                            {item.email}
+                        </Text>
+                    </View>
+                    <View
+                        style={[styles.role]}
+                    >
+                        <View style={{ flexDirection: "row" }}>
+                            {item.role === 'Employee' ? <UserRound
+                                color={baseStyle.primary} /> : (item.role === 'Manager' ? <Skull
+                                    color={baseStyle.primary} /> : <ShieldCheck
+                                    color={baseStyle.primary} />)}
+                            {Platform.OS === "web" ? <Pencil
+                                style={{ marginLeft: 15 }}
+                                color={baseStyle.primary} /> : null}
+                            {/* <Pencil
+                                color={baseStyle.primary} /> */}
+                        </View>
                     </View>
                 </View>
-                <Text
-                    style={styles.item}
-                >
-                    {item.email}
-                </Text>
+
             </TouchableOpacity>
         );
     };
@@ -146,8 +169,12 @@ export function EmployeeScreen() {
                     {
                         flex: 1,
                         width: "100%",
+                        // maxWidth: 800,
                         paddingTop: baseStyle.space.p8,
                         borderWidth: 0,
+                        // justifyContent: "center",
+                        // alignItems: "center",
+                        // display: "flex",
                         gap: 20,
                     }
                 }
@@ -155,10 +182,34 @@ export function EmployeeScreen() {
                 <Text style={{
                     textAlign: "center",
                 }}>Employee Screen</Text>
+                <View style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    // borderWidth: 1,
+                }}>
+                    <View>
+                        <TouchableOpacity
+                            style={{
+                                // flex:1,
+                                backgroundColor: "black",
+                                // alignContent: "center",
+                                // justifyContent: "center",
+                                borderRadius: 5,
+                                padding: 10
+                            }}>
+                            <Text
+                                style={{ textAlign: "center", color: "white" }}
+                            > Add new user</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
                 <FlatList
                     style={{
                         paddingBottom: baseStyle.space.p20
                     }}
+                    id="employeeFlatList"
                     data={DATA}
                     renderItem={ItemView}
                     ItemSeparatorComponent={ItemSeparatorView}
@@ -175,21 +226,30 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: StatusBar.currentHeight || 0,
     },
-    item: {
+    name: {
         flex: 1,
         paddingHorizontal: 20,
         paddingVertical: 10,
-        width: '80%',
+        // width: '80%',
         // marginVertical: 8,
         // marginHorizontal: 16,
+    },
+    email: {
+        flex: 1,
+        paddingHorizontal: 20,
+        paddingBottom: 5,
     },
     role: {
         // flex: 1,
         paddingHorizontal: 20,
         paddingVertical: 10,
-        width: "20%",
+        justifyContent: 'space-around'
+        // width: "20%",
     },
     title: {
         fontSize: 32,
     },
+    addNewBtn: {
+        // backgroundColor:
+    }
 });
