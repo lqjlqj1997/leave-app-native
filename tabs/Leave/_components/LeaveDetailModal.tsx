@@ -4,10 +4,10 @@ import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import {
     ContainerView,
     ScrollContainerView,
-} from "../../lib/components/ContainerView";
-import { getBaseStyle } from "../../lib/style/GlobalStyle";
+} from "../../../lib/components/ContainerView";
+import { getBaseStyle } from "../../../lib/style/GlobalStyle";
 import { useQuery } from "@tanstack/react-query";
-import { fetchLeaveBalance } from "./_api/LeaveApi";
+import { fetchLeaveBalance } from "../_api/LeaveBalanceApi";
 
 type dateDetail = {
     startDate: Date;

@@ -2,6 +2,7 @@ import { ScrollView, StyleProp, View, ViewStyle } from "react-native";
 import { getBaseStyle } from "../style/GlobalStyle";
 
 interface ContainerProps {
+    tag?: any;
     children: React.ReactNode;
     style?: StyleProp<ViewStyle>;
 }

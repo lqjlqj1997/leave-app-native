@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as React from "react";
 import { getBaseStyle } from "../lib/style/GlobalStyle";
-import { LeaveDetailModal } from "../tabs/Leave/LeaveDetailModal";
+import { LeaveDetailModal } from "../tabs/Leave/_components/LeaveDetailModal";
 import { EmployeeScreen } from "../tabs/Employee/EmployeeScreen";
 import { DashboardScreen } from "../tabs/Leave/Dashboard";
 import { AccountScreen } from "../tabs/Account/AccountScreen";

@@ -14,9 +14,9 @@ import {
 import {
     ContainerView,
     ScrollContainerView,
-} from "../../lib/components/ContainerView";
-import { getBaseStyle } from "../../lib/style/GlobalStyle";
-import { fetchLeaveBalance } from "./_api/LeaveApi";
+} from "../../../lib/components/ContainerView";
+import { getBaseStyle } from "../../../lib/style/GlobalStyle";
+import { fetchLeaveBalance } from "../_api/LeaveBalanceApi";
 
 interface LeaveDetailModalProps extends ModalProps {
     modalVisible: boolean;
