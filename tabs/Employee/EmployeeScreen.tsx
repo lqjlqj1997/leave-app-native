@@ -1,10 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ShieldCheck, Skull, UserRound, Pencil } from 'lucide-react-native';
-import React from 'react';
-import { FlatList, Platform, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ShieldCheck, Skull, UserRound, Pencil, UserRoundCog } from 'lucide-react-native';
+import React, { useState } from 'react';
+import { FlatList, Platform, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View, ModalProps } from "react-native";
 import { LightStyle, getBaseStyle } from "../../lib/style/GlobalStyle";
 import { RootStackParamList } from "../../router/Router";
+import { useQuery } from "@tanstack/react-query";
+import { fetchEmployeeData } from "../Employee/_api/EmployeeApi";
+import { ContainerView } from "../../lib/components/ContainerView";
 
 
 const DATA = [
@@ -82,9 +85,9 @@ const DATA = [
 // const isDark = useThemeStore((state) => state.isDark);
 // const baseStyle = getBaseStyle(isDark);
 ;
-const getItem = (item: { id: string, name: string, email: string }) => {
+const getItem = (item: { id: string, name: string, email: string, phoneNumber: string, dateOfBirth: Date }) => {
     //Function for click on an item
-    alert('Id: ' + item.id + ' Value: ' + item.name);
+    alert('PhoneNumber: ' + item.phoneNumber + ' Name: ' + item.name + ' DOB: ' + item.dateOfBirth);
 };
 
 const ItemSeparatorView = () => {
@@ -106,6 +109,13 @@ export function EmployeeScreen() {
         useNavigation<
             NativeStackNavigationProp<RootStackParamList, "Dashboard">
         >();
+    const [role, setRole] = useState("Admin");
+    const query = useQuery({
+        queryKey: ["employeeData", role],
+        queryFn: fetchEmployeeData,
+    });
+    const list = query.isError || query.isLoading || !query.data ? [] : query.data;
+    console.log(list);
     // const RoleIcon = ({ item }: { item: { role: string  } }) => {
     //     if (item.role === 'Admin') {
     //         return <UserRound
@@ -121,39 +131,65 @@ export function EmployeeScreen() {
     //     }
     // }
 
-    const ItemView = ({ item }: { item: { id: string, name: string, email: string, role: string } }) => {
+    const ItemView = ({ item }: {
+        item: {
+            id: string,
+            name: string, email: string, role: string, phoneNumber: string, dateOfBirth: Date, status: string,
+            maritalStatus: string
+        }
+    }) => {
         return (
             // FlatList Item
             <TouchableOpacity
                 style={{ width: '100%' }}
                 onPress={() => getItem(item)}>
                 <View style={{ flexDirection: "row" }}>
-                    <View style={{ flex: 1 }}>
-                        <Text
-                            style={styles.name}>
-                            {item.name}
-                        </Text>
-                        <Text
-                            style={styles.email}
+                    {query.isLoading ? (
+                        <ContainerView>
+                            <Text>Is Loading</Text>
+                        </ContainerView>
+                    ) : query.isError ? (
+                        <ContainerView>
+                            <Text>Is Error</Text>
+                        </ContainerView>
+                    ) : !query.data ? (
+                        <ContainerView>
+                            <Text>Is Error</Text>
+                        </ContainerView>
+                    ) : query.data.length == 0 ? (
+                        <ContainerView>
+                            <Text>No Data</Text>
+                        </ContainerView>
+                    ) : (
+
+                        <><View style={{ flex: 1 }}>
+                            <Text
+                                style={styles.name}>
+                                {item.name}
+                            </Text>
+                            <Text
+                                style={styles.email}
+                            >
+                                {item.email}
+                            </Text>
+                        </View><View
+                            style={[styles.role]}
                         >
-                            {item.email}
-                        </Text>
-                    </View>
-                    <View
-                        style={[styles.role]}
-                    >
-                        <View style={{ flexDirection: "row" }}>
-                            {item.role === 'Employee' ? <UserRound
-                                color={baseStyle.primary} /> : (item.role === 'Manager' ? <Skull
-                                    color={baseStyle.primary} /> : <ShieldCheck
-                                    color={baseStyle.primary} />)}
-                            {Platform.OS === "web" ? <Pencil
-                                style={{ marginLeft: 15 }}
-                                color={baseStyle.primary} /> : null}
-                            {/* <Pencil
-                                color={baseStyle.primary} /> */}
-                        </View>
-                    </View>
+                                <View style={{ flexDirection: "row" }}>
+                                    {item.role === 'Employee' ? <UserRound
+                                        color={baseStyle.color.primary} /> : (item.role === 'Manager' ? <UserRoundCog
+                                            color={baseStyle.color.primary} /> : <ShieldCheck
+                                            color={baseStyle.color.primary} />)}
+                                    {/* {Platform.OS === "web" ? <Pencil
+        style={{ marginLeft: 15 }}
+        color={baseStyle.primary} /> : null} */}
+                                    {/* <Pencil
+        color={baseStyle.primary} /> */}
+                                </View>
+
+                            </View></>
+                    )
+                    }
                 </View>
 
             </TouchableOpacity>
@@ -210,7 +246,7 @@ export function EmployeeScreen() {
                         paddingBottom: baseStyle.space.p20
                     }}
                     id="employeeFlatList"
-                    data={DATA}
+                    data={list}
                     renderItem={ItemView}
                     ItemSeparatorComponent={ItemSeparatorView}
                 // keyExtractor={item => item.id}
