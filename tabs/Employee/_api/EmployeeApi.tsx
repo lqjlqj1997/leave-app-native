@@ -34,8 +34,8 @@ const newEmployeeDetail = (): EmployeeDetail => {
         name: faker.person.fullName(),
         address: faker.lorem.sentence(30),
         dateOfBirth: faker.date.between({
-            from: '1980-01-01T00:00:00.000Z',
-            to: '1997-01-01T00:00:00.000Z'
+            from: '1975-01-01T00:00:00.000Z',
+            to: '1997-12-31T00:00:00.000Z'
         }),
         status: faker.helpers.shuffle<EmployeeDetail["status"]>([
             "Active",

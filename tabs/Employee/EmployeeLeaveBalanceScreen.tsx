@@ -7,88 +7,7 @@ import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, 
 import { ContainerView } from "../../lib/components/ContainerView";
 import { getBaseStyle } from "../../lib/style/GlobalStyle";
 import { RootStackParamList } from "../../router/Router";
-import { fetchEmployeeData } from "../Employee/_api/EmployeeApi";
-
-
-// const DATA = [
-//     {
-//         id: '1',
-//         name: 'Ali',
-//         email: 'ali8888@hotmail.com',
-//         role: 'Admin',
-//         // secondRole: 'Manager'
-//     },
-//     {
-//         id: '2',
-//         name: 'Ben',
-//         email: 'Ben3688@gmail.com',
-//         role: 'Employee',
-//         // secondRole: ''
-//     },
-//     {
-//         id: '3',
-//         name: 'Cat',
-//         email: 'Cat9335@yyahoo.com',
-//         role: 'Employee',
-//         // secondRole: 'Manager'
-//     },
-//     {
-//         id: '4',
-//         name: 'Dannish',
-//         email: 'Dannnn@yandex.com',
-//         role: 'Employee',
-//         // secondRole: 'Manager'
-//     },
-//     {
-//         id: '5',
-//         name: 'Elia',
-//         email: 'Eli8888@hotmail.com',
-//         role: 'Employee',
-//         // secondRole: 'Manager'
-//     },
-//     {
-//         id: '6',
-//         name: 'Frankie',
-//         email: 'Fran8888@hotmail.com',
-//         role: 'Manager',
-//         // secondRole: 'Manager'
-//     },
-//     {
-//         id: '7',
-//         name: 'Gene',
-//         email: 'Gene8888@hotmail.com',
-//         role: 'Employee',
-//         // secondRole: 'Manager'
-//     },
-//     {
-//         id: '8',
-//         name: 'Helio',
-//         email: 'Helio8888@hotmail.com',
-//         role: 'Employee',
-//         // secondRole: 'Manager'
-//     },
-//     {
-//         id: '9',
-//         name: 'Ivan',
-//         email: 'Ivan8888@hotmail.com',
-//         role: 'Manager',
-//         // secondRole: ''
-//     },
-//     {
-//         id: '10',
-//         name: 'Jane',
-//         email: 'Jane8888@hotmail.com',
-//         role: 'Employee',
-//         // secondRole: ''
-//     },
-// ];
-// const isDark = useThemeStore((state) => state.isDark);
-// const baseStyle = getBaseStyle(isDark);
-;
-const getItem = (item: { id: string, name: string, email: string, phoneNumber: string, dateOfBirth: Date }) => {
-    //Function for click on an item
-    alert('PhoneNumber: ' + item.phoneNumber + ' Name: ' + item.name + ' DOB: ' + item.dateOfBirth);
-};
+import { fetchEmployeeLeaveBalanceData } from "../Employee/_api/EmployeeLeaveBalanceApi";
 
 const ItemSeparatorView = () => {
     return (
@@ -103,31 +22,28 @@ const ItemSeparatorView = () => {
     );
 };
 
-export function EmployeeScreen() {
+export function EmployeeLeaveBalanceScreen() {
     const baseStyle = getBaseStyle();
-    const navigation =
-        useNavigation<
-            NativeStackNavigationProp<RootStackParamList, "Dashboard">
-        >();
-    const [role, setRole] = useState("Admin");
+    const [leaveType, setLeaveType] = useState("Annual Leave");
     const query = useQuery({
-        queryKey: ["employeeData", role],
-        queryFn: fetchEmployeeData,
+        queryKey: ["leaveBalance", leaveType],
+        queryFn: () => fetchEmployeeLeaveBalanceData(),
     });
     const list = query.isError || query.isLoading || !query.data ? [] : query.data;
 
     const ItemView = ({ item }: {
         item: {
             id: string,
-            name: string, email: string, role: string, phoneNumber: string, dateOfBirth: Date, status: string,
-            maritalStatus: string
+            name: string, leaveType: string, leaveBalance: number, expiryDate: Date,
+            email: string
         }
     }) => {
         return (
             // FlatList Item
             <TouchableOpacity
                 style={{ width: '100%' }}
-                onPress={() => getItem(item)}>
+            // onPress={() => getItem(item)}
+            >
                 <View style={{ flexDirection: "row" }}>
                     {query.isLoading ? (
                         <ContainerView>
@@ -160,16 +76,27 @@ export function EmployeeScreen() {
                             style={[styles.role]}
                         >
                                 <View style={{ flexDirection: "row" }}>
-                                    {item.role === 'Employee' ? <UserRound
-                                        color={baseStyle.color.primary} /> : (item.role === 'Manager' ? <UserRoundCog
-                                            color={baseStyle.color.primary} /> : <ShieldCheck
-                                            color={baseStyle.color.primary} />)}
-                                    {/* {Platform.OS === "web" ? <Pencil
-        style={{ marginLeft: 15 }}
-        color={baseStyle.primary} /> : null} */}
-                                    {/* <Pencil
-        color={baseStyle.primary} /> */}
+                                    {/* {item.role === 'Employee' ? <UserRound
+                                        color={baseStyle.primary} /> : (item.role === 'Manager' ? <UserRoundCog
+                                            color={baseStyle.primary} /> : <ShieldCheck
+                                            color={baseStyle.primary} />)} */}
+                                    <Text
+                                        // style={{flex}}
+                                    >
+                                        {item.leaveBalance}
+                                    </Text>
+                                    {/* <Text
+                                        // style={styles.email}
+                                    >
+                                        {item.expiryDate.toDateString()}
+                                    </Text> */}
+
                                 </View>
+                                <Text
+                                        // style={styles.email}
+                                    >
+                                        {item.expiryDate!= null ? item.expiryDate.toDateString() : "No Date"}
+                                    </Text>
 
                             </View></>
                     )
@@ -201,7 +128,7 @@ export function EmployeeScreen() {
             >
                 <Text style={{
                     textAlign: "center",
-                }}>Employee Screen</Text>
+                }}>Leave Balance Screen</Text>
                 <View style={{
                     width: "100%",
                     display: "flex",
@@ -214,12 +141,14 @@ export function EmployeeScreen() {
                             style={{
                                 // flex:1,
                                 backgroundColor: "black",
+                                // alignContent: "center",
+                                // justifyContent: "center",
                                 borderRadius: 5,
                                 padding: 10
                             }}>
                             <Text
                                 style={{ textAlign: "center", color: "white" }}
-                            > Add new user</Text>
+                            > Add new Leave</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -227,12 +156,10 @@ export function EmployeeScreen() {
                     style={{
                         paddingBottom: baseStyle.space.p20
                     }}
-                    id="employeeFlatList"
+                    id="empLeaveBalanceFlatlist"
                     data={list}
                     renderItem={ItemView}
                     ItemSeparatorComponent={ItemSeparatorView}
-                // keyExtractor={item => item.id}
-                // extraData={selectedId}
                 />
             </View>
         </SafeAreaView>
@@ -248,7 +175,7 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: 20,
         paddingVertical: 10,
-        // width: '80%',
+        maxWidth: 300
         // marginVertical: 8,
         // marginHorizontal: 16,
     },
@@ -261,7 +188,7 @@ const styles = StyleSheet.create({
         // flex: 1,
         paddingHorizontal: 20,
         paddingVertical: 10,
-        justifyContent: 'space-around'
+        // justifyContent: 'space-around'
         // width: "20%",
     },
     title: {
