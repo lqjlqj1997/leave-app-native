@@ -413,13 +413,13 @@ export const LeaveFormModal = ({
                                 )}
                                 <IconButton
                                     onPress={() => setOpenDatePickerModal(true)}
-                                    style={
-                                        {
-                                            // flex: 1,
-                                            // borderRadius: baseStyle.rounded.xl3,
-                                            // aspectRatio: "1/1",
-                                        }
-                                    }
+                                    style={{
+                                        // flex: 1,
+                                        // borderRadius: baseStyle.rounded.xl3,
+                                        // aspectRatio: "1/1",
+                                        backgroundColor:
+                                            baseStyle.color.secondary,
+                                    }}
                                 >
                                     {({ pressed }) => (
                                         <View
@@ -441,7 +441,7 @@ export const LeaveFormModal = ({
                                                 <Text
                                                     style={{
                                                         color: baseStyle.color
-                                                            .primaryForeground,
+                                                            .secondaryForeground,
                                                         textAlign: "center",
                                                         textAlignVertical:
                                                             "center",
@@ -452,10 +452,8 @@ export const LeaveFormModal = ({
                                             </View>
                                             <CalendarDays
                                                 color={
-                                                    pressed
-                                                        ? baseStyle.color.muted
-                                                        : baseStyle.color
-                                                              .background
+                                                    baseStyle.color
+                                                        .secondaryForeground
                                                 }
                                                 style={{
                                                     color: pressed
@@ -487,14 +485,15 @@ export const LeaveFormModal = ({
                                         // flex: 1,
                                         // borderRadius: baseStyle.rounded.xl3,
                                         aspectRatio: "1/1",
+                                        backgroundColor:
+                                            baseStyle.color.secondary,
                                     }}
                                 >
                                     {({ pressed }) => (
                                         <HelpCircle
                                             color={
-                                                pressed
-                                                    ? baseStyle.color.muted
-                                                    : baseStyle.color.background
+                                                baseStyle.color
+                                                    .secondaryForeground
                                             }
                                             style={{
                                                 color: pressed
