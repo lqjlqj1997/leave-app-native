@@ -115,10 +115,10 @@ function MyTab() {
             />
             <Tab.Screen name="Test" component={DashboardScreen} />
             <Tab.Screen name="Account" component={AccountScreen} />
-            <Tab.Screen name="Dashboard" component={DashboardScreen} />
             <Tab.Screen name="Employee" component={EmployeeTab} />
+            <Tab.Screen name="Dashboard" component={DashboardScreen} />
             <Tab.Screen name="SignOut" component={SignOutScreen} />
-        </Tab.Navigator>
+        </Tab.Navigator >
     );
 }
 
@@ -163,11 +163,12 @@ function EmployeeTab() {
                 renderLabel={({ focused, route }) => {
                     return (
                         <Text
-                            style={{ 
+                            style={{
                                 color: focused ? baseStyle.color.foreground : "rgba(0,0,0,0.7)",
                                 fontSize: 15,
-                                fontWeight: focused ? "400" : "normal"}}>
-                            
+                                fontWeight: focused ? "400" : "normal"
+                            }}>
+
                             {route.title}
                         </Text>
                     );
