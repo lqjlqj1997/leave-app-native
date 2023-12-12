@@ -21,6 +21,7 @@ import {
 import { LeaveBalanceModal } from "./_components/LeaveBalanceModal";
 import { LeaveCalender } from "./_components/LeaveCalender";
 import { LeaveDetail } from "./_components/LeaveDetail";
+import { LeaveFormModal } from "./_components/LeaveFormModal";
 
 const LEAVE_TYPE = ["AL", "ML", "RL", "etc"];
 
@@ -28,8 +29,11 @@ export function DashboardScreen() {
     const today = new Date();
     const [selectedYear, setSelectedYear] = useState(today.getFullYear());
     const [selectedMonth, setSelectedMonth] = useState(today.getMonth());
-    const [selectedDate, setSelectedDate] = useState(today);
+    const [selectedDate, setSelectedDate] = useState(
+        new Date(today.getFullYear(), today.getMonth(), today.getDate())
+    );
     const [openLeaveBalanceModal, setOpenLeaveBalanceModal] = useState(false);
+    const [openLeaveFormModal, setOpenLeaveFormModal] = useState(false);
     const [selectedLeaveType, setSelectedLeaveType] = useState("");
     const baseStyle = getBaseStyle();
 
@@ -57,6 +61,11 @@ export function DashboardScreen() {
                 modalVisible={openLeaveBalanceModal}
                 onDemise={() => setOpenLeaveBalanceModal(false)}
             ></LeaveBalanceModal>
+            <LeaveFormModal
+                selectedDated={selectedDate}
+                modalVisible={openLeaveFormModal}
+                onDemise={() => setOpenLeaveFormModal(false)}
+            ></LeaveFormModal>
             <ScrollContainerView
                 style={{
                     width: "100%",
@@ -97,7 +106,7 @@ export function DashboardScreen() {
                                 flexDirection: "row",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                borderColor: baseStyle.border,
+                                borderColor: baseStyle.color.border,
                                 // borderBottomWidth: baseStyle.borderWidth,
                                 padding: 0,
                             }}
@@ -111,7 +120,7 @@ export function DashboardScreen() {
                                     justifyContent: "space-evenly",
                                     alignItems: "center",
                                     paddingHorizontal: baseStyle.space.p2,
-                                    borderColor: baseStyle.border,
+                                    borderColor: baseStyle.color.border,
                                 }}
                                 onPress={() => {
                                     setSelectedLeaveType("Annual Leave");
@@ -119,7 +128,7 @@ export function DashboardScreen() {
                                 }}
                             >
                                 <CalendarCheck
-                                    color={baseStyle.primary}
+                                    color={baseStyle.color.primary}
                                 ></CalendarCheck>
 
                                 <Text
@@ -127,7 +136,7 @@ export function DashboardScreen() {
                                         flex: 1,
                                         textAlign: "center",
                                         fontWeight: baseStyle.fontWeight.bold,
-                                        color: baseStyle.foreground,
+                                        color: baseStyle.color.foreground,
                                     }}
                                 >
                                     {leaveBalance.AL}
@@ -142,7 +151,7 @@ export function DashboardScreen() {
                                     justifyContent: "space-evenly",
                                     alignItems: "center",
                                     paddingHorizontal: baseStyle.space.p2,
-                                    borderColor: baseStyle.border,
+                                    borderColor: baseStyle.color.border,
                                     borderLeftWidth: baseStyle.borderWidth,
                                 }}
                                 onPress={() => {
@@ -150,14 +159,14 @@ export function DashboardScreen() {
                                     setOpenLeaveBalanceModal(true);
                                 }}
                             >
-                                <Cross color={baseStyle.primary}></Cross>
+                                <Cross color={baseStyle.color.primary}></Cross>
 
                                 <Text
                                     style={{
                                         flex: 1,
                                         textAlign: "center",
                                         fontWeight: baseStyle.fontWeight.bold,
-                                        color: baseStyle.foreground,
+                                        color: baseStyle.color.foreground,
                                     }}
                                 >
                                     {leaveBalance.ML}
@@ -172,7 +181,7 @@ export function DashboardScreen() {
                                     justifyContent: "space-evenly",
                                     alignItems: "center",
                                     paddingHorizontal: baseStyle.space.p2,
-                                    borderColor: baseStyle.border,
+                                    borderColor: baseStyle.color.border,
                                     borderLeftWidth: baseStyle.borderWidth,
                                 }}
                                 onPress={() => {
@@ -180,14 +189,14 @@ export function DashboardScreen() {
                                     setOpenLeaveBalanceModal(true);
                                 }}
                             >
-                                <Bike color={baseStyle.primary}></Bike>
+                                <Bike color={baseStyle.color.primary}></Bike>
 
                                 <Text
                                     style={{
                                         flex: 1,
                                         textAlign: "center",
                                         fontWeight: baseStyle.fontWeight.bold,
-                                        color: baseStyle.foreground,
+                                        color: baseStyle.color.foreground,
                                     }}
                                 >
                                     {leaveBalance.RL}
@@ -202,7 +211,7 @@ export function DashboardScreen() {
                                     justifyContent: "space-evenly",
                                     alignItems: "center",
                                     paddingHorizontal: baseStyle.space.p2,
-                                    borderColor: baseStyle.border,
+                                    borderColor: baseStyle.color.border,
                                     borderLeftWidth: baseStyle.borderWidth,
                                 }}
                                 onPress={() => {
@@ -211,14 +220,14 @@ export function DashboardScreen() {
                                 }}
                             >
                                 <HelpCircle
-                                    color={baseStyle.primary}
+                                    color={baseStyle.color.primary}
                                 ></HelpCircle>
                                 <Text
                                     style={{
                                         flex: 1,
                                         textAlign: "center",
                                         fontWeight: baseStyle.fontWeight.bold,
-                                        color: baseStyle.foreground,
+                                        color: baseStyle.color.foreground,
                                     }}
                                 >
                                     {leaveBalance.AL}
@@ -248,13 +257,13 @@ export function DashboardScreen() {
                                 <ChevronLeft
                                     color={
                                         pressed
-                                            ? baseStyle.muted
-                                            : baseStyle.background
+                                            ? baseStyle.color.muted
+                                            : baseStyle.color.background
                                     }
                                     style={{
                                         color: pressed
-                                            ? baseStyle.primaryForeground
-                                            : baseStyle.primaryForeground,
+                                            ? baseStyle.color.primaryForeground
+                                            : baseStyle.color.primaryForeground,
                                         // width: "100%",
                                         alignItems: "center",
                                         justifyContent: "center",
@@ -276,7 +285,7 @@ export function DashboardScreen() {
                                 // flex: 1,
                                 // width: "100%",
                                 minWidth: baseStyle.space.p36,
-                                color: baseStyle.cardForeground,
+                                color: baseStyle.color.cardForeground,
                                 fontSize: baseStyle.fontSize.lg,
                                 textAlign: "center",
                                 fontWeight: baseStyle.fontWeight.normal,
@@ -297,13 +306,13 @@ export function DashboardScreen() {
                                 <ChevronRight
                                     color={
                                         pressed
-                                            ? baseStyle.muted
-                                            : baseStyle.background
+                                            ? baseStyle.color.muted
+                                            : baseStyle.color.background
                                     }
                                     style={{
                                         color: pressed
-                                            ? baseStyle.primaryForeground
-                                            : baseStyle.primaryForeground,
+                                            ? baseStyle.color.primaryForeground
+                                            : baseStyle.color.primaryForeground,
                                         // width: "100%",
                                         alignItems: "center",
                                         justifyContent: "center",
@@ -329,7 +338,10 @@ export function DashboardScreen() {
                         setSelectedDate={setSelectedDate}
                     />
 
-                    <LeaveDetail selectedDate={selectedDate} />
+                    <LeaveDetail
+                        selectedDate={selectedDate}
+                        onNewLeave={() => setOpenLeaveFormModal(true)}
+                    />
                 </ContainerView>
             </ScrollContainerView>
         </SafeAreaView>

@@ -7,9 +7,12 @@ export function ThemeSwitch() {
     const baseStyle = getBaseStyle(isDark);
     return (
         <Switch
-            trackColor={{ false: baseStyle.muted, true: baseStyle.primary }}
-            thumbColor={baseStyle.background}
-            ios_backgroundColor={baseStyle.background}
+            trackColor={{
+                false: baseStyle.color.muted,
+                true: baseStyle.color.primary,
+            }}
+            thumbColor={baseStyle.color.background}
+            ios_backgroundColor={baseStyle.color.background}
             onValueChange={useThemeStore((state) => state.setTheme)}
             value={isDark}
         />

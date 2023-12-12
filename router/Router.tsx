@@ -3,7 +3,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as React from "react";
 import { getBaseStyle } from "../lib/style/GlobalStyle";
-import { LeaveDetailModal } from "../tabs/Leave/_components/LeaveDetailModal";
 import { EmployeeScreen } from "../tabs/Employee/EmployeeScreen";
 import { DashboardScreen } from "../tabs/Leave/Dashboard";
 import { AccountScreen } from "../tabs/Account/AccountScreen";
@@ -45,13 +44,15 @@ function MyTab() {
                 // animationTypeForReplace: "pop",
                 // animation: "fade_from_bottom",
             }}
-            sceneContainerStyle={{ backgroundColor: baseStyle.background }}
+            sceneContainerStyle={{
+                backgroundColor: baseStyle.color.background,
+            }}
         >
             {/* <Tab.Screen name="Profile" component={EmployeeScreen} /> */}
-            <Tab.Screen name="Test" component={LeaveDetailModal} />
+            <Tab.Screen name="Test" component={DashboardScreen} />
             <Tab.Screen name="Account" component={AccountScreen} />
-            <Tab.Screen name="Employee" component={EmployeeScreen} />
             <Tab.Screen name="Dashboard" component={DashboardScreen} />
+            <Tab.Screen name="Employee" component={EmployeeScreen} />
             <Tab.Screen name="SignOut" component={SignOutScreen} />
         </Tab.Navigator>
     );
@@ -66,7 +67,9 @@ export default function Router() {
                 screenOptions={{
                     headerShown: false,
                     // presentation: "modal",
-                    contentStyle: { backgroundColor: baseStyle.background },
+                    contentStyle: {
+                        backgroundColor: baseStyle.color.background,
+                    },
                     animationDuration: 500,
                     animationTypeForReplace: "pop",
                     animation: "fade_from_bottom",

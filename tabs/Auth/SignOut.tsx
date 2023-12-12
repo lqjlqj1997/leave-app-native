@@ -31,7 +31,7 @@ export function SignOutScreen() {
             >
                 <Text
                     style={{
-                        color: baseStyle.cardForeground,
+                        color: baseStyle.color.cardForeground,
                         fontSize: baseStyle.fontSize.lg,
                     }}
                 >

@@ -49,7 +49,7 @@ export const LeaveBalanceModal = ({
                 style={{
                     width: "100%",
                     height: "100%",
-                    backgroundColor: baseStyle.overlay,
+                    backgroundColor: baseStyle.color.overlay,
                 }}
             >
                 {/* <TouchableWithoutFeedback
@@ -69,6 +69,7 @@ export const LeaveBalanceModal = ({
                 >
                     <View
                         style={{
+                            width: "100%",
                             display: "flex",
                             flexDirection: "row",
                             maxWidth: "100%",
@@ -78,6 +79,7 @@ export const LeaveBalanceModal = ({
                     >
                         <View
                             style={{
+                                width: "100%",
                                 flex: 9,
                                 display: "flex",
                                 flexDirection: "row",
@@ -114,10 +116,10 @@ export const LeaveBalanceModal = ({
                                         aspectRatio: "1/1",
                                         fontSize: baseStyle.fontSize.sm,
                                         fontWeight: baseStyle.fontWeight.medium,
-                                        shadowColor: baseStyle.background,
+                                        shadowColor: baseStyle.color.background,
                                         backgroundColor: pressed
-                                            ? baseStyle.secondary
-                                            : baseStyle.secondary,
+                                            ? baseStyle.color.secondary
+                                            : baseStyle.color.secondary,
                                         // paddingHorizontal: baseStyle.space.p1,
                                         // paddingVertical: baseStyle.space.p1,
                                     },
@@ -128,13 +130,17 @@ export const LeaveBalanceModal = ({
                                     <XCircle
                                         color={
                                             pressed
-                                                ? baseStyle.mutedForeground
-                                                : baseStyle.secondaryForeground
+                                                ? baseStyle.color
+                                                      .mutedForeground
+                                                : baseStyle.color
+                                                      .secondaryForeground
                                         }
                                         style={{
                                             color: pressed
-                                                ? baseStyle.secondaryForeground
-                                                : baseStyle.secondaryForeground,
+                                                ? baseStyle.color
+                                                      .secondaryForeground
+                                                : baseStyle.color
+                                                      .secondaryForeground,
                                             // width: "100%",
                                             alignItems: "center",
                                             justifyContent: "center",
@@ -192,7 +198,7 @@ export const LeaveBalanceModal = ({
                                         flexDirection: "row",
                                         justifyContent: "space-between",
                                         alignItems: "center",
-                                        borderColor: baseStyle.border,
+                                        borderColor: baseStyle.color.border,
                                         borderTopWidth:
                                             i == 0 ? 0 : baseStyle.borderWidth,
                                         paddingVertical: baseStyle.space.p4,
@@ -219,7 +225,8 @@ export const LeaveBalanceModal = ({
                                                 style={{
                                                     flex: 1,
                                                     textAlign: "center",
-                                                    color: baseStyle.destructive,
+                                                    color: baseStyle.color
+                                                        .destructive,
                                                 }}
                                             >
                                                 {leaveBalance.status}

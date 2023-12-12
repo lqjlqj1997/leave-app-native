@@ -15,7 +15,9 @@ export function LoginScreen() {
     const navigation =
         useNavigation<NativeStackNavigationProp<RootStackParamList, "Home">>();
     const tabNavigation =
-        useNavigation<NativeStackNavigationProp<RootTabParamList, "Dashboard">>();
+        useNavigation<
+            NativeStackNavigationProp<RootTabParamList, "Dashboard">
+        >();
 
     const isDark = useThemeStore((state) => state.isDark);
     const baseStyle = getBaseStyle(isDark);
@@ -66,7 +68,7 @@ export function LoginScreen() {
                     style={{
                         // flex: 1,
                         // width: "100%",
-                        color: baseStyle.cardForeground,
+                        color: baseStyle.color.cardForeground,
                         fontSize: baseStyle.fontSize.lg,
                         // textAlign: "center",
                         // fontWeight: "700",
@@ -82,18 +84,18 @@ export function LoginScreen() {
                         height: baseStyle.space.p10,
                         width: "100%",
                         borderWidth: 1,
-                        borderColor: baseStyle.input,
+                        borderColor: baseStyle.color.input,
                         borderRadius: baseStyle.rounded.md,
-                        backgroundColor: baseStyle.background,
+                        backgroundColor: baseStyle.color.background,
                         paddingHorizontal: baseStyle.space.p3,
                         paddingVertical: baseStyle.space.p2,
                         fontSize: baseStyle.fontSize.base,
-                        shadowColor: baseStyle.background,
+                        shadowColor: baseStyle.color.background,
                     }}
                     placeholder="Email"
-                    placeholderTextColor={baseStyle.mutedForeground}
+                    placeholderTextColor={baseStyle.color.mutedForeground}
                     keyboardType="email-address"
-                // onChangeText={setLoginEmail}
+                    // onChangeText={setLoginEmail}
                 />
 
                 <TextInput
@@ -104,26 +106,26 @@ export function LoginScreen() {
                         height: baseStyle.space.p10,
                         width: "100%",
                         borderWidth: 1,
-                        borderColor: baseStyle.input,
+                        borderColor: baseStyle.color.input,
                         borderRadius: baseStyle.rounded.md,
-                        backgroundColor: baseStyle.background,
+                        backgroundColor: baseStyle.color.background,
                         paddingHorizontal: baseStyle.space.p3,
                         paddingVertical: baseStyle.space.p2,
                         fontSize: baseStyle.fontSize.base,
-                        shadowColor: baseStyle.background,
+                        shadowColor: baseStyle.color.background,
                     }}
                     placeholder="Password"
-                    placeholderTextColor={baseStyle.mutedForeground}
+                    placeholderTextColor={baseStyle.color.mutedForeground}
                 />
                 <Button
                     title="Login"
                     onPress={() => tabNavigation.navigate("Dashboard")}
-                // onPress={() => handleSubmit(loginEmail, password)}
+                    // onPress={() => handleSubmit(loginEmail, password)}
                 ></Button>
                 <Button
                     title="Home"
                     onPress={() => navigation.navigate("Home")}
-                // onPress={() => handleSubmit(loginEmail, password)}
+                    // onPress={() => handleSubmit(loginEmail, password)}
                 ></Button>
                 <ThemeSwitch />
             </ContainerView>

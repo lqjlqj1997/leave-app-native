@@ -10,13 +10,18 @@ import { ContainerView } from "../../../lib/components/ContainerView";
 import { getBaseStyle } from "../../../lib/style/GlobalStyle";
 import { DAY_LIST } from "../../../lib/util/DateConstant";
 import { useQuery } from "@tanstack/react-query";
-import { fetchLeaveApplication } from "../_api/LeaveApplicationAPi";
+import { fetchLeaveApplication } from "../_api/LeaveApplicationApi";
+import { Button } from "../../../lib/components/Button";
 
 interface LeaveCalenderProps extends ModalProps {
     selectedDate: Date;
+    onNewLeave: ((event: NativeSyntheticEvent<any>) => void) | undefined;
 }
 
-export const LeaveDetail = ({ selectedDate }: LeaveCalenderProps) => {
+export const LeaveDetail = ({
+    selectedDate,
+    onNewLeave,
+}: LeaveCalenderProps) => {
     const baseStyle = getBaseStyle();
 
     const query = useQuery({
@@ -36,7 +41,7 @@ export const LeaveDetail = ({ selectedDate }: LeaveCalenderProps) => {
                 style={{
                     // flex: 1,
                     // width: "100%",
-                    color: baseStyle.cardForeground,
+                    color: baseStyle.color.cardForeground,
                     fontSize: baseStyle.fontSize.lg,
                     // textAlign: "center",
                     fontWeight: baseStyle.fontWeight.normal,
@@ -58,9 +63,7 @@ export const LeaveDetail = ({ selectedDate }: LeaveCalenderProps) => {
                     <Text>Is Error</Text>
                 </ContainerView>
             ) : query.data.length == 0 ? (
-                <ContainerView>
-                    <Text>New Leave</Text>
-                </ContainerView>
+                <Button title="New Leave" onPress={onNewLeave}></Button>
             ) : (
                 query.data.map((LeaveApp, i, list) => {
                     const isLast = i + 1 === list.length;
@@ -75,7 +78,7 @@ export const LeaveDetail = ({ selectedDate }: LeaveCalenderProps) => {
                                 flexDirection: "row",
                                 justifyContent: "center",
                                 alignItems: "center",
-                                borderColor: baseStyle.border,
+                                borderColor: baseStyle.color.border,
                                 borderBottomWidth: isLast
                                     ? 0
                                     : baseStyle.borderWidth,
