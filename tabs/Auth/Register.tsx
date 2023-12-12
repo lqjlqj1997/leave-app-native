@@ -22,7 +22,7 @@ export function RegisterScreen() {
                     // alignItems: "center",
                     // justifyContent: "center",
                     // gap: 20,
-                    width: "80%"
+                    width: "80%",
                 }}
             >
                 {/* <View
@@ -48,7 +48,7 @@ export function RegisterScreen() {
                         // fontSize: 30,
                         // textAlign: "center",
                         // fontWeight: "700",
-                        color: baseStyle.cardForeground,
+                        color: baseStyle.color.cardForeground,
                         fontSize: baseStyle.fontSize.lg,
                     }}
                 >
@@ -61,36 +61,36 @@ export function RegisterScreen() {
                         height: baseStyle.space.p10,
                         width: "100%",
                         borderWidth: 1,
-                        borderColor: baseStyle.input,
+                        borderColor: baseStyle.color.input,
                         borderRadius: baseStyle.rounded.md,
-                        backgroundColor: baseStyle.background,
+                        backgroundColor: baseStyle.color.background,
                         paddingHorizontal: baseStyle.space.p3,
                         paddingVertical: baseStyle.space.p2,
                         fontSize: baseStyle.fontSize.base,
-                        shadowColor: baseStyle.background,
+                        shadowColor: baseStyle.color.background,
                     }}
                     placeholder="Email"
-                    placeholderTextColor={baseStyle.mutedForeground}
+                    placeholderTextColor={baseStyle.color.mutedForeground}
                     keyboardType="email-address"
                 />
                 <TextInput
-                   secureTextEntry={true}
-                   style={{
-                       // flex: 1,
-                       display: "flex",
-                       height: baseStyle.space.p10,
-                       width: "100%",
-                       borderWidth: 1,
-                       borderColor: baseStyle.input,
-                       borderRadius: baseStyle.rounded.md,
-                       backgroundColor: baseStyle.background,
-                       paddingHorizontal: baseStyle.space.p3,
-                       paddingVertical: baseStyle.space.p2,
-                       fontSize: baseStyle.fontSize.base,
-                       shadowColor: baseStyle.background,
-                   }}
-                   placeholder="Password"
-                   placeholderTextColor={baseStyle.mutedForeground}
+                    secureTextEntry={true}
+                    style={{
+                        // flex: 1,
+                        display: "flex",
+                        height: baseStyle.space.p10,
+                        width: "100%",
+                        borderWidth: 1,
+                        borderColor: baseStyle.color.input,
+                        borderRadius: baseStyle.rounded.md,
+                        backgroundColor: baseStyle.color.background,
+                        paddingHorizontal: baseStyle.space.p3,
+                        paddingVertical: baseStyle.space.p2,
+                        fontSize: baseStyle.fontSize.base,
+                        shadowColor: baseStyle.color.background,
+                    }}
+                    placeholder="Password"
+                    placeholderTextColor={baseStyle.color.mutedForeground}
                 />
                 <Button
                     title="Register"

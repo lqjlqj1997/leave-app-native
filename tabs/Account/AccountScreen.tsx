@@ -7,7 +7,14 @@ import { getBaseStyle } from "../../lib/style/GlobalStyle";
 import { Button } from "../../lib/components/Button";
 import { ContainerView } from "../../lib/components/ContainerView";
 // import { MapPin } from 'lucide-react';
-import { Cake, CheckSquare, Mail, MapPin, Settings, User } from 'lucide-react-native';
+import {
+    Cake,
+    CheckSquare,
+    Container,
+    Mail,
+    MapPin,
+    User
+} from "lucide-react-native";
 import { ScrollView } from "react-native";
 import { Phone } from "lucide-react-native";
 import { View } from "react-native";
@@ -50,14 +57,12 @@ export function AccountScreen() {
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ScrollContainerView
-                style={
-                    {
-                        // width: "100%",
-                        paddingTop: baseStyle.space.p20,
-                        borderWidth: 0,
-                        // gap: 20,
-                    }
-                }
+                style={{
+                    // width: "100%",
+                    paddingTop: baseStyle.space.p20,
+                    borderWidth: 0,
+                    // gap: 20,
+                }}
             >
 
                 <ContainerView style={{
@@ -82,13 +87,13 @@ export function AccountScreen() {
                     }}>
 
                         <ContainerView style={{ flexDirection: "row", width: "100%", }}>
-                            <Mail color={baseStyle.primary} />
+                            <Mail color={baseStyle.color.primary} />
                             <Text style={{ flex: 1 }}>Email</Text>
                             {/* <TextInput style={{flex:6, borderBlockColor:"black",borderWidth: 1,}} value="text"></TextInput> */}
 
                         </ContainerView>
                         <ContainerView style={{ flexDirection: "row", width: "100%", }}>
-                            <MapPin color={baseStyle.primary} />
+                            <MapPin color={baseStyle.color.primary} />
                             <Text style={{ flex: 6, width: "100%", }}>Address</Text>
                         </ContainerView>
                         <TouchableOpacity
@@ -98,25 +103,25 @@ export function AccountScreen() {
                             style={{ flexDirection: "row", width: "100%", }}
                         >
                             <ContainerView style={{ flexDirection: "row", width: "100%", backgroundColor: "white" }}>
-                                <MapPin color={baseStyle.primary} />
+                                <MapPin color={baseStyle.color.primary} />
                                 <Text style={{ flex: 6, width: "100%", }}>Test</Text>
                             </ContainerView>
                         </TouchableOpacity>
 
                         <ContainerView style={{ flexDirection: "row", width: "100%", }}>
-                            <Cake color={baseStyle.primary} />
+                            <Cake color={baseStyle.color.primary} />
                             <Text style={{ flex: 6 }}>BOD</Text>
                         </ContainerView>
                         <ContainerView style={{ flexDirection: "row", width: "100%" }}>
-                            <CheckSquare color={baseStyle.primary} />
+                            <CheckSquare color={baseStyle.color.primary} />
                             <Text style={{ flex: 6 }}>Status</Text>
                         </ContainerView>
                         <ContainerView style={{ flexDirection: "row", width: "100%" }}>
-                            <Phone color={baseStyle.primary} />
+                            <Phone color={baseStyle.color.primary} />
                             <Text style={{ flex: 6 }}>Phone Number</Text>
                         </ContainerView>
                         <ContainerView style={{ flexDirection: "row", width: "100%" }}>
-                            <User color={baseStyle.primary} />
+                            <User color={baseStyle.color.primary} />
                             <Text style={{ flex: 6 }}>Role</Text>
                         </ContainerView>
 

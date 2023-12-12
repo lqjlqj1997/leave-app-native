@@ -26,10 +26,10 @@ export function IconButton({ style, children, onPress }: ButtonProps) {
                     borderRadius: baseStyle.rounded.md,
                     fontSize: baseStyle.fontSize.sm,
                     fontWeight: baseStyle.fontWeight.medium,
-                    shadowColor: baseStyle.background,
+                    shadowColor: baseStyle.color.background,
                     backgroundColor: pressed
-                        ? baseStyle.primaryHover
-                        : baseStyle.primary,
+                        ? baseStyle.color.primaryHover
+                        : baseStyle.color.primary,
                     paddingHorizontal: baseStyle.space.p4,
                     paddingVertical: baseStyle.space.p2,
                 },
