@@ -27,10 +27,10 @@ export function Button({ title, style, onPress }: ButtonProps) {
                     borderRadius: baseStyle.rounded.md,
                     fontSize: baseStyle.fontSize.sm,
                     fontWeight: baseStyle.fontWeight.medium,
-                    shadowColor: baseStyle.background,
+                    shadowColor: baseStyle.color.background,
                     backgroundColor: pressed
-                        ? baseStyle.primaryHover
-                        : baseStyle.primary,
+                        ? baseStyle.color.primaryHover
+                        : baseStyle.color.primary,
                     paddingHorizontal: baseStyle.space.p4,
                     paddingVertical: baseStyle.space.p2,
                 },
@@ -42,8 +42,8 @@ export function Button({ title, style, onPress }: ButtonProps) {
                 <Text
                     style={{
                         color: pressed
-                            ? baseStyle.primaryForeground
-                            : baseStyle.primaryForeground,
+                            ? baseStyle.color.primaryForeground
+                            : baseStyle.color.primaryForeground,
                         // width: "100%",
                         alignItems: "center",
                         justifyContent: "center",
@@ -52,7 +52,7 @@ export function Button({ title, style, onPress }: ButtonProps) {
                         borderRadius: baseStyle.rounded.md,
                         fontSize: baseStyle.fontSize.sm,
                         fontWeight: baseStyle.fontWeight.medium,
-                        shadowColor: baseStyle.background,
+                        shadowColor: baseStyle.color.background,
                         // backgroundColor: pressed
                         //     ? baseStyle.primaryHover
                         //     : baseStyle.primary,

@@ -72,7 +72,7 @@ export const LeaveCalender = ({
                     flexDirection: "row",
                     justifyContent: "center",
                     alignItems: "center",
-                    borderColor: baseStyle.border,
+                    borderColor: baseStyle.color.border,
                     borderBottomWidth: baseStyle.borderWidth,
                     paddingVertical: baseStyle.space.p2,
                 }}
@@ -93,7 +93,7 @@ export const LeaveCalender = ({
                             <Text
                                 style={{
                                     fontWeight: baseStyle.fontWeight.bold,
-                                    color: baseStyle.foreground,
+                                    color: baseStyle.color.foreground,
                                 }}
                             >
                                 {day}
@@ -116,7 +116,7 @@ export const LeaveCalender = ({
                             flexDirection: "row",
                             justifyContent: "center",
                             alignItems: "center",
-                            borderColor: baseStyle.border,
+                            borderColor: baseStyle.color.border,
                             borderBottomWidth: isLast
                                 ? 0
                                 : baseStyle.borderWidth,
@@ -147,8 +147,9 @@ export const LeaveCalender = ({
                                                 justifyContent: "center",
                                                 alignItems: "center",
                                                 backgroundColor: false //notSelectedMonth
-                                                    ? baseStyle.muted
-                                                    : baseStyle.background,
+                                                    ? baseStyle.color.muted
+                                                    : baseStyle.color
+                                                          .background,
                                                 // padding: baseStyle.space.p2,
                                                 padding: baseStyle.space.p1,
                                                 aspectRatio: "1/1",
@@ -161,7 +162,8 @@ export const LeaveCalender = ({
                                                 date.getTime()
                                                 ? {
                                                       backgroundColor:
-                                                          baseStyle.destructive,
+                                                          baseStyle.color
+                                                              .destructive,
                                                       borderRadius:
                                                           baseStyle.rounded.xl3,
                                                   }
@@ -179,10 +181,13 @@ export const LeaveCalender = ({
                                                     selectedDate &&
                                                     selectedDate.getTime() ==
                                                         date.getTime()
-                                                        ? baseStyle.destructiveForeground
+                                                        ? baseStyle.color
+                                                              .destructiveForeground
                                                         : notSelectedMonth
-                                                        ? baseStyle.mutedForeground
-                                                        : baseStyle.foreground,
+                                                        ? baseStyle.color
+                                                              .mutedForeground
+                                                        : baseStyle.color
+                                                              .foreground,
                                             }}
                                         >
                                             {date.getDate()}

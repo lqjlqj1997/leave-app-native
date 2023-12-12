@@ -19,8 +19,8 @@ export function ContainerView({ children, style }: ContainerProps) {
                     paddingHorizontal: 15,
                     borderRadius: baseStyle.rounded.lg,
                     borderWidth: baseStyle.borderWidth,
-                    borderColor: baseStyle.border,
-                    backgroundColor: baseStyle.card,
+                    borderColor: baseStyle.color.border,
+                    backgroundColor: baseStyle.color.card,
                     shadowOpacity: 0.1,
                     shadowColor: "#000",
                     shadowOffset: { width: 0, height: 2 },
@@ -47,8 +47,8 @@ export function ScrollContainerView({ children, style }: ContainerProps) {
                     // overflow: "hidden",
                     borderRadius: baseStyle.rounded.lg,
                     borderWidth: baseStyle.borderWidth,
-                    borderColor: baseStyle.border,
-                    backgroundColor: baseStyle.card,
+                    borderColor: baseStyle.color.border,
+                    backgroundColor: baseStyle.color.card,
                     // 0 1px 2px 0 rgb(0 0 0 / 0.05);
 
                     shadowOpacity: 0.1,
