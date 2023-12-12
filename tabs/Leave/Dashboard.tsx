@@ -50,10 +50,7 @@ export function DashboardScreen() {
         RL: 2,
         etc: 0,
     };
-    const navigation =
-        useNavigation<
-            NativeStackNavigationProp<RootStackParamList, "Dashboard">
-        >();
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <LeaveBalanceModal
@@ -61,11 +58,16 @@ export function DashboardScreen() {
                 modalVisible={openLeaveBalanceModal}
                 onDemise={() => setOpenLeaveBalanceModal(false)}
             ></LeaveBalanceModal>
-            <LeaveFormModal
-                selectedDated={selectedDate}
-                modalVisible={openLeaveFormModal}
-                onDemise={() => setOpenLeaveFormModal(false)}
-            ></LeaveFormModal>
+            {openLeaveFormModal ? (
+                <LeaveFormModal
+                    selectedDated={selectedDate}
+                    modalVisible={openLeaveFormModal}
+                    onDemise={() => setOpenLeaveFormModal(false)}
+                ></LeaveFormModal>
+            ) : (
+                ""
+            )}
+
             <ScrollContainerView
                 style={{
                     width: "100%",
