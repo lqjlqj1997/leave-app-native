@@ -78,7 +78,7 @@ export function HomeScreen() {
                         />
                         <Button
                             title="Dashboard"
-                            onPress={() => navigation.navigate("Dashboard")}
+                            onPress={() => navigation.navigate("App")}
                         />
                     </View>
                 </View>

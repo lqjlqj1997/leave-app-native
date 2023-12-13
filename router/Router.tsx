@@ -22,11 +22,9 @@ import { MyTabBar } from "./TabBar";
 
 export type RootStackParamList = {
     Home: undefined;
-    Test: undefined;
     Login: undefined;
     Register: undefined;
-    Dashboard: undefined;
-    EmployeeScreen: undefined;
+    App: undefined;
 };
 
 export type RootTabParamList = {
@@ -125,14 +123,9 @@ export default function Router() {
                 }}
             >
                 <Stack.Screen name="Home" component={HomeScreen} />
-                <Stack.Screen name="Test" component={TestScreen} />
                 <Stack.Screen name="Login" component={LoginScreen} />
                 <Stack.Screen name="Register" component={RegisterScreen} />
-                <Stack.Screen
-                    name="EmployeeScreen"
-                    component={EmployeeScreen}
-                />
-                <Stack.Screen name="Dashboard" component={MyTab} />
+                <Stack.Screen name="App" component={MyTab} />
             </Stack.Navigator>
         </NavigationContainer>
     );

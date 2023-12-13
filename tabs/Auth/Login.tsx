@@ -119,7 +119,7 @@ export function LoginScreen() {
                 />
                 <Button
                     title="Login"
-                    onPress={() => tabNavigation.navigate("Dashboard")}
+                    onPress={() => navigation.navigate("App")}
                     // onPress={() => handleSubmit(loginEmail, password)}
                 ></Button>
                 <Button
