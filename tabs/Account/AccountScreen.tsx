@@ -22,17 +22,19 @@ import { View } from "react-native";
 import React, { useState } from "react";
 import ProfileTab from "./ProfileTab";
 import LeaveBalance from "./LeaveBalance";
-import { SceneMap, TabView } from "react-native-tab-view";
+import { SceneMap, TabBar, TabView } from "react-native-tab-view";
 
 const UserProfilePage = () => {
     // const userName = "FATIMAH"
+    const [modalVisible, setModalVisible] = useState(false);
     const image = require("./profile.jpg");
     const baseStyle = getBaseStyle();
-    const [modalVisible, setModalVisible] = useState(false);
     const [address, setAddress] = useState('xyz street');
     const [BOD, setBOD] = useState('12/12/1998');
     const [phone, setPhone] = useState('0107867361');
-    const [status, setStatus] = useState('Employed');
+    const [status] = useState('Employed');
+    const [email] = useState('fatimah@gmail.com');
+    const [role] = useState('Employed');
     const [name, setName] = useState('Fatimah');
     // const DATA = [
     //     {"email":"a@gmail.com", "address":"safceeva", "status":"employed"},
@@ -75,7 +77,7 @@ const UserProfilePage = () => {
                                 onChangeText={setName}
                                 style={{ flex: 1 }}
                                 value={name}
-                                // placeholder="Fatimah"
+                            // placeholder="Fatimah"
                             />
 
                         </ContainerView>
@@ -91,7 +93,7 @@ const UserProfilePage = () => {
                                 onChangeText={setAddress}
                                 style={{ flex: 1 }}
                                 value={address}
-                                // placeholder="xyz street"
+                            // placeholder="xyz street"
                             />
                         </ContainerView>
 
@@ -102,13 +104,13 @@ const UserProfilePage = () => {
                                 onChangeText={setBOD}
                                 style={{ flex: 1 }}
                                 value={BOD}
-                                // placeholder="xyz street"
+                            // placeholder="xyz street"
                             />
                         </ContainerView>
                         <ContainerView style={{ flexDirection: "row", width: "100%" }}>
                             <CheckSquare color={baseStyle.color.primary} />
                             <Text style={{ flex: 6 }}>{status}</Text>
-                            
+
                         </ContainerView>
                         <ContainerView style={{ flexDirection: "row", width: "100%" }}>
                             <Phone color={baseStyle.color.primary} />
@@ -117,7 +119,7 @@ const UserProfilePage = () => {
                                 onChangeText={setPhone}
                                 style={{ flex: 1 }}
                                 value={phone}
-                                // placeholder="Fatimah"
+                            // placeholder="Fatimah"
                             />
                         </ContainerView>
                         <ContainerView style={{ flexDirection: "row", width: "100%" }}>
@@ -145,25 +147,29 @@ const UserProfilePage = () => {
                         onRequestClose={() => {
                             setModalVisible(!modalVisible);
                         }}>
-                        {/* <ContainerView
-                        style={{
-                            width: "100%",
-                            height: "100%",
-                            backgroundColor: baseStyle.overlay,
-                        }}>
-                        <ContainerView style={{
-                            width: "100%",
-                            height: "100%",
-                            minWidth: 350,
-                            maxWidth: 800,
-                            minHeight: 200,
-                            maxHeight: 600,
-                        }}>
-                            <Text style={{ flexDirection: "row" }}> heelo</Text>
-                            <Button title="Close" onPress={() => setModalVisible(false)} />
-                        </ContainerView>
-                    </ContainerView> */}
-                        <LeaveBalance />
+                        {/* <LeaveBalance /> */}
+                        <ContainerView>
+            {/* <ScrollContainerView style={{flexDirection:"row"}}> */}
+            <View >
+                <ContainerView>
+                    <Text>User name: {name}</Text>
+                    <Text>User Email: {email}</Text>
+                    <Text>User Date of Birth: {BOD}</Text>
+                    <Text>User Phone Number: {phone}</Text>
+                    <Text>User Address: {address}</Text>
+                    <Text>Employment Status: {status}</Text>
+                </ContainerView>
+                <Text >
+                    Are you sure to make the above changes?
+                </Text>
+            </View>
+            <Button title="confirm update" onPress={()=>{
+                //TODO
+                setModalVisible(!modalVisible)
+            }}/>
+            <Button title="cancel update" onPress={()=>setModalVisible(!modalVisible)}/>
+            {/* </ScrollContainerView> */} 
+        </ContainerView>
                     </Modal>
                 </View>
             </ScrollView>
@@ -209,134 +215,15 @@ export function AccountScreen() {
     return (
 
         <TabView
+            renderTabBar={ props => <TabBar {...props} style={{backgroundColor: baseStyle.color.primary}}/>}
             navigationState={{ index, routes }}
-            renderScene={renderScene} onIndexChange={setIndex} initialLayout={{ width: layout.width }}
+            renderScene={renderScene}
+            onIndexChange={setIndex}
+            initialLayout={{ width: layout.width }}
             style={{
+                // backgroundColor: baseStyle.color.primary,
                 paddingTop: baseStyle.space.p10
             }} />
-        // <View style={{
-        //     width: "100%",
-        //     borderWidth: 0,
 
-        // }}>
-        //     <Image source={image} style={{ width: 200, height: 200, borderRadius: 400 / 2 }} />
-        //     {/* <sub /> */}
-        // </View>
-
-
-        // <SafeAreaView style={{ flex: 1 }}>
-        //     <ScrollContainerView
-        //         style={{
-        //             // width: "100%",
-        //             paddingTop: baseStyle.space.p20,
-        //             borderWidth: 0,
-        //             // gap: 20,
-        //         }}
-        //     >
-
-        //         <ContainerView style={{
-        //             width: "100%",
-        //             borderWidth: 0,
-
-        //         }}>
-        //             <Image source={image} style={{ width: 200, height: 200, borderRadius: 400 / 2 }} />
-        //             <Text style={{ fontSize: 30 }}>{userName}</Text>
-        //             {/* <ContainerView style={{flexDirection:"row", alignSelf:"stretch",borderWidth:1}}>
-        //                 <View style={{flex:1, alignSelf:"center", justifyContent:"center", alignItems:"center"}}>User Details</View>
-        //                 <View style={{flex:1, alignSelf:"center", justifyContent:"center", alignItems:"center"}}>Leave Balance</View>
-        //                 <View style={{flex:1, alignSelf:"center", justifyContent:"center", alignItems:"center"}}>User settings</View>
-        //             </ContainerView> */}
-
-        //             <TabView navigationState={{ index, routes }} renderScene={renderScene} onIndexChange={setIndex} initialLayout={{ width: layout.width }} />
-
-        //             <ContainerView style={{
-        //                 width: "100%",
-        //                 maxWidth: 800,
-        //                 alignItems: "flex-start",
-        //             }}>
-
-        //                 <ContainerView style={{ flexDirection: "row", width: "100%", }}>
-        //                     <Mail color={baseStyle.color.primary} />
-        //                     <Text style={{ flex: 1 }}>Email</Text>
-        //                     {/* <TextInput style={{flex:6, borderBlockColor:"black",borderWidth: 1,}} value="text"></TextInput> */}
-
-        //                 </ContainerView>
-        //                 <ContainerView style={{ flexDirection: "row", width: "100%", }}>
-        //                     <MapPin color={baseStyle.color.primary} />
-        //                     <Text style={{ flex: 6, width: "100%", }}>Address</Text>
-        //                 </ContainerView>
-        //                 <TouchableOpacity
-        //                     onPress={() => {
-        //                         setModalVisible(true);
-        //                     }}
-        //                     style={{ flexDirection: "row", width: "100%", }}
-        //                 >
-        //                     <ContainerView style={{ flexDirection: "row", width: "100%", backgroundColor: "white" }}>
-        //                         <MapPin color={baseStyle.color.primary} />
-        //                         <Text style={{ flex: 6, width: "100%", }}>Test</Text>
-        //                     </ContainerView>
-        //                 </TouchableOpacity>
-
-        //                 <ContainerView style={{ flexDirection: "row", width: "100%", }}>
-        //                     <Cake color={baseStyle.color.primary} />
-        //                     <Text style={{ flex: 6 }}>BOD</Text>
-        //                 </ContainerView>
-        //                 <ContainerView style={{ flexDirection: "row", width: "100%" }}>
-        //                     <CheckSquare color={baseStyle.color.primary} />
-        //                     <Text style={{ flex: 6 }}>Status</Text>
-        //                 </ContainerView>
-        //                 <ContainerView style={{ flexDirection: "row", width: "100%" }}>
-        //                     <Phone color={baseStyle.color.primary} />
-        //                     <Text style={{ flex: 6 }}>Phone Number</Text>
-        //                 </ContainerView>
-        //                 <ContainerView style={{ flexDirection: "row", width: "100%" }}>
-        //                     <User color={baseStyle.color.primary} />
-        //                     <Text style={{ flex: 6 }}>Role</Text>
-        //                 </ContainerView>
-
-        //                 <Button title="Update Profile"
-        //                     onPress={() => setModalVisible(true)}
-        //                 ></Button>
-        //                 <Button title="click me"></Button>
-        //             </ContainerView>
-        //         </ContainerView>
-
-        //         <View style={{
-        //             flex: 1,
-        //             justifyContent: 'center',
-        //             alignItems: 'center',
-        //             marginTop: 22,
-        //         }}
-        //         >
-        //             <Modal
-        //                 transparent={true}
-        //                 visible={modalVisible}
-        //                 animationType="fade"
-        //                 onRequestClose={() => {
-        //                     setModalVisible(!modalVisible);
-        //                 }}>
-        //                 {/* <ContainerView
-        //                     style={{
-        //                         width: "100%",
-        //                         height: "100%",
-        //                         backgroundColor: baseStyle.overlay,
-        //                     }}>
-        //                     <ContainerView style={{
-        //                         width: "100%",
-        //                         height: "100%",
-        //                         minWidth: 350,
-        //                         maxWidth: 800,
-        //                         minHeight: 200,
-        //                         maxHeight: 600,
-        //                     }}>
-        //                         <Text style={{ flexDirection: "row" }}> heelo</Text>
-        //                         <Button title="Close" onPress={() => setModalVisible(false)} />
-        //                     </ContainerView>
-        //                 </ContainerView> */}
-        //                 <LeaveBalance />
-        //             </Modal>
-        //         </View>
-        //     </ScrollContainerView>
-        // </SafeAreaView>
     );
 }
