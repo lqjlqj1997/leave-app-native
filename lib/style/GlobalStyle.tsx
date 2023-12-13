@@ -17,6 +17,7 @@ type weightType =
 export const DarkStyle = {
     color: {
         background: "hsl(224 71% 4%)",
+        backgroundGlass: "hsla(224, 71%, 4%, 0.4)",
         foreground: "hsl(213 31% 91%)",
         muted: "hsl(223 47% 11%)",
         overlay: "hsla(223,47%,11%, 0.8)",
@@ -109,6 +110,7 @@ export const DarkStyle = {
 export const LightStyle = {
     color: {
         background: "hsl(0 0% 100%)",
+        backgroundGlass: "hsla(0 ,0% ,100%, 0.4)",
         foreground: "hsl(222.2 47.4% 11.2%)",
         muted: "hsl(210 40% 96.1%)",
         overlay: "hsla(223,47%,11%, 0.8)",
