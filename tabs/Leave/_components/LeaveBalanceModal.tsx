@@ -88,7 +88,13 @@ export const LeaveBalanceModal = ({
                             }}
                         >
                             <ContainerView>
-                                <Text>{leaveType}</Text>
+                                <Text
+                                    style={{
+                                        color: baseStyle.color.foreground,
+                                    }}
+                                >
+                                    {leaveType}
+                                </Text>
                             </ContainerView>
                         </View>
                         <View
@@ -172,19 +178,43 @@ export const LeaveBalanceModal = ({
                     >
                         {query.isLoading ? (
                             <ContainerView>
-                                <Text>Is Loading</Text>
+                                <Text
+                                    style={{
+                                        color: baseStyle.color.foreground,
+                                    }}
+                                >
+                                    Is Loading
+                                </Text>
                             </ContainerView>
                         ) : query.isError ? (
                             <ContainerView>
-                                <Text>Is Error</Text>
+                                <Text
+                                    style={{
+                                        color: baseStyle.color.foreground,
+                                    }}
+                                >
+                                    Is Error
+                                </Text>
                             </ContainerView>
                         ) : !query.data ? (
                             <ContainerView>
-                                <Text>Is Error</Text>
+                                <Text
+                                    style={{
+                                        color: baseStyle.color.foreground,
+                                    }}
+                                >
+                                    Is Error
+                                </Text>
                             </ContainerView>
                         ) : query.data.length == 0 ? (
                             <ContainerView>
-                                <Text>No Data</Text>
+                                <Text
+                                    style={{
+                                        color: baseStyle.color.foreground,
+                                    }}
+                                >
+                                    No Data
+                                </Text>
                             </ContainerView>
                         ) : (
                             query.data.map((leaveBalance, i) => (
@@ -205,7 +235,12 @@ export const LeaveBalanceModal = ({
                                     }}
                                 >
                                     <View style={{ width: "100%" }}>
-                                        <Text>
+                                        <Text
+                                            style={{
+                                                color: baseStyle.color
+                                                    .foreground,
+                                            }}
+                                        >
                                             {leaveBalance.leaveDescription}
                                         </Text>
 
@@ -218,7 +253,13 @@ export const LeaveBalanceModal = ({
                                                 // borderWidth: 1,
                                             }}
                                         >
-                                            <Text style={{ flex: 2 }}>
+                                            <Text
+                                                style={{
+                                                    flex: 2,
+                                                    color: baseStyle.color
+                                                        .foreground,
+                                                }}
+                                            >
                                                 {leaveBalance.expiredDate.toDateString()}
                                             </Text>
                                             <Text
@@ -234,6 +275,8 @@ export const LeaveBalanceModal = ({
                                             <Text
                                                 style={{
                                                     flex: 1,
+                                                    color: baseStyle.color
+                                                        .foreground,
                                                     textAlign: "center",
                                                 }}
                                             >

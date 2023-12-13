@@ -1,14 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Dimensions, ImageBackground, Text, View } from "react-native";
 import { RootStackParamList } from "../router/Router";
-import {
-    Button,
-    Dimensions,
-    ImageBackground,
-    Pressable,
-    Text,
-    View,
-} from "react-native";
+import { Button } from "../lib/components/Button";
 
 const image = { uri: "https://legacy.reactjs.org/logo-og.png" };
 
@@ -74,78 +68,18 @@ export function HomeScreen() {
                         >
                             Enjoy Labor Free Holiday
                         </Text>
-                        <Pressable
-                            style={({ pressed }) => [
-                                {
-                                    backgroundColor: pressed
-                                        ? "#A06AAE"
-                                        : "#C683D7",
-                                    padding: "1.25%",
-                                    borderRadius: 5,
-                                },
-                            ]}
+                        <Button
+                            title="Login"
                             onPress={() => navigation.navigate("Login")}
-                        >
-                            {({ pressed }) => (
-                                <Text
-                                    style={{
-                                        color: pressed ? "white" : "white",
-                                        fontSize: 15,
-                                        fontWeight: "500",
-                                    }}
-                                >
-                                    Apply Leave Now
-                                </Text>
-                            )}
-                        </Pressable>
-                        <Pressable
-                            style={({ pressed }) => [
-                                {
-                                    backgroundColor: pressed
-                                        ? "#A06AAE"
-                                        : "#C683D7",
-                                    padding: "1.25%",
-                                    borderRadius: 5,
-                                },
-                            ]}
+                        />
+                        <Button
+                            title="Register"
                             onPress={() => navigation.navigate("Register")}
-                        >
-                            {({ pressed }) => (
-                                <Text
-                                    style={{
-                                        color: pressed ? "white" : "white",
-                                        fontSize: 15,
-                                        fontWeight: "500",
-                                    }}
-                                >
-                                    Register
-                                </Text>
-                            )}
-                        </Pressable>
-                        <Pressable
-                            style={({ pressed }) => [
-                                {
-                                    backgroundColor: pressed
-                                        ? "#A06AAE"
-                                        : "#C683D7",
-                                    padding: "1.25%",
-                                    borderRadius: 5,
-                                },
-                            ]}
+                        />
+                        <Button
+                            title="Dashboard"
                             onPress={() => navigation.navigate("Dashboard")}
-                        >
-                            {({ pressed }) => (
-                                <Text
-                                    style={{
-                                        color: pressed ? "white" : "white",
-                                        fontSize: 15,
-                                        fontWeight: "500",
-                                    }}
-                                >
-                                    Dashboard
-                                </Text>
-                            )}
-                        </Pressable>
+                        />
                     </View>
                 </View>
             </ImageBackground>

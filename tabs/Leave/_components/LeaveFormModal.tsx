@@ -1,13 +1,9 @@
 import {
-    ArrowDown,
     CalendarDays,
-    ChevronDown,
     HelpCircle,
-    Search,
     Sun,
     Sunrise,
     Sunset,
-    X,
     XCircle,
 } from "lucide-react-native";
 import React, { useState } from "react";
@@ -29,10 +25,8 @@ import { DatePicker } from "./DatePicker";
 
 import { Button } from "../../../lib/components/Button";
 import { IconButton } from "../../../lib/components/IconButton";
-import { SelectList } from "react-native-dropdown-select-list";
-import { Colors } from "react-native/Libraries/NewAppScreen";
-import { Calendar } from "lucide-react-native";
 import { DayModeLegendModal } from "./DayModeLegendModal";
+import { SelectionModal } from "./SelectionModal";
 
 interface LeaveDetailModalProps extends ModalProps {
     modalVisible: boolean;
@@ -44,10 +38,12 @@ const leaveTypeList = [
     { key: "1", value: "Annual Leave", disabled: true },
     { key: "2", value: "Medical Leave" },
     { key: "3", value: "Replacement Leave" },
-    { key: "4", value: "Etc Leave", disabled: true },
-    { key: "5", value: "Etc Leave" },
-    { key: "6", value: "Etc Leave" },
-    { key: "7", value: "Etc Leave" },
+    { key: "4", value: "A", disabled: true },
+    { key: "5", value: "B" },
+    { key: "6", value: "C" },
+    { key: "7", value: "D" },
+    { key: "8", value: "E" },
+    { key: "9", value: "F" },
 ];
 export type LeaveDataType = {
     date: Date;
@@ -70,10 +66,8 @@ export const LeaveFormModal = ({
             dayMode: "Whole Day",
         },
     ]);
-    const [openStartDatePickerModal, setOpenStartDatePickerModal] =
-        useState(false);
+    const [openDatePickerModal, setOpenDatePickerModal] = useState(false);
     const [openDayModeLegendModal, setOpenDayModeLegendModal] = useState(false);
-    const [dayMode, setDayMode] = useState("Whole Day");
     const baseStyle = getBaseStyle();
 
     const toggleDayMode = (leaveData: LeaveDataType) => {
@@ -94,11 +88,6 @@ export const LeaveFormModal = ({
         leaveData.dayMode = newDayMode;
         setSelectedDateList([...selectedDateList]);
     };
-
-    // const query = useQuery({
-    //     queryKey: ["leaveBalance", leaveType],
-    //     queryFn: () => fetchLeaveBalance({ leaveType: leaveType }),
-    // });
 
     return (
         <Modal
@@ -266,7 +255,7 @@ export const LeaveFormModal = ({
                                 // onChangeText={setLoginEmail}
                             /> */}
 
-                            <View style={{ width: "100%" }}>
+                            {/* <View style={{ width: "100%" }}>
                                 <SelectList
                                     placeholder="Leave Balance"
                                     boxStyles={{
@@ -366,7 +355,17 @@ export const LeaveFormModal = ({
                                     data={leaveTypeList}
                                     save="key"
                                 />
-                            </View>
+                            </View> */}
+
+                            <SelectionModal
+                                title="Leave Balance"
+                                placeholder="Leave Balance"
+                                initialDataList={leaveTypeList}
+                                initialSelect={"0"}
+                                setSelectedData={(data) => {
+                                    console.log(data.value);
+                                }}
+                            />
 
                             <TextInput
                                 // secureTextEntry={true}
@@ -400,26 +399,27 @@ export const LeaveFormModal = ({
                                     gap: baseStyle.space.p4,
                                 }}
                             >
-                                <DatePicker
-                                    modalVisible={openStartDatePickerModal}
-                                    onDemise={() =>
-                                        setOpenStartDatePickerModal(false)
-                                    }
-                                    setDateList={setSelectedDateList}
-                                    initialDateList={selectedDateList}
-                                ></DatePicker>
-
-                                <IconButton
-                                    onPress={() =>
-                                        setOpenStartDatePickerModal(true)
-                                    }
-                                    style={
-                                        {
-                                            // flex: 1,
-                                            // borderRadius: baseStyle.rounded.xl3,
-                                            // aspectRatio: "1/1",
+                                {openDatePickerModal ? (
+                                    <DatePicker
+                                        modalVisible={openDatePickerModal}
+                                        onDemise={() =>
+                                            setOpenDatePickerModal(false)
                                         }
-                                    }
+                                        setDateList={setSelectedDateList}
+                                        initialDateList={selectedDateList}
+                                    ></DatePicker>
+                                ) : (
+                                    ""
+                                )}
+                                <IconButton
+                                    onPress={() => setOpenDatePickerModal(true)}
+                                    style={{
+                                        // flex: 1,
+                                        // borderRadius: baseStyle.rounded.xl3,
+                                        // aspectRatio: "1/1",
+                                        backgroundColor:
+                                            baseStyle.color.secondary,
+                                    }}
                                 >
                                     {({ pressed }) => (
                                         <View
@@ -441,7 +441,7 @@ export const LeaveFormModal = ({
                                                 <Text
                                                     style={{
                                                         color: baseStyle.color
-                                                            .primaryForeground,
+                                                            .secondaryForeground,
                                                         textAlign: "center",
                                                         textAlignVertical:
                                                             "center",
@@ -452,10 +452,8 @@ export const LeaveFormModal = ({
                                             </View>
                                             <CalendarDays
                                                 color={
-                                                    pressed
-                                                        ? baseStyle.color.muted
-                                                        : baseStyle.color
-                                                              .background
+                                                    baseStyle.color
+                                                        .secondaryForeground
                                                 }
                                                 style={{
                                                     color: pressed
@@ -487,14 +485,15 @@ export const LeaveFormModal = ({
                                         // flex: 1,
                                         // borderRadius: baseStyle.rounded.xl3,
                                         aspectRatio: "1/1",
+                                        backgroundColor:
+                                            baseStyle.color.secondary,
                                     }}
                                 >
                                     {({ pressed }) => (
                                         <HelpCircle
                                             color={
-                                                pressed
-                                                    ? baseStyle.color.muted
-                                                    : baseStyle.color.background
+                                                baseStyle.color
+                                                    .secondaryForeground
                                             }
                                             style={{
                                                 color: pressed
