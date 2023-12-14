@@ -117,7 +117,7 @@ export function MyTabBar({
                                         {title}
                                     </Text>
                                 ) : (
-                                    ""
+                                    <></>
                                 )}
                             </>
                         </TouchableOpacity>

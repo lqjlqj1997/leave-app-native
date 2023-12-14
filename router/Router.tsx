@@ -24,6 +24,7 @@ import { HomeScreen } from "../tabs/Home";
 import { DashboardScreen } from "../tabs/Leave/Dashboard";
 import { TestScreen } from "../tabs/Test";
 import { MyTabBar } from "./TabBar";
+import { TeamScreen } from "../tabs/Teams/TeamScreen";
 
 export type RootStackParamList = {
     Home: undefined;
@@ -70,7 +71,7 @@ function MyTab() {
             {/* <Tab.Screen name="Profile" component={EmployeeScreen} /> */}
             <Tab.Screen
                 name="Test"
-                component={DashboardScreen}
+                component={TeamScreen}
                 options={{
                     tabBarLabel: () => (
                         <FlaskConical color={baseStyle.color.foreground} />

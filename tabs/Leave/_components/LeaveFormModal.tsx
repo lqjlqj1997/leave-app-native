@@ -56,6 +56,7 @@ export const LeaveFormModal = ({
     onDemise,
 }: LeaveDetailModalProps) => {
     const [leaveType, setLeaveType] = useState("");
+    const [reason, setReason] = useState("");
     const [selectedDateList, setSelectedDateList] = useState<LeaveDataType[]>([
         {
             date: new Date(
@@ -234,129 +235,6 @@ export const LeaveFormModal = ({
                         <ContainerView
                             style={{ borderWidth: 0, shadowOpacity: 0 }}
                         >
-                            {/* <TextInput
-                                style={{
-                                    // flex: 1,
-                                    display: "flex",
-                                    height: baseStyle.space.p10,
-                                    width: "100%",
-                                    borderWidth: 1,
-                                    borderColor: baseStyle.input,
-                                    borderRadius: baseStyle.rounded.md,
-                                    backgroundColor: baseStyle.background,
-                                    paddingHorizontal: baseStyle.space.p3,
-                                    paddingVertical: baseStyle.space.p2,
-                                    fontSize: baseStyle.fontSize.base,
-                                    shadowColor: baseStyle.background,
-                                }}
-                                placeholder="Leave Description"
-                                placeholderTextColor={baseStyle.mutedForeground}
-                                // keyboardType="email-address"
-                                // onChangeText={setLoginEmail}
-                            /> */}
-
-                            {/* <View style={{ width: "100%" }}>
-                                <SelectList
-                                    placeholder="Leave Balance"
-                                    boxStyles={{
-                                        width: "100%",
-                                        borderColor: baseStyle.color.border,
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        padding: 0,
-                                        // paddingRight: baseStyle.space.p8,
-                                    }}
-                                    inputStyles={{
-                                        width: "100%",
-                                        borderColor: baseStyle.color.border,
-                                        padding: 0,
-                                        color:
-                                            leaveType === ""
-                                                ? baseStyle.color
-                                                      .mutedForeground
-                                                : baseStyle.color.foreground,
-                                    }}
-                                    dropdownStyles={{
-                                        width: "100%",
-                                        borderColor: baseStyle.color.border,
-                                    }}
-                                    dropdownItemStyles={{
-                                        width: "100%",
-                                        borderColor: baseStyle.color.border,
-                                    }}
-                                    dropdownTextStyles={{
-                                        width: "100%",
-                                        borderColor: baseStyle.color.border,
-                                        color: baseStyle.color.foreground,
-                                    }}
-                                    disabledItemStyles={{
-                                        width: "100%",
-                                        backgroundColor: baseStyle.color.muted,
-                                        borderColor: baseStyle.color.border,
-                                    }}
-                                    disabledTextStyles={{
-                                        width: "100%",
-                                        borderColor: baseStyle.color.border,
-                                        color: baseStyle.color.mutedForeground,
-                                    }}
-                                    searchicon={
-                                        <Search
-                                            color={baseStyle.color.foreground}
-                                            style={{
-                                                color: baseStyle.color
-                                                    .foreground,
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                textAlign: "center",
-                                                // flexWrap: "nowrap",
-                                                // borderRadius: baseStyle.rounded.md,
-                                                // fontSize: baseStyle.fontSize.sm,
-                                                // paddingRight:
-                                                //     baseStyle.space.p4,
-                                                // fontWeight:
-                                                //     baseStyle.fontWeight.medium,
-                                            }}
-                                        ></Search>
-                                    }
-                                    arrowicon={
-                                        <ChevronDown
-                                            color={baseStyle.color.foreground}
-                                            style={{
-                                                color: baseStyle.color
-                                                    .foreground,
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                textAlign: "center",
-                                                // flexWrap: "nowrap",
-                                                // borderRadius: baseStyle.rounded.md,
-                                                // fontSize: baseStyle.fontSize.sm,
-                                                // paddingRight:
-                                                //     baseStyle.space.p4,
-                                                // fontWeight:
-                                                //     baseStyle.fontWeight.medium,
-                                            }}
-                                        ></ChevronDown>
-                                    }
-                                    closeicon={
-                                        <X
-                                            color={baseStyle.color.foreground}
-                                            style={{
-                                                color: baseStyle.color
-                                                    .foreground,
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                textAlign: "center",
-                                            }}
-                                        ></X>
-                                    }
-                                    setSelected={(val: string) =>
-                                        setLeaveType(val)
-                                    }
-                                    data={leaveTypeList}
-                                    save="key"
-                                />
-                            </View> */}
-
                             <SelectionModal
                                 title="Leave Balance"
                                 placeholder="Leave Balance"
@@ -366,7 +244,6 @@ export const LeaveFormModal = ({
                                     console.log(data.value);
                                 }}
                             />
-
                             <TextInput
                                 // secureTextEntry={true}
                                 style={{
@@ -383,6 +260,7 @@ export const LeaveFormModal = ({
                                     fontSize: baseStyle.fontSize.base,
                                     shadowColor: baseStyle.color.background,
                                 }}
+                                onChangeText={(text) => setReason(text)}
                                 placeholder="Reason"
                                 placeholderTextColor={
                                     baseStyle.color.mutedForeground
