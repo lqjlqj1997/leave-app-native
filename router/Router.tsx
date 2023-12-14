@@ -97,7 +97,7 @@ function MyTab() {
             />
             <Tab.Screen
                 name="Employee"
-                component={EmployeeScreen}
+                component={EmployeeTab}
                 options={{
                     tabBarLabel: () => (
                         <Briefcase color={baseStyle.color.foreground} />
@@ -113,11 +113,7 @@ function MyTab() {
                     ),
                 }}
             />
-            <Tab.Screen name="Test" component={DashboardScreen} />
-            <Tab.Screen name="Account" component={AccountScreen} />
-            <Tab.Screen name="Employee" component={EmployeeTab} />
-            <Tab.Screen name="Dashboard" component={DashboardScreen} />
-            <Tab.Screen name="SignOut" component={SignOutScreen} />
+
         </Tab.Navigator >
     );
 }
