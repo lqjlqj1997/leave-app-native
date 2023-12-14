@@ -9,11 +9,27 @@ import {
     Tv,
 } from "lucide-react-native";
 import * as React from "react";
-import { PressableAndroidRippleConfig, StyleProp, Text, TextStyle, View, ViewStyle, useWindowDimensions } from "react-native";
-import { NavigationState, Route, SceneMap, SceneRendererProps, TabBar, TabBarIndicatorProps, TabBarItemProps, TabView } from "react-native-tab-view";
+import {
+    PressableAndroidRippleConfig,
+    StyleProp,
+    Text,
+    TextStyle,
+    View,
+    ViewStyle,
+    useWindowDimensions,
+} from "react-native";
+import {
+    NavigationState,
+    Route,
+    SceneMap,
+    SceneRendererProps,
+    TabBar,
+    TabBarIndicatorProps,
+    TabBarItemProps,
+    TabView,
+} from "react-native-tab-view";
 import { Event, Scene } from "react-native-tab-view/lib/typescript/src/types";
-import { getBaseStyle } from "../lib/style/GlobalStyle";
-
+import { getBaseStyle } from "../lib/style/StyleUtil";
 import { AccountScreen } from "../tabs/Account/AccountScreen";
 import { LoginScreen } from "../tabs/Auth/Login";
 import { RegisterScreen } from "../tabs/Auth/Register";
@@ -33,7 +49,6 @@ export type RootStackParamList = {
     App: undefined;
     Dashboard: undefined;
     EmployeeScreen: undefined;
-
 };
 
 export type RootTabParamList = {
@@ -42,10 +57,10 @@ export type RootTabParamList = {
     Employee: undefined;
     Dashboard: undefined;
     SignOut: undefined;
-    First: undefined,
-    Second: undefined,
-    Third: undefined,
-    EmployeeLeaveBalance: undefined
+    First: undefined;
+    Second: undefined;
+    Third: undefined;
+    EmployeeLeaveBalance: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -66,8 +81,7 @@ function MyTab() {
             sceneContainerStyle={{
                 backgroundColor: baseStyle.color.background,
             }}
-            tabBar={(prop) => <MyTabBar {...prop}></MyTabBar>}
-        >
+            tabBar={(prop) => <MyTabBar {...prop}></MyTabBar>}>
             {/* <Tab.Screen name="Profile" component={EmployeeScreen} /> */}
             <Tab.Screen
                 name="Test"
@@ -114,28 +128,27 @@ function MyTab() {
                     ),
                 }}
             />
-
-        </Tab.Navigator >
+        </Tab.Navigator>
     );
 }
 
 const SecondRoute = () => (
-    <View style={{ flex: 1, backgroundColor: '#ff4081' }} />
+    <View style={{ flex: 1, backgroundColor: "#ff4081" }} />
 );
 
 const ThirdRoute = () => (
-    <View style={{ flex: 1, backgroundColor: '#673ab7' }} />
+    <View style={{ flex: 1, backgroundColor: "#673ab7" }} />
 );
 
 const FourthRoute = () => (
-    <View style={{ flex: 1, backgroundColor: '#008000' }} />
-)
+    <View style={{ flex: 1, backgroundColor: "#008000" }} />
+);
 
 const renderScene = SceneMap({
     first: EmployeeScreen,
     second: EmployeeLeaveBalanceScreen,
     third: ThirdRoute,
-    fourth: FourthRoute
+    fourth: FourthRoute,
 });
 
 function EmployeeTab() {
@@ -144,16 +157,82 @@ function EmployeeTab() {
     const layout = useWindowDimensions();
     const [index, setIndex] = React.useState(0);
     const [routes] = React.useState([
-        { key: 'first', title: 'User' },
-        { key: 'second', title: 'Leave Balance' },
-        { key: 'third', title: 'Leave Type' },
-        { key: 'fourth', title: 'Leave Request' },
+        { key: "first", title: "User" },
+        { key: "second", title: "Leave Balance" },
+        { key: "third", title: "Leave Type" },
+        { key: "fourth", title: "Leave Request" },
     ]);
     // const renderLabel = ({ route } : { route: { title: string }}) => (
     //     <Text >{route.title}</Text>
     //     // <TabBar />
     // );
-    const renderLabel = (props: React.JSX.IntrinsicAttributes & SceneRendererProps & { navigationState: NavigationState<Route>; scrollEnabled?: boolean | undefined; bounces?: boolean | undefined; activeColor?: string | undefined; inactiveColor?: string | undefined; pressColor?: string | undefined; pressOpacity?: number | undefined; getLabelText?: ((scene: Scene<Route>) => string | undefined) | undefined; getAccessible?: ((scene: Scene<Route>) => boolean | undefined) | undefined; getAccessibilityLabel?: ((scene: Scene<Route>) => string | undefined) | undefined; getTestID?: ((scene: Scene<Route>) => string | undefined) | undefined; renderLabel?: ((scene: Scene<Route> & { focused: boolean; color: string; }) => React.ReactNode) | undefined; renderIcon?: ((scene: Scene<Route> & { focused: boolean; color: string; }) => React.ReactNode) | undefined; renderBadge?: ((scene: Scene<Route>) => React.ReactNode) | undefined; renderIndicator?: ((props: TabBarIndicatorProps<Route>) => React.ReactNode) | undefined; renderTabBarItem?: ((props: TabBarItemProps<Route> & { key: string; }) => React.ReactElement<any, string | React.JSXElementConstructor<any>>) | undefined; onTabPress?: ((scene: Scene<Route> & Event) => void) | undefined; onTabLongPress?: ((scene: Scene<Route>) => void) | undefined; tabStyle?: StyleProp<ViewStyle>; indicatorStyle?: StyleProp<ViewStyle>; indicatorContainerStyle?: StyleProp<ViewStyle>; labelStyle?: StyleProp<TextStyle>; contentContainerStyle?: StyleProp<ViewStyle>; style?: StyleProp<ViewStyle>; gap?: number | undefined; testID?: string | undefined; android_ripple?: PressableAndroidRippleConfig | undefined; }) => {
+    const renderLabel = (
+        props: React.JSX.IntrinsicAttributes &
+            SceneRendererProps & {
+                navigationState: NavigationState<Route>;
+                scrollEnabled?: boolean | undefined;
+                bounces?: boolean | undefined;
+                activeColor?: string | undefined;
+                inactiveColor?: string | undefined;
+                pressColor?: string | undefined;
+                pressOpacity?: number | undefined;
+                getLabelText?:
+                    | ((scene: Scene<Route>) => string | undefined)
+                    | undefined;
+                getAccessible?:
+                    | ((scene: Scene<Route>) => boolean | undefined)
+                    | undefined;
+                getAccessibilityLabel?:
+                    | ((scene: Scene<Route>) => string | undefined)
+                    | undefined;
+                getTestID?:
+                    | ((scene: Scene<Route>) => string | undefined)
+                    | undefined;
+                renderLabel?:
+                    | ((
+                          scene: Scene<Route> & {
+                              focused: boolean;
+                              color: string;
+                          }
+                      ) => React.ReactNode)
+                    | undefined;
+                renderIcon?:
+                    | ((
+                          scene: Scene<Route> & {
+                              focused: boolean;
+                              color: string;
+                          }
+                      ) => React.ReactNode)
+                    | undefined;
+                renderBadge?:
+                    | ((scene: Scene<Route>) => React.ReactNode)
+                    | undefined;
+                renderIndicator?:
+                    | ((props: TabBarIndicatorProps<Route>) => React.ReactNode)
+                    | undefined;
+                renderTabBarItem?:
+                    | ((
+                          props: TabBarItemProps<Route> & { key: string }
+                      ) => React.ReactElement<
+                          any,
+                          string | React.JSXElementConstructor<any>
+                      >)
+                    | undefined;
+                onTabPress?:
+                    | ((scene: Scene<Route> & Event) => void)
+                    | undefined;
+                onTabLongPress?: ((scene: Scene<Route>) => void) | undefined;
+                tabStyle?: StyleProp<ViewStyle>;
+                indicatorStyle?: StyleProp<ViewStyle>;
+                indicatorContainerStyle?: StyleProp<ViewStyle>;
+                labelStyle?: StyleProp<TextStyle>;
+                contentContainerStyle?: StyleProp<ViewStyle>;
+                style?: StyleProp<ViewStyle>;
+                gap?: number | undefined;
+                testID?: string | undefined;
+                android_ripple?: PressableAndroidRippleConfig | undefined;
+            }
+    ) => {
         return (
             <TabBar
                 {...props}
@@ -161,17 +240,18 @@ function EmployeeTab() {
                     return (
                         <Text
                             style={{
-                                color: focused ? baseStyle.color.foreground : "rgba(0,0,0,0.7)",
+                                color: focused
+                                    ? baseStyle.color.foreground
+                                    : "rgba(0,0,0,0.7)",
                                 fontSize: 15,
-                                fontWeight: focused ? "400" : "normal"
+                                fontWeight: focused ? "400" : "normal",
                             }}>
-
                             {route.title}
                         </Text>
                     );
                 }}
                 indicatorStyle={{
-                    backgroundColor: '#ffffff',
+                    backgroundColor: "#ffffff",
                     borderBottomWidth: 2,
                     borderColor: "yellow",
                 }}
@@ -195,7 +275,7 @@ function EmployeeTab() {
             style={{ marginTop: 30 }}
         />
         // </View>
-    )
+    );
 }
 
 export default function Router() {
@@ -213,8 +293,7 @@ export default function Router() {
                     animationDuration: 500,
                     animationTypeForReplace: "pop",
                     animation: "fade_from_bottom",
-                }}
-            >
+                }}>
                 <Stack.Screen name="Home" component={HomeScreen} />
                 <Stack.Screen name="Login" component={LoginScreen} />
                 <Stack.Screen name="Register" component={RegisterScreen} />

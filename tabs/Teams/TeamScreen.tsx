@@ -1,13 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { SafeAreaView, Text, View } from "react-native";
+import { Check, X } from "lucide-react-native";
+import { Pressable, SafeAreaView, Text, View } from "react-native";
 import {
     ContainerView,
     ScrollContainerView,
 } from "../../lib/components/ContainerView";
-import { getBaseStyle } from "../../lib/style/GlobalStyle";
+import { getBaseStyle } from "../../lib/style/StyleUtil";
 import { fetchLeaveApplication } from "./_api/LeaveApplicationApi";
-import { Check, CheckSquare, X } from "lucide-react-native";
-import { Pressable } from "react-native";
 
 export function TeamScreen() {
     const today = new Date();
@@ -37,8 +36,7 @@ export function TeamScreen() {
                     borderWidth: 0,
                     shadowOpacity: 0,
                     gap: 20,
-                }}
-            >
+                }}>
                 <ContainerView
                     style={{
                         padding: 0,
@@ -51,8 +49,7 @@ export function TeamScreen() {
                         borderWidth: 0,
                         shadowOpacity: 0,
                         gap: 0,
-                    }}
-                >
+                    }}>
                     {query.isLoading ? (
                         <ContainerView>
                             <Text>Is Loading</Text>
@@ -83,8 +80,7 @@ export function TeamScreen() {
                                                 baseStyle.color.primary,
                                             paddingLeft: baseStyle.space.p2,
                                             paddingTop: baseStyle.space.p2,
-                                        }}
-                                    >
+                                        }}>
                                         <Text
                                             style={{
                                                 color: baseStyle.color
@@ -92,8 +88,7 @@ export function TeamScreen() {
                                                 fontSize: baseStyle.fontSize.lg,
                                                 fontWeight:
                                                     baseStyle.fontWeight.bold,
-                                            }}
-                                        >
+                                            }}>
                                             {group.toDateString()}
                                         </Text>
                                     </View>
@@ -113,8 +108,7 @@ export function TeamScreen() {
                                                     //     baseStyle.space.p4,
                                                     paddingTop:
                                                         baseStyle.space.p2,
-                                                }}
-                                            >
+                                                }}>
                                                 <ContainerView
                                                     tag={["Row"]}
                                                     key={`row-${i}`}
@@ -134,16 +128,14 @@ export function TeamScreen() {
                                                         //     : baseStyle.borderWidth,
                                                         paddingVertical:
                                                             baseStyle.space.p4,
-                                                    }}
-                                                >
+                                                    }}>
                                                     <View style={{ flex: 1 }}>
                                                         <Text
                                                             style={{
                                                                 color: baseStyle
                                                                     .color
                                                                     .foreground,
-                                                            }}
-                                                        >
+                                                            }}>
                                                             {LeaveApp.username}
                                                         </Text>
                                                         <Text
@@ -151,8 +143,7 @@ export function TeamScreen() {
                                                                 color: baseStyle
                                                                     .color
                                                                     .foreground,
-                                                            }}
-                                                        >
+                                                            }}>
                                                             {LeaveApp.leaveType}
                                                         </Text>
                                                     </View>
@@ -164,15 +155,13 @@ export function TeamScreen() {
                                                                 "flex-start",
                                                             alignItems:
                                                                 "center",
-                                                        }}
-                                                    >
+                                                        }}>
                                                         <Text
                                                             style={{
                                                                 color: baseStyle
                                                                     .color
                                                                     .foreground,
-                                                            }}
-                                                        >
+                                                            }}>
                                                             {LeaveApp.status}
                                                         </Text>
                                                     </View>
@@ -194,8 +183,7 @@ export function TeamScreen() {
                                                             gap: baseStyle.space
                                                                 .p2,
                                                             // borderWidth: 1,
-                                                        }}
-                                                    >
+                                                        }}>
                                                         <Pressable
                                                             style={{
                                                                 aspectRatio:
@@ -212,8 +200,7 @@ export function TeamScreen() {
                                                                     baseStyle
                                                                         .rounded
                                                                         .md,
-                                                            }}
-                                                        >
+                                                            }}>
                                                             <Check
                                                                 color={
                                                                     baseStyle
@@ -238,8 +225,7 @@ export function TeamScreen() {
                                                                     baseStyle
                                                                         .rounded
                                                                         .md,
-                                                            }}
-                                                        >
+                                                            }}>
                                                             <X
                                                                 color={
                                                                     baseStyle

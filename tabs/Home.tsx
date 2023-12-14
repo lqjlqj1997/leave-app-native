@@ -31,8 +31,6 @@ export function HomeScreen() {
                     justifyContent: "center",
                     width: md ? "100%" : "100%",
                     height: md ? "100%" : "100%",
-
-                    // aspectRatio: "16 / 9",
                 }}
             >
                 <View

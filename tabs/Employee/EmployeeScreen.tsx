@@ -4,11 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import { ShieldCheck, UserRound, UserRoundCog } from 'lucide-react-native';
 import React, { useState } from 'react';
 import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Button } from "../../lib/components/Button";
 import { ContainerView } from "../../lib/components/ContainerView";
-import { getBaseStyle } from "../../lib/style/GlobalStyle";
+import { getBaseStyle } from "../../lib/style/StyleUtil";
 import { RootStackParamList } from "../../router/Router";
 import { fetchEmployeeData } from "../Employee/_api/EmployeeApi";
-import { Button } from "../../lib/components/Button";
 
 
 // const DATA = [

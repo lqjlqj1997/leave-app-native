@@ -7,7 +7,7 @@ import {
     View,
 } from "react-native";
 import { ContainerView } from "../../../lib/components/ContainerView";
-import { getBaseStyle } from "../../../lib/style/GlobalStyle";
+import { getBaseStyle } from "../../../lib/style/StyleUtil";
 import { DAY_LIST } from "../../../lib/util/DateConstant";
 
 const getCalendarList = (year: number, month: number) => {
@@ -61,8 +61,7 @@ export const LeaveCalender = ({
                 paddingVertical: 0,
                 width: "100%",
                 gap: 0,
-            }}
-        >
+            }}>
             <View
                 id="Header"
                 style={{
@@ -75,8 +74,7 @@ export const LeaveCalender = ({
                     borderColor: baseStyle.color.border,
                     borderBottomWidth: baseStyle.borderWidth,
                     paddingVertical: baseStyle.space.p2,
-                }}
-            >
+                }}>
                 {DAY_LIST.map((day) => {
                     return (
                         <View
@@ -88,14 +86,12 @@ export const LeaveCalender = ({
                                 flexDirection: "row",
                                 justifyContent: "center",
                                 alignItems: "center",
-                            }}
-                        >
+                            }}>
                             <Text
                                 style={{
                                     fontWeight: baseStyle.fontWeight.bold,
                                     color: baseStyle.color.foreground,
-                                }}
-                            >
+                                }}>
                                 {day}
                             </Text>
                         </View>
@@ -121,8 +117,7 @@ export const LeaveCalender = ({
                                 ? 0
                                 : baseStyle.borderWidth,
                             paddingVertical: baseStyle.space.p2,
-                        }}
-                    >
+                        }}>
                         {rowDate.map((date) => {
                             const notSelectedMonth =
                                 date.getMonth() != selectedMonth;
@@ -138,8 +133,7 @@ export const LeaveCalender = ({
                                         flexDirection: "row",
                                         justifyContent: "center",
                                         alignItems: "center",
-                                    }}
-                                >
+                                    }}>
                                     <Pressable
                                         style={[
                                             {
@@ -169,8 +163,7 @@ export const LeaveCalender = ({
                                                   }
                                                 : {},
                                         ]}
-                                        onPress={() => setSelectedDate(date)}
-                                    >
+                                        onPress={() => setSelectedDate(date)}>
                                         <Text
                                             style={{
                                                 lineHeight:
@@ -188,8 +181,7 @@ export const LeaveCalender = ({
                                                               .mutedForeground
                                                         : baseStyle.color
                                                               .foreground,
-                                            }}
-                                        >
+                                            }}>
                                             {date.getDate()}
                                         </Text>
                                     </Pressable>

@@ -1,17 +1,16 @@
+import { Check, ChevronLeft, ChevronRight, XCircle } from "lucide-react-native";
 import React, { useState } from "react";
 import {
+    Modal,
     ModalProps,
-    NativeSyntheticEvent,
     Pressable,
-    Text,
     View,
+    Text
 } from "react-native";
 import { ContainerView } from "../../../lib/components/ContainerView";
-import { getBaseStyle } from "../../../lib/style/GlobalStyle";
-import { DAY_LIST, FULL_MONTH } from "../../../lib/util/DateConstant";
-import { Modal } from "react-native";
 import { IconButton } from "../../../lib/components/IconButton";
-import { Check, ChevronLeft, ChevronRight, XCircle } from "lucide-react-native";
+import { getBaseStyle } from "../../../lib/style/StyleUtil";
+import { DAY_LIST, FULL_MONTH } from "../../../lib/util/DateConstant";
 import { LeaveDataType } from "./LeaveFormModal";
 
 const getCalendarList = (year: number, month: number) => {

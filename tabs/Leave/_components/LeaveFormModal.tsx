@@ -20,7 +20,7 @@ import {
     ContainerView,
     ScrollContainerView,
 } from "../../../lib/components/ContainerView";
-import { getBaseStyle } from "../../../lib/style/GlobalStyle";
+import { getBaseStyle } from "../../../lib/style/StyleUtil";
 import { DatePicker } from "./DatePicker";
 
 import { Button } from "../../../lib/components/Button";
@@ -104,8 +104,7 @@ export const LeaveFormModal = ({
                     width: "100%",
                     height: "100%",
                     backgroundColor: baseStyle.color.overlay,
-                }}
-            >
+                }}>
                 {/* <TouchableWithoutFeedback
                         onPress={() => setModalVisible(false)}
                     > */}
@@ -119,8 +118,7 @@ export const LeaveFormModal = ({
                         maxWidth: 800,
                         minHeight: 200,
                         maxHeight: 600,
-                    }}
-                >
+                    }}>
                     <View
                         style={{
                             width: "100%",
@@ -129,8 +127,7 @@ export const LeaveFormModal = ({
                             maxWidth: "100%",
                             alignContent: "center",
                             justifyContent: "center",
-                        }}
-                    >
+                        }}>
                         <View
                             style={{
                                 width: "100%",
@@ -139,16 +136,9 @@ export const LeaveFormModal = ({
                                 flexDirection: "row",
                                 justifyContent: "center",
                                 alignItems: "center",
-                            }}
-                        >
+                            }}>
                             <ContainerView>
-                                <Text
-                                    style={{
-                                        color: baseStyle.color.foreground,
-                                    }}
-                                >
-                                    New Leave
-                                </Text>
+                                <Text>New Leave</Text>
                             </ContainerView>
                         </View>
 
@@ -161,8 +151,7 @@ export const LeaveFormModal = ({
                                 flexDirection: "row",
                                 alignItems: "center",
                                 justifyContent: "flex-end",
-                            }}
-                        >
+                            }}>
                             <Pressable
                                 style={({ pressed }) => [
                                     {
@@ -185,8 +174,7 @@ export const LeaveFormModal = ({
                                         // paddingVertical: baseStyle.space.p1,
                                     },
                                 ]}
-                                onPress={onDemise}
-                            >
+                                onPress={onDemise}>
                                 {({ pressed }) => (
                                     <XCircle
                                         color={
@@ -230,11 +218,9 @@ export const LeaveFormModal = ({
                             borderWidth: 0,
                             shadowOpacity: 0,
                             // gap: 5,
-                        }}
-                    >
+                        }}>
                         <ContainerView
-                            style={{ borderWidth: 0, shadowOpacity: 0 }}
-                        >
+                            style={{ borderWidth: 0, shadowOpacity: 0 }}>
                             <SelectionModal
                                 title="Leave Balance"
                                 placeholder="Leave Balance"
@@ -275,8 +261,7 @@ export const LeaveFormModal = ({
                                     alignItems: "center",
                                     flexDirection: "row",
                                     gap: baseStyle.space.p4,
-                                }}
-                            >
+                                }}>
                                 {openDatePickerModal ? (
                                     <DatePicker
                                         modalVisible={openDatePickerModal}
@@ -284,8 +269,9 @@ export const LeaveFormModal = ({
                                             setOpenDatePickerModal(false)
                                         }
                                         setDateList={setSelectedDateList}
-                                        initialDateList={selectedDateList}
-                                    ></DatePicker>
+                                        initialDateList={
+                                            selectedDateList
+                                        }></DatePicker>
                                 ) : (
                                     ""
                                 )}
@@ -297,8 +283,7 @@ export const LeaveFormModal = ({
                                         // aspectRatio: "1/1",
                                         backgroundColor:
                                             baseStyle.color.secondary,
-                                    }}
-                                >
+                                    }}>
                                     {({ pressed }) => (
                                         <View
                                             style={{
@@ -307,15 +292,13 @@ export const LeaveFormModal = ({
                                                 justifyContent: "center",
                                                 alignContent: "center",
                                                 gap: baseStyle.space.p2,
-                                            }}
-                                        >
+                                            }}>
                                             <View
                                                 style={{
                                                     display: "flex",
                                                     justifyContent: "center",
                                                     alignContent: "center",
-                                                }}
-                                            >
+                                                }}>
                                                 <Text
                                                     style={{
                                                         color: baseStyle.color
@@ -323,8 +306,7 @@ export const LeaveFormModal = ({
                                                         textAlign: "center",
                                                         textAlignVertical:
                                                             "center",
-                                                    }}
-                                                >
+                                                    }}>
                                                     Pick Leave Date
                                                 </Text>
                                             </View>
@@ -365,8 +347,7 @@ export const LeaveFormModal = ({
                                         aspectRatio: "1/1",
                                         backgroundColor:
                                             baseStyle.color.secondary,
-                                    }}
-                                >
+                                    }}>
                                     {({ pressed }) => (
                                         <HelpCircle
                                             color={
@@ -396,8 +377,7 @@ export const LeaveFormModal = ({
                                     modalVisible={openDayModeLegendModal}
                                     onDemise={() =>
                                         setOpenDayModeLegendModal(false)
-                                    }
-                                ></DayModeLegendModal>
+                                    }></DayModeLegendModal>
                             </View>
 
                             {selectedDateList.map((leaveData) => {
@@ -410,8 +390,7 @@ export const LeaveFormModal = ({
                                             justifyContent: "center",
                                             alignItems: "center",
                                             gap: baseStyle.space.p4,
-                                        }}
-                                    >
+                                        }}>
                                         <TextInput
                                             // secureTextEntry={true}
                                             editable={false}
@@ -464,8 +443,7 @@ export const LeaveFormModal = ({
                                             }}
                                             onPress={() => {
                                                 toggleDayMode(leaveData);
-                                            }}
-                                        >
+                                            }}>
                                             <View
                                                 style={{
                                                     padding: baseStyle.space.p2,
@@ -473,8 +451,7 @@ export const LeaveFormModal = ({
                                                         baseStyle.rounded.md,
                                                     backgroundColor:
                                                         baseStyle.color.muted,
-                                                }}
-                                            >
+                                                }}>
                                                 {leaveData.dayMode ===
                                                 "Whole Day" ? (
                                                     <Sun
@@ -522,8 +499,7 @@ export const LeaveFormModal = ({
 
                             <Button
                                 title="Submit"
-                                onPress={() => undefined}
-                            ></Button>
+                                onPress={() => undefined}></Button>
                         </ContainerView>
                     </ScrollContainerView>
                 </ContainerView>

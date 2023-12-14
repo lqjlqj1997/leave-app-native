@@ -5,7 +5,12 @@ import {
     Text,
     ViewStyle,
 } from "react-native";
-import { getBaseStyle } from "../style/GlobalStyle";
+import tw from "twrnc";
+import {
+    getBaseStyle,
+    getDefaultBackgroundColourStyle,
+    getDefaultBorderColourStyle,
+} from "../style/StyleUtil";
 
 interface ButtonProps extends PressableProps {
     title: string;
@@ -16,48 +21,39 @@ export function Button({ title, style, onPress }: ButtonProps) {
     return (
         <Pressable
             style={({ pressed }) => [
+                tw` items-center justify-center`,
+                tw`px-4 py-2`,
+                tw`h-10`,
+                // tw`border-[0.5px]`,
+                tw`rounded-md border-purple-50`,
+                tw`flex-nowrap`,
+                // tw`gap-[20px]`,
+                tw` shadow-black shadow-opacity-10 shadow-offset-[0px]/[2px] shadow-radius-[4px]`,
+                tw`text-sm font-medium`,
+                getDefaultBorderColourStyle(),
+                getDefaultBackgroundColourStyle(),
                 {
-                    // flex: 1,
-                    // display:"inline"
-                    height: baseStyle.space.p10,
-                    // width: "100%",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexWrap: "nowrap",
-                    borderRadius: baseStyle.rounded.md,
-                    fontSize: baseStyle.fontSize.sm,
-                    fontWeight: baseStyle.fontWeight.medium,
-                    shadowColor: baseStyle.color.background,
                     backgroundColor: pressed
                         ? baseStyle.color.primaryHover
                         : baseStyle.color.primary,
-                    paddingHorizontal: baseStyle.space.p4,
-                    paddingVertical: baseStyle.space.p2,
                 },
                 style,
             ]}
-            onPress={onPress}
-        >
+            onPress={onPress}>
             {({ pressed }) => (
                 <Text
-                    style={{
-                        color: pressed
-                            ? baseStyle.color.primaryForeground
-                            : baseStyle.color.primaryForeground,
-                        // width: "100%",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        textAlign: "center",
-                        flexWrap: "nowrap",
-                        borderRadius: baseStyle.rounded.md,
-                        fontSize: baseStyle.fontSize.sm,
-                        fontWeight: baseStyle.fontWeight.medium,
-                        shadowColor: baseStyle.color.background,
-                        // backgroundColor: pressed
-                        //     ? baseStyle.primaryHover
-                        //     : baseStyle.primary,
-                    }}
-                >
+                    style={[
+                        tw` items-center justify-center`,
+                        tw`px-4 py-2`,
+                        tw`h-10`,
+                        // tw`border-[0.5px] rounded-md border-purple-50`,
+                        tw`text-sm text-center font-medium`,
+                        {
+                            color: pressed
+                                ? baseStyle.color.primaryForeground
+                                : baseStyle.color.primaryForeground,
+                        },
+                    ]}>
                     {title}
                 </Text>
             )}

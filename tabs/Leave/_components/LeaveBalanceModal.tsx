@@ -1,21 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import { XCircle } from "lucide-react-native";
-import React, { useState } from "react";
+import React from "react";
 import {
     Modal,
     ModalProps,
     NativeSyntheticEvent,
     Pressable,
-    StyleProp,
     Text,
-    View,
-    ViewStyle,
+    View
 } from "react-native";
 import {
     ContainerView,
     ScrollContainerView,
 } from "../../../lib/components/ContainerView";
-import { getBaseStyle } from "../../../lib/style/GlobalStyle";
+import { getBaseStyle } from "../../../lib/style/StyleUtil";
 import { fetchLeaveBalance } from "../_api/LeaveBalanceApi";
 
 interface LeaveDetailModalProps extends ModalProps {
@@ -179,7 +177,7 @@ export const LeaveBalanceModal = ({
                         {query.isLoading ? (
                             <ContainerView>
                                 <Text
-                                    style={{
+style={{
                                         color: baseStyle.color.foreground,
                                     }}
                                 >
@@ -189,7 +187,7 @@ export const LeaveBalanceModal = ({
                         ) : query.isError ? (
                             <ContainerView>
                                 <Text
-                                    style={{
+style={{
                                         color: baseStyle.color.foreground,
                                     }}
                                 >
@@ -199,7 +197,7 @@ export const LeaveBalanceModal = ({
                         ) : !query.data ? (
                             <ContainerView>
                                 <Text
-                                    style={{
+style={{
                                         color: baseStyle.color.foreground,
                                     }}
                                 >
@@ -209,7 +207,7 @@ export const LeaveBalanceModal = ({
                         ) : query.data.length == 0 ? (
                             <ContainerView>
                                 <Text
-                                    style={{
+style={{
                                         color: baseStyle.color.foreground,
                                     }}
                                 >
@@ -236,7 +234,7 @@ export const LeaveBalanceModal = ({
                                 >
                                     <View style={{ width: "100%" }}>
                                         <Text
-                                            style={{
+style={{
                                                 color: baseStyle.color
                                                     .foreground,
                                             }}
@@ -275,7 +273,7 @@ export const LeaveBalanceModal = ({
                                             <Text
                                                 style={{
                                                     flex: 1,
-                                                    color: baseStyle.color
+color: baseStyle.color
                                                         .foreground,
                                                     textAlign: "center",
                                                 }}

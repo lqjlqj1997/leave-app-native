@@ -9,7 +9,7 @@ import {
     View,
 } from "react-native";
 import { ContainerView } from "../../../lib/components/ContainerView";
-import { getBaseStyle } from "../../../lib/style/GlobalStyle";
+import { getBaseStyle } from "../../../lib/style/StyleUtil";
 
 interface LeaveDetailModalProps extends ModalProps {
     modalVisible: boolean;
@@ -75,7 +75,7 @@ export const DayModeLegendModal = ({
                         >
                             <ContainerView>
                                 <Text
-                                    style={{
+style={{
                                         color: baseStyle.color.foreground,
                                     }}
                                 >
@@ -200,7 +200,7 @@ export const DayModeLegendModal = ({
                                     <Sun color={baseStyle.color.primary}></Sun>
                                 </View>
                                 <Text
-                                    style={{
+style={{
                                         color: baseStyle.color.foreground,
                                     }}
                                 >
@@ -238,7 +238,7 @@ export const DayModeLegendModal = ({
                                     ></Sunrise>
                                 </View>
                                 <Text
-                                    style={{
+style={{
                                         color: !true
                                             ? baseStyle.color.mutedForeground
                                             : baseStyle.color.foreground,
@@ -277,7 +277,7 @@ export const DayModeLegendModal = ({
                                     ></Sunset>
                                 </View>
                                 <Text
-                                    style={{
+style={{
                                         color: !true
                                             ? baseStyle.color.mutedForeground
                                             : baseStyle.color.foreground,

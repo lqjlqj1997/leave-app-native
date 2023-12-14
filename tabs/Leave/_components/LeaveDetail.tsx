@@ -7,7 +7,7 @@ import {
     View,
 } from "react-native";
 import { ContainerView } from "../../../lib/components/ContainerView";
-import { getBaseStyle } from "../../../lib/style/GlobalStyle";
+import { getBaseStyle } from "../../../lib/style/StyleUtil";
 import { DAY_LIST } from "../../../lib/util/DateConstant";
 import { useQuery } from "@tanstack/react-query";
 import { fetchLeaveApplication } from "../_api/LeaveApplicationApi";

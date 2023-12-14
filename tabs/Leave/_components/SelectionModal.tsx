@@ -5,7 +5,7 @@ import {
     ContainerView,
     ScrollContainerView,
 } from "../../../lib/components/ContainerView";
-import { getBaseStyle } from "../../../lib/style/GlobalStyle";
+import { getBaseStyle } from "../../../lib/style/StyleUtil";
 
 type dataType = {
     key: string;
@@ -54,8 +54,7 @@ export const SelectionModal = ({
                     shadowColor: baseStyle.color.background,
                     paddingVertical: baseStyle.space.p2,
                 }}
-                onPress={() => setOpenModal(true)}
-            >
+                onPress={() => setOpenModal(true)}>
                 <View
                     style={{
                         flex: 1,
@@ -63,8 +62,7 @@ export const SelectionModal = ({
                         justifyContent: "center",
                         alignItems: "flex-start",
                         // borderWidth: 1,
-                    }}
-                >
+                    }}>
                     <Text
                         style={{
                             // borderWidth: 1,
@@ -72,8 +70,7 @@ export const SelectionModal = ({
                                 ? baseStyle.color.foreground
                                 : baseStyle.color.mutedForeground,
                             fontSize: baseStyle.fontSize.base,
-                        }}
-                    >
+                        }}>
                         {selectedData ? selectedData.value : placeholder}
                     </Text>
                 </View>
@@ -89,8 +86,7 @@ export const SelectionModal = ({
                         width: "100%",
                         height: "100%",
                         backgroundColor: baseStyle.color.overlay,
-                    }}
-                >
+                    }}>
                     <ContainerView
                         style={{
                             padding: 0,
@@ -101,8 +97,7 @@ export const SelectionModal = ({
                             maxWidth: 400,
                             minHeight: 500,
                             maxHeight: 500,
-                        }}
-                    >
+                        }}>
                         <View
                             style={{
                                 width: "100%",
@@ -111,8 +106,7 @@ export const SelectionModal = ({
                                 maxWidth: "100%",
                                 alignContent: "center",
                                 justifyContent: "center",
-                            }}
-                        >
+                            }}>
                             <View
                                 style={{
                                     width: "100%",
@@ -121,14 +115,12 @@ export const SelectionModal = ({
                                     flexDirection: "row",
                                     justifyContent: "center",
                                     alignItems: "center",
-                                }}
-                            >
+                                }}>
                                 <ContainerView>
                                     <Text
                                         style={{
                                             color: baseStyle.color.foreground,
-                                        }}
-                                    >
+                                        }}>
                                         {title}
                                     </Text>
                                 </ContainerView>
@@ -143,8 +135,7 @@ export const SelectionModal = ({
                                     flexDirection: "row",
                                     alignItems: "center",
                                     justifyContent: "flex-end",
-                                }}
-                            >
+                                }}>
                                 <Pressable
                                     style={({ pressed }) => [
                                         {
@@ -169,8 +160,7 @@ export const SelectionModal = ({
                                             // paddingVertical: baseStyle.space.p1,
                                         },
                                     ]}
-                                    onPress={() => setOpenModal(false)}
-                                >
+                                    onPress={() => setOpenModal(false)}>
                                     {({ pressed }) => (
                                         <XCircle
                                             color={
@@ -226,8 +216,7 @@ export const SelectionModal = ({
                                             data.key == selectedKey
                                                 ? baseStyle.color.muted
                                                 : baseStyle.color.background,
-                                    }}
-                                >
+                                    }}>
                                     <Pressable
                                         style={{
                                             width: "100%",
