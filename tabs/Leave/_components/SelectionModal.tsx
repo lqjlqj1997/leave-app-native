@@ -83,7 +83,7 @@ export const SelectionModal = ({
                 />
             </Pressable>
             {/* </ContainerView> */}
-            <Modal animationType="fade" transparent={true} visible={openModal}>
+            {/* <Modal animationType="fade" transparent={true} visible={openModal}> */}
                 <ContainerView
                     style={{
                         width: "100%",
@@ -255,7 +255,7 @@ export const SelectionModal = ({
                         </ScrollContainerView>
                     </ContainerView>
                 </ContainerView>
-            </Modal>
+            {/* </Modal> */}
         </>
     );
 };
