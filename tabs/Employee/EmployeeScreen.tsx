@@ -8,6 +8,7 @@ import { ContainerView } from "../../lib/components/ContainerView";
 import { getBaseStyle } from "../../lib/style/GlobalStyle";
 import { RootStackParamList } from "../../router/Router";
 import { fetchEmployeeData } from "../Employee/_api/EmployeeApi";
+import { Button } from "../../lib/components/Button";
 
 
 // const DATA = [
@@ -85,7 +86,7 @@ import { fetchEmployeeData } from "../Employee/_api/EmployeeApi";
 // const isDark = useThemeStore((state) => state.isDark);
 // const baseStyle = getBaseStyle(isDark);
 ;
-const getItem = (item: { id: string, name: string, email: string, phoneNumber: string, dateOfBirth: Date }) => {
+const getItem = (item: { id: number, name: string, email: string, phoneNumber: string, dateOfBirth: Date }) => {
     //Function for click on an item
     alert('PhoneNumber: ' + item.phoneNumber + ' Name: ' + item.name + ' DOB: ' + item.dateOfBirth);
 };
@@ -118,7 +119,7 @@ export function EmployeeScreen() {
 
     const ItemView = ({ item }: {
         item: {
-            id: string,
+            id: number,
             name: string, email: string, role: string, phoneNumber: string, dateOfBirth: Date, status: string,
             maritalStatus: string
         }
@@ -210,7 +211,7 @@ export function EmployeeScreen() {
                     // borderWidth: 1,
                 }}>
                     <View>
-                        <TouchableOpacity
+                        {/* <TouchableOpacity
                             style={{
                                 // flex:1,
                                 backgroundColor: "black",
@@ -220,7 +221,8 @@ export function EmployeeScreen() {
                             <Text
                                 style={{ textAlign: "center", color: "white" }}
                             > Add new user</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
+                        <Button title="Add New User"></Button>
                     </View>
                 </View>
                 <FlatList
@@ -231,7 +233,7 @@ export function EmployeeScreen() {
                     data={list}
                     renderItem={ItemView}
                     ItemSeparatorComponent={ItemSeparatorView}
-                // keyExtractor={item => item.id}
+                    keyExtractor={(item: {id:any}) => item.id}
                 // extraData={selectedId}
                 />
             </View>

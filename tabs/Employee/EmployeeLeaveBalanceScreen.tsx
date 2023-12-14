@@ -1,13 +1,14 @@
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { useQuery } from "@tanstack/react-query";
-import { ShieldCheck, UserRound, UserRoundCog } from 'lucide-react-native';
-import React, { useState } from 'react';
-import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Bike, CalendarCheck, Cross, HelpCircle } from 'lucide-react-native';
+import React, { useEffect, useState } from 'react';
+import { Animated, FlatList, Platform, Pressable, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Button } from "../../lib/components/Button";
 import { ContainerView } from "../../lib/components/ContainerView";
 import { getBaseStyle } from "../../lib/style/GlobalStyle";
-import { RootStackParamList } from "../../router/Router";
 import { fetchEmployeeLeaveBalanceData } from "../Employee/_api/EmployeeLeaveBalanceApi";
+import { EmployeeLeaveBalanceModal } from "./EmployeeLeaveBalanceModal";
+
+// const baseStyle = getBaseStyle();
 
 const ItemSeparatorView = () => {
     return (
@@ -22,7 +23,25 @@ const ItemSeparatorView = () => {
     );
 };
 
-export function EmployeeLeaveBalanceScreen() {
+const ExpandableView = ({ expanded = false }) => {
+    const [height] = useState(new Animated.Value(0));
+
+    useEffect(() => {
+        Animated.timing(height, {
+            toValue: !expanded ? 200 : 0,
+            duration: 150,
+            useNativeDriver: false
+        }).start();
+    }, [expanded, height]);
+
+    return (
+        <Animated.View
+            style={{ height, backgroundColor: "orange" }}
+        ></Animated.View>
+    );
+};
+
+export function EmployeeLeaveBalanceScreen({ data }: { data: any }) {
     const baseStyle = getBaseStyle();
     const [leaveType, setLeaveType] = useState("Annual Leave");
     const query = useQuery({
@@ -30,19 +49,38 @@ export function EmployeeLeaveBalanceScreen() {
         queryFn: () => fetchEmployeeLeaveBalanceData(),
     });
     const list = query.isError || query.isLoading || !query.data ? [] : query.data;
+    // const [isExpanded, setIsExpanded] = useState(query.data ? query.data.map((data) => data.isExpanded) : false);
+    // const [isExpanded, setIsExpanded] = useState(false);
+    const [expandedIds, setExpandedIds] = useState<string[]>([]);
+    // console.log(expandedIds)
+    const [openLeaveBalanceModal, setOpenLeaveBalanceModal] = useState(false);
+    const [openLeaveFormModal, setOpenLeaveFormModal] = useState(false);
+    const [selectedLeaveType, setSelectedLeaveType] = useState("");
+
+    const toggleItem = (itemId: string) => {
+        if (expandedIds.includes(itemId)) {
+            // Item is expanded, so collapse it
+            setExpandedIds(expandedIds.filter((id) => id !== itemId));
+        } else {
+            // Item is collapsed, so expand it
+            setExpandedIds([...expandedIds, itemId]);
+        }
+    };
 
     const ItemView = ({ item }: {
         item: {
-            id: string,
+            id: number,
             name: string, leaveType: string, leaveBalance: number, expiryDate: Date,
-            email: string
+            email: string, isExpanded: boolean
         }
     }) => {
+        const isExpanded = expandedIds.includes(item.id.toString());
+        // baseStyle = getBaseStyle();
         return (
             // FlatList Item
             <TouchableOpacity
-                style={{ width: '100%' }}
-            // onPress={() => getItem(item)}
+                style={{ width: '100%', height: "auto" }}
+                onPress={() => toggleItem(item.id.toString())}
             >
                 <View style={{ flexDirection: "row" }}>
                     {query.isLoading ? (
@@ -62,46 +100,134 @@ export function EmployeeLeaveBalanceScreen() {
                             <Text>No Data</Text>
                         </ContainerView>
                     ) : (
-                        <><View style={{ flex: 1 }}>
+                        <><View style={{
+                            flex: 1,
+                            // backgroundColor: "green",
+                            // maxWidth: 500
+                        }}>
                             <Text
-                                style={styles.name}>
+                                style={{
+                                    flex: 1,
+                                    paddingHorizontal: 20,
+                                    paddingTop: 10,
+                                    // width: 200,
+                                    maxWidth: 300,
+                                    color: baseStyle.color.primary
+                                }}>
                                 {item.name}
                             </Text>
                             <Text
-                                style={styles.email}
+                                style={{
+                                    flex: 1,
+                                    paddingHorizontal: 20,
+                                    paddingBottom: 5,
+                                    color: baseStyle.color.primary
+                                }}
                             >
                                 {item.email}
                             </Text>
                         </View><View
                             style={[styles.role]}
                         >
-                                <View style={{ flexDirection: "row" }}>
+                                <View style={{ flexDirection: "row", flex: 1 }}>
                                     {/* {item.role === 'Employee' ? <UserRound
                                         color={baseStyle.primary} /> : (item.role === 'Manager' ? <UserRoundCog
                                             color={baseStyle.primary} /> : <ShieldCheck
                                             color={baseStyle.primary} />)} */}
-                                    <Text
-                                        // style={{flex}}
+                                    <Pressable
+                                        id="Header"
+                                        style={{
+                                            flex: 1,
+                                            width: "100%",
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            justifyContent: "space-evenly",
+                                            alignItems: "center",
+                                            paddingHorizontal: baseStyle.space.p2,
+                                            borderColor: baseStyle.color.border,
+                                        }}
+                                        disabled={true}
+                                    // onPress={() => {
+                                    //     setSelectedLeaveType("Annual Leave");
+                                    //     setOpenLeaveBalanceModal(true);
+                                    // }}
                                     >
-                                        {item.leaveBalance}
-                                    </Text>
-                                    {/* <Text
-                                        // style={styles.email}
-                                    >
-                                        {item.expiryDate.toDateString()}
-                                    </Text> */}
+                                        {item.leaveType === "Annual Leave" ? (<CalendarCheck
+                                            style={{
+                                                marginRight: Platform.OS === "web" ? 20 : 0
+                                            }}
+                                            color={baseStyle.color.primary}
+                                        ></CalendarCheck>) :
+                                            item.leaveType === "Medical Leave" ? (
+                                                <Cross color={baseStyle.color.primary}
+                                                    style={{
+                                                        marginRight: Platform.OS === "web" ? 20 : 0
+                                                    }}></Cross>
+                                            ) : item.leaveType === "Replacement Leave" ? (
+                                                <Bike color={baseStyle.color.primary}
+                                                    style={{
+                                                        marginRight: Platform.OS === "web" ? 20 : 0
+                                                    }}></Bike>
+                                            ) : item.leaveType === "Other Leave" ? (
+                                                <HelpCircle
+                                                    color={baseStyle.color.primary}
+                                                    style={{
+                                                        marginRight: Platform.OS === "web" ? 20 : 0
+                                                    }}
+                                                ></HelpCircle>
+                                            ) : null}
+
+                                        <Text
+                                            style={{
+                                                flex: 1,
+                                                textAlign: "center",
+                                                fontWeight: baseStyle.fontWeight.bold,
+                                                color: baseStyle.color.primary,
+                                            }}
+                                        >
+                                            {item.leaveBalance}
+                                        </Text>
+                                    </Pressable>
 
                                 </View>
                                 <Text
-                                        // style={styles.email}
-                                    >
-                                        {item.expiryDate!= null ? item.expiryDate.toDateString() : "No Date"}
-                                    </Text>
+                                style={{
+                                    color: baseStyle.color.primary,
+                                    paddingTop: 10
+                                }}
+                                >
+                                    {item.expiryDate != null ? item.expiryDate.toDateString() : "No Date"}
+                                </Text>
 
                             </View></>
                     )
                     }
                 </View>
+
+                {/* <ExpandableView expanded={!item.isExpanded} /> */}
+                {isExpanded ? (
+                    <ScrollView style={{
+                        flex: 1,
+                        paddingLeft: 20,
+                        // height: 200,
+                        maxHeight: 200,
+                        overflow: "hidden",
+                        paddingBottom: 20
+                    }}>
+                        <Text
+                            style={{ color: baseStyle.color.primary }}>
+                            Additional content for {item.email}</Text>
+                        <Text
+                            style={{ color: baseStyle.color.primary }}>
+                            Additional content for {item.leaveType}</Text>
+                        <Text style={{ color: baseStyle.color.primary }}>
+                            Additional content for {item.leaveBalance}</Text>
+                        <Text style={{ color: baseStyle.color.primary }}>
+                            Additional content for {item.name}</Text>
+                        <Text style={{ color: baseStyle.color.primary }}>
+                            Additional content for {item.id}</Text>
+                    </ScrollView>
+                ) : null}
 
             </TouchableOpacity>
         );
@@ -111,6 +237,11 @@ export function EmployeeLeaveBalanceScreen() {
         <SafeAreaView
             style={[{ flex: 1 }]}
         >
+            <EmployeeLeaveBalanceModal
+                leaveType={selectedLeaveType}
+                modalVisible={openLeaveBalanceModal}
+                onDemise={() => setOpenLeaveBalanceModal(false)}
+            ></EmployeeLeaveBalanceModal>
             <View
                 style={
                     {
@@ -128,6 +259,8 @@ export function EmployeeLeaveBalanceScreen() {
             >
                 <Text style={{
                     textAlign: "center",
+                    color: baseStyle.color.primary
+                    
                 }}>Leave Balance Screen</Text>
                 <View style={{
                     width: "100%",
@@ -137,7 +270,7 @@ export function EmployeeLeaveBalanceScreen() {
                     // borderWidth: 1,
                 }}>
                     <View>
-                        <TouchableOpacity
+                        {/* <TouchableOpacity
                             style={{
                                 // flex:1,
                                 backgroundColor: "black",
@@ -149,13 +282,24 @@ export function EmployeeLeaveBalanceScreen() {
                             <Text
                                 style={{ textAlign: "center", color: "white" }}
                             > Add new Leave</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
+                        <Button 
+                            title="New Leave"
+                            onPress={() => {
+                                // setSelectedLeaveType("Annual Leave");
+                                setOpenLeaveBalanceModal(true);
+                            }}
+                            ></Button>
                     </View>
                 </View>
                 <FlatList
                     style={{
-                        paddingBottom: baseStyle.space.p20
+                        paddingBottom: baseStyle.space.p20,
                     }}
+                    // contentContainerStyle={{
+                    //     justifyContent: "center",
+                    //     alignItems: "center"
+                    // }}
                     id="empLeaveBalanceFlatlist"
                     data={list}
                     renderItem={ItemView}
@@ -171,25 +315,16 @@ const styles = StyleSheet.create({
         flex: 1,
         marginTop: StatusBar.currentHeight || 0,
     },
-    name: {
-        flex: 1,
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-        maxWidth: 300
-        // marginVertical: 8,
-        // marginHorizontal: 16,
-    },
-    email: {
-        flex: 1,
-        paddingHorizontal: 20,
-        paddingBottom: 5,
-    },
     role: {
         // flex: 1,
-        paddingHorizontal: 20,
+        // display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        paddingHorizontal: 10,
         paddingVertical: 10,
-        // justifyContent: 'space-around'
-        // width: "20%",
+        // backgroundColor: "blue",
+        // borderWidth: 1,
+        width: Platform.OS === "web" ? 250 : 120
     },
     title: {
         fontSize: 32,

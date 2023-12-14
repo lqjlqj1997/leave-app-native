@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
 
 export type EmployeeDetail = {
-    id:string;
+    id: number;
     email: string;
     name: string;
     address: string;
@@ -29,7 +29,7 @@ const newEmployeeDetail = (): EmployeeDetail => {
     //     "Other Leave",
     // ])[0]!;
     return {
-        id: "id",
+        id: faker.number.int(),
         email: faker.internet.email(),
         name: faker.person.fullName(),
         address: faker.lorem.sentence(30),

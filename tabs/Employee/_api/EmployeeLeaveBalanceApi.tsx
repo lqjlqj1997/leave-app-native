@@ -1,12 +1,13 @@
 import { faker } from "@faker-js/faker";
 
 export type EmployeeLeaveBalanceDetail = {
-    id: string;
+    id: number;
     name: string;
     leaveType: string;
     leaveBalance: number;
     expiryDate: Date;
-    email: string
+    email: string;
+    isExpanded: boolean;
 }
 
 const range = (len: number) => {
@@ -25,7 +26,7 @@ const newEmployeeLeaveBalanceDetail = (): EmployeeLeaveBalanceDetail => {
         "Other Leave",
     ])[0]!;
     return {
-        id: "id",
+        id: faker.number.int(),
         name: faker.person.fullName(),
         leaveType: leaveType,
         leaveBalance: faker.number.int({
@@ -33,7 +34,8 @@ const newEmployeeLeaveBalanceDetail = (): EmployeeLeaveBalanceDetail => {
             max: 20
         }),
         expiryDate: faker.date.anytime(),
-        email: faker.internet.email()
+        email: faker.internet.email(),
+        isExpanded: false
     };
 };
 
