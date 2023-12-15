@@ -1,89 +1,36 @@
-import { ChevronDown, XCircle } from "lucide-react-native";
-import React, { useState } from "react";
-import { Modal, ModalProps, Pressable, Text, View } from "react-native";
-import {
-    ContainerView,
-    ScrollContainerView,
-} from "../../../lib/components/ContainerView";
-import { getBaseStyle } from "../../../lib/style/GlobalStyle";
+import * as React from 'react';
+import { Modal, Pressable, Text, View, useWindowDimensions } from 'react-native';
+import { TabView, SceneMap } from 'react-native-tab-view';
+import { ContainerView, ScrollContainerView } from '../../lib/components/ContainerView';
+import { getBaseStyle } from '../../lib/style/GlobalStyle';
+import { XCircle } from 'lucide-react-native';
 
-type dataType = {
-    key: string;
-    value: string;
-    disabled?: boolean;
-};
+const FirstRoute = () => (
+  <View style={{ flex: 1, backgroundColor: '#ff4081' }} />
+);
 
-interface SelectionModalProps extends ModalProps {
-    title: string;
-    placeholder: string;
-    initialDataList: dataType[];
-    initialSelect: string;
-    setSelectedData: (dataType: dataType) => void | undefined;
-}
+const SecondRoute = () => (
+  <View style={{ flex: 1, backgroundColor: '#673ab7' }} />
+);
 
-export const SelectionModal = ({
-    title,
-    placeholder,
-    initialDataList,
-    initialSelect,
-    setSelectedData,
-}: SelectionModalProps) => {
-    const baseStyle = getBaseStyle();
-    const [openModal, setOpenModal] = useState(false);
-    const [dataList, setDataList] = useState(initialDataList);
-    const [selectedKey, setSelectedKey] = useState(initialSelect);
-    const selectedData = dataList.findLast((data) => data.key === selectedKey);
-    return (
-        <>
-            {/* <ContainerView
-                style={{ width: "100%", borderWidth: 0, shadowOpacity: 0 }}
-            > */}
-            <Pressable
-                style={{
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    alignItems: "center",
+const renderScene = SceneMap({
+  first: FirstRoute,
+  second: SecondRoute,
+});
 
-                    borderWidth: 1,
-                    borderColor: baseStyle.color.input,
-                    borderRadius: baseStyle.rounded.md,
-                    backgroundColor: baseStyle.color.background,
-                    paddingHorizontal: baseStyle.space.p3,
-                    shadowColor: baseStyle.color.background,
-                    paddingVertical: baseStyle.space.p2,
-                }}
-                onPress={() => setOpenModal(true)}
-            >
-                <View
-                    style={{
-                        flex: 1,
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "flex-start",
-                        // borderWidth: 1,
-                    }}
-                >
-                    <Text
-                        style={{
-                            // borderWidth: 1,
-                            color: selectedData
-                                ? baseStyle.color.foreground
-                                : baseStyle.color.mutedForeground,
-                            fontSize: baseStyle.fontSize.base,
-                        }}
-                    >
-                        {selectedData ? selectedData.value : placeholder}
-                    </Text>
-                </View>
-                <ChevronDown
-                    style={{ aspectRatio: "1/1" }}
-                    color={baseStyle.color.foreground}
-                />
-            </Pressable>
-            {/* </ContainerView> */}
-            {/* <Modal animationType="fade" transparent={true} visible={openModal}> */}
+export default function TabViewExample() {
+  const layout = useWindowDimensions();
+
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: 'first', title: 'First' },
+    { key: 'second', title: 'Second' },
+  ]);
+
+  const baseStyle = getBaseStyle();
+  const [openModal, setOpenModal] = React.useState(true);
+  return (
+    <Modal animationType="fade" transparent={true} visible={openModal}>
                 <ContainerView
                     style={{
                         width: "100%",
@@ -129,7 +76,7 @@ export const SelectionModal = ({
                                             color: baseStyle.color.foreground,
                                         }}
                                     >
-                                        {title}
+                                        {/* {title} */}
                                     </Text>
                                 </ContainerView>
                             </View>
@@ -208,54 +155,10 @@ export const SelectionModal = ({
                         </View>
 
                         <ScrollContainerView style={{}}>
-                            {dataList.map((data, i) => (
-                                <ContainerView
-                                    tag={["Calender Selection Bar"]}
-                                    style={{
-                                        width: "100%",
-                                        borderWidth: 1,
-                                        shadowOpacity: 0,
-                                        flexDirection: "row",
-                                        paddingHorizontal: 0,
-                                        paddingVertical: 0,
-                                        marginBottom:
-                                            i == dataList.length - 1
-                                                ? baseStyle.space.p8
-                                                : baseStyle.space.p2,
-                                        backgroundColor:
-                                            data.key == selectedKey
-                                                ? baseStyle.color.muted
-                                                : baseStyle.color.background,
-                                    }}
-                                >
-                                    <Pressable
-                                        style={{
-                                            width: "100%",
-                                            height: "100%",
-                                            paddingHorizontal:
-                                                baseStyle.space.p8,
-                                            paddingVertical: baseStyle.space.p4,
-                                        }}
-                                        onPress={() => {
-                                            setSelectedData(data);
-                                            setSelectedKey(data.key);
-                                        }}
-                                    >
-                                        <Text
-                                            style={{
-                                                color: baseStyle.color
-                                                    .foreground,
-                                            }}
-                                        >
-                                            {data.value}
-                                        </Text>
-                                    </Pressable>
-                                </ContainerView>
-                            ))}
+                            <div></div>
                         </ScrollContainerView>
                     </ContainerView>
                 </ContainerView>
-            {/* </Modal> */}
-        </>
-    );
-};
+            </Modal>
+  );
+}
