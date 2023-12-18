@@ -4,8 +4,6 @@ import { useState } from "react";
 import { getBaseStyle } from "../../../lib/style/StyleUtil";
 
 function LeaveBalancePage() {
-
-    // const [name, setName] = useState("Fatimah");
     const [leaveBalance, setLeaveBalance] = useState([
         {
             balance: "13",
@@ -55,9 +53,7 @@ function LeaveBalancePage() {
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ScrollView style={{
-                // paddingBottom: baseStyle.space.p32,
-                borderWidth: 0,
-                // gap: 20,
+                borderWidth: 0
             }}>
 
                 <ContainerView style={{ borderWidth:0}}>
