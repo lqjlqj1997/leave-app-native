@@ -5,12 +5,14 @@ import {
     ContainerView,
     ScrollContainerView,
 } from "../../lib/components/ContainerView";
-import { getBaseStyle } from "../../lib/style/StyleUtil";
+import { getBaseStyle, getDefaultColourStyle } from "../../lib/style/StyleUtil";
+import { tw } from "../../lib/util/Tailwind";
 import { fetchLeaveApplication } from "./_api/LeaveApplicationApi";
 
 export function TeamScreen() {
     const today = new Date();
     const baseStyle = getBaseStyle();
+    const { defaultFontColor, defaultBorderColor } = getDefaultColourStyle();
     const query = useQuery({
         queryKey: ["leaveApplication"],
         queryFn: () => fetchLeaveApplication({}),
@@ -24,144 +26,88 @@ export function TeamScreen() {
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ContainerView>
-                <Text style={{ color: baseStyle.color.foreground }}>
-                    Your Team
-                </Text>
+                <Text style={defaultFontColor}>Your Team</Text>
             </ContainerView>
 
             <ScrollContainerView
-                style={{
-                    width: "100%",
-                    // paddingBottom: baseStyle.space.p56,
-                    borderWidth: 0,
-                    shadowOpacity: 0,
-                    gap: 20,
-                }}>
+                style={[tw`w-full border-0 shadow-opacity-0 gap-20`]}>
                 <ContainerView
-                    style={{
-                        padding: 0,
-                        // maxWidth: 500,
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        // paddingTop: baseStyle.space.p20,
-                        paddingBottom: baseStyle.space.p8,
-                        borderWidth: 0,
-                        shadowOpacity: 0,
-                        gap: 0,
-                    }}>
+                    style={[
+                        tw`p-0 pb-8 border-0 shadow-opacity-0 gap-0`,
+                        tw`flex justify-center items-center`,
+                    ]}>
                     {query.isLoading ? (
                         <ContainerView>
-                            <Text>Is Loading</Text>
+                            <Text style={defaultFontColor}>Is Loading</Text>
                         </ContainerView>
                     ) : query.isError ? (
                         <ContainerView>
-                            <Text>Is Error</Text>
+                            <Text style={defaultFontColor}>Is Error</Text>
                         </ContainerView>
                     ) : !query.data ? (
                         <ContainerView>
-                            <Text>Is Error</Text>
+                            <Text style={defaultFontColor}>Is Error</Text>
                         </ContainerView>
                     ) : query.data.length == 0 ? (
-                        <Text>No Data</Text>
+                        <Text style={defaultFontColor}>No Data</Text>
                     ) : (
                         [...dataGroupList].map((group) => {
                             const dayData = data.filter(
                                 (data) =>
                                     data.leaveDate.getTime() == group.getTime()
                             );
+
                             return (
                                 <>
                                     <View
-                                        style={{
-                                            width: "100%",
-                                            borderBottomWidth: 1,
-                                            borderColor:
-                                                baseStyle.color.primary,
-                                            paddingLeft: baseStyle.space.p2,
-                                            paddingTop: baseStyle.space.p2,
-                                        }}>
+                                        style={[
+                                            tw`pl-2 pt-2 w-full border-b-[1px]`,
+                                            defaultBorderColor,
+                                            {
+                                                borderColor:
+                                                    baseStyle.color.primary,
+                                            },
+                                        ]}>
                                         <Text
-                                            style={{
-                                                color: baseStyle.color
-                                                    .foreground,
-                                                fontSize: baseStyle.fontSize.lg,
-                                                fontWeight:
-                                                    baseStyle.fontWeight.bold,
-                                            }}>
+                                            style={[
+                                                tw`text-lg font-bold`,
+                                                defaultFontColor,
+                                            ]}>
                                             {group.toDateString()}
                                         </Text>
                                     </View>
                                     {dayData.map((LeaveApp, i, list) => {
                                         const isLast = i + 1 === list.length;
                                         return (
-                                            <View
-                                                style={{
-                                                    width: "100%",
-                                                    // borderLeftWidth: 1,
-                                                    // borderStyle: "dotted",
-                                                    // borderColor:
-                                                    //     baseStyle.color.primary,
-                                                    // paddingLeft:
-                                                    //     baseStyle.space.p8,
-                                                    // paddingBottom:
-                                                    //     baseStyle.space.p4,
-                                                    paddingTop:
-                                                        baseStyle.space.p2,
-                                                }}>
+                                            <View style={tw`w-full pt-2`}>
                                                 <ContainerView
                                                     tag={["Row"]}
                                                     key={`row-${i}`}
-                                                    style={{
-                                                        // flex: 1,
-                                                        width: "100%",
-                                                        display: "flex",
-                                                        flexDirection: "row",
-                                                        justifyContent:
-                                                            "center",
-                                                        alignItems: "center",
-                                                        borderColor:
-                                                            baseStyle.color
-                                                                .border,
-                                                        // borderBottomWidth: isLast
-                                                        //     ? 0
-                                                        //     : baseStyle.borderWidth,
-                                                        paddingVertical:
-                                                            baseStyle.space.p4,
-                                                    }}>
+                                                    style={[
+                                                        tw`w-full py-4`,
+                                                        tw`flex flex-row justify-center items-center`,
+                                                        defaultBorderColor,
+                                                    ]}>
                                                     <View style={{ flex: 1 }}>
                                                         <Text
-                                                            style={{
-                                                                color: baseStyle
-                                                                    .color
-                                                                    .foreground,
-                                                            }}>
+                                                            style={
+                                                                defaultFontColor
+                                                            }>
                                                             {LeaveApp.username}
                                                         </Text>
                                                         <Text
-                                                            style={{
-                                                                color: baseStyle
-                                                                    .color
-                                                                    .foreground,
-                                                            }}>
+                                                            style={
+                                                                defaultFontColor
+                                                            }>
                                                             {LeaveApp.leaveType}
                                                         </Text>
                                                     </View>
                                                     <View
-                                                        style={{
-                                                            // flex: 1,
-                                                            display: "flex",
-                                                            justifyContent:
-                                                                "flex-start",
-                                                            alignItems:
-                                                                "center",
-                                                        }}>
+                                                        style={tw`flex justify-start items-center`}>
                                                         <Text
-                                                            style={{
-                                                                color: baseStyle
-                                                                    .color
-                                                                    .foreground,
-                                                            }}>
+                                                            style={
+                                                                defaultFontColor
+                                                            }>
                                                             {LeaveApp.status}
                                                         </Text>
                                                     </View>
@@ -171,36 +117,20 @@ export function TeamScreen() {
                                                         </Text>
                                                     </View> */}
                                                     <View
-                                                        style={{
-                                                            // flex: 1,
-                                                            display: "flex",
-                                                            flexDirection:
-                                                                "row",
-                                                            justifyContent:
-                                                                "flex-end",
-                                                            alignItems:
-                                                                "center",
-                                                            gap: baseStyle.space
-                                                                .p2,
-                                                            // borderWidth: 1,
-                                                        }}>
+                                                        style={[
+                                                            tw`flex flex-row justify-end items-center gap-2`,
+                                                        ]}>
                                                         <Pressable
-                                                            style={{
-                                                                aspectRatio:
-                                                                    "1/1",
-                                                                padding:
-                                                                    baseStyle
-                                                                        .space
-                                                                        .p2,
-                                                                backgroundColor:
-                                                                    baseStyle
-                                                                        .color
-                                                                        .muted,
-                                                                borderRadius:
-                                                                    baseStyle
-                                                                        .rounded
-                                                                        .md,
-                                                            }}>
+                                                            style={[
+                                                                tw`aspect-square p-2`,
+                                                                tw`rounded-md`,
+                                                                {
+                                                                    backgroundColor:
+                                                                        baseStyle
+                                                                            .color
+                                                                            .muted,
+                                                                },
+                                                            ]}>
                                                             <Check
                                                                 color={
                                                                     baseStyle
@@ -210,22 +140,16 @@ export function TeamScreen() {
                                                             />
                                                         </Pressable>
                                                         <Pressable
-                                                            style={{
-                                                                aspectRatio:
-                                                                    "1/1",
-                                                                padding:
-                                                                    baseStyle
-                                                                        .space
-                                                                        .p2,
-                                                                backgroundColor:
-                                                                    baseStyle
-                                                                        .color
-                                                                        .muted,
-                                                                borderRadius:
-                                                                    baseStyle
-                                                                        .rounded
-                                                                        .md,
-                                                            }}>
+                                                            style={[
+                                                                tw`aspect-square p-2`,
+                                                                tw`rounded-md`,
+                                                                {
+                                                                    backgroundColor:
+                                                                        baseStyle
+                                                                            .color
+                                                                            .muted,
+                                                                },
+                                                            ]}>
                                                             <X
                                                                 color={
                                                                     baseStyle

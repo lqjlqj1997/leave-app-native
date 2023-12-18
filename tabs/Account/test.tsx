@@ -2,8 +2,8 @@ import * as React from 'react';
 import { Modal, Pressable, Text, View, useWindowDimensions } from 'react-native';
 import { TabView, SceneMap } from 'react-native-tab-view';
 import { ContainerView, ScrollContainerView } from '../../lib/components/ContainerView';
-import { getBaseStyle } from '../../lib/style/GlobalStyle';
 import { XCircle } from 'lucide-react-native';
+import { getBaseStyle } from '../../lib/style/StyleUtil';
 
 const FirstRoute = () => (
   <View style={{ flex: 1, backgroundColor: '#ff4081' }} />

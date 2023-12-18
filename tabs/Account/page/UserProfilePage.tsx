@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { getBaseStyle } from "../../../lib/style/GlobalStyle";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image, Modal, ScrollView, Text, TextInput, View } from "react-native";
 import { ContainerView } from "../../../lib/components/ContainerView";
 import { Cake, CheckSquare, Mail, MapPin, Phone, User } from "lucide-react-native";
 import { Button } from "../../../lib/components/Button";
+import { getBaseStyle } from "../../../lib/style/StyleUtil";
 
 function UserProfilePage() {
     const [modalVisible, setModalVisible] = useState(false);

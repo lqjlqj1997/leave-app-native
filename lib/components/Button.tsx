@@ -6,11 +6,7 @@ import {
     ViewStyle,
 } from "react-native";
 import tw from "twrnc";
-import {
-    getBaseStyle,
-    getDefaultBackgroundColourStyle,
-    getDefaultBorderColourStyle,
-} from "../style/StyleUtil";
+import { getBaseStyle, getDefaultColourStyle } from "../style/StyleUtil";
 
 interface ButtonProps extends PressableProps {
     title: string;
@@ -18,6 +14,8 @@ interface ButtonProps extends PressableProps {
 }
 export function Button({ title, style, onPress }: ButtonProps) {
     const baseStyle = getBaseStyle();
+    const { defaultFontColor, defaultBackgroundColor, defaultBorderColor } =
+        getDefaultColourStyle();
     return (
         <Pressable
             style={({ pressed }) => [
@@ -25,13 +23,13 @@ export function Button({ title, style, onPress }: ButtonProps) {
                 tw`px-4 py-2`,
                 tw`h-10`,
                 // tw`border-[0.5px]`,
-                tw`rounded-md border-purple-50`,
+                tw`rounded-md `,
                 tw`flex-nowrap`,
                 // tw`gap-[20px]`,
                 tw` shadow-black shadow-opacity-10 shadow-offset-[0px]/[2px] shadow-radius-[4px]`,
                 tw`text-sm font-medium`,
-                getDefaultBorderColourStyle(),
-                getDefaultBackgroundColourStyle(),
+                defaultBorderColor,
+                defaultBackgroundColor,
                 {
                     backgroundColor: pressed
                         ? baseStyle.color.primaryHover
@@ -46,7 +44,6 @@ export function Button({ title, style, onPress }: ButtonProps) {
                         tw` items-center justify-center`,
                         tw`px-4 py-2`,
                         tw`h-10`,
-                        // tw`border-[0.5px] rounded-md border-purple-50`,
                         tw`text-sm text-center font-medium`,
                         {
                             color: pressed

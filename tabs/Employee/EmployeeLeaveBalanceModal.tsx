@@ -18,9 +18,9 @@ import {
     ContainerView,
     ScrollContainerView,
 } from "../../lib/components/ContainerView";
-import { getBaseStyle } from "../../lib/style/GlobalStyle";
 import { fetchLeaveBalance } from "../Leave/_api/LeaveBalanceApi";
 import { SelectList } from "react-native-dropdown-select-list";
+import { getBaseStyle } from "../../lib/style/StyleUtil";
 
 interface LeaveDetailModalProps extends ModalProps {
     modalVisible: boolean;

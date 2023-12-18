@@ -8,14 +8,20 @@ export const getBaseStyle = (isDark?: boolean) => {
     return isDark ? DarkStyle : LightStyle;
 };
 
-export const getDefaultFontColourStyle = () => ({
-    color: getBaseStyle().color.foreground,
-});
-
-export const getDefaultBackgroundColourStyle = () => ({
-    backgroundColor: getBaseStyle().color.background,
-});
-
-export const getDefaultBorderColourStyle = () => ({
-    borderColor: getBaseStyle().color.border,
-});
+export const getDefaultColourStyle = () => {
+    const baseStyle = getBaseStyle();
+    return {
+        defaultFontColor: {
+            color: baseStyle.color.foreground,
+        },
+        defaultBackgroundColor: {
+            backgroundColor: baseStyle.color.background,
+        },
+        defaultBorderColor: {
+            borderColor: baseStyle.color.border,
+        },
+        defaultShadowColor: {
+            shadowColor: baseStyle.color.primary,
+        },
+    };
+};

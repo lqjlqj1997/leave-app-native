@@ -1,10 +1,6 @@
 import { ScrollView, StyleProp, View, ViewStyle } from "react-native";
-import tw from "twrnc";
-import {
-    getBaseStyle,
-    getDefaultBackgroundColourStyle,
-    getDefaultBorderColourStyle
-} from "../style/StyleUtil";
+import { getDefaultColourStyle } from "../style/StyleUtil";
+import { tw } from "../util/Tailwind";
 
 interface ContainerProps {
     tag?: any;
@@ -12,16 +8,20 @@ interface ContainerProps {
     style?: StyleProp<ViewStyle>;
 }
 export function ContainerView({ children, style }: ContainerProps) {
+    const { defaultShadowColor, defaultBackgroundColor, defaultBorderColor } =
+        getDefaultColourStyle();
     return (
         <View
             style={[
                 tw`flex items-center justify-center`,
                 tw`px-[15px] py-[10px]`,
-                tw`border-[0.5px] rounded-md border-purple-50`,
+                tw`border-[0.5px] rounded-md `,
                 tw`gap-[20px]`,
-                tw` shadow-black shadow-opacity-10 shadow-offset-[0px]/[2px] shadow-radius-[4px]`,
-                getDefaultBorderColourStyle(),
-                getDefaultBackgroundColourStyle(),
+                tw` shadow-opacity-10 shadow-offset-[0px]/[2px] shadow-radius-[4px]`,
+                defaultShadowColor,
+                defaultBorderColor,
+                defaultBackgroundColor,
+
                 style,
             ]}>
             {children}
@@ -30,17 +30,20 @@ export function ContainerView({ children, style }: ContainerProps) {
 }
 
 export function ScrollContainerView({ children, style }: ContainerProps) {
+    const { defaultShadowColor, defaultBackgroundColor, defaultBorderColor } =
+        getDefaultColourStyle();
     return (
         <ScrollView
             style={[
                 // tw`flex items-center justify-center`,
                 tw`px-[15px] py-[10px]`,
-                tw`border rounded-md border-purple-50`,
+                tw`border rounded-md `,
                 // tw`gap-[20px]`,
 
-                tw` shadow-black shadow-opacity-10 shadow-offset-[0px]/[2px] shadow-radius-[4px]`,
-                getDefaultBorderColourStyle(),
-                getDefaultBackgroundColourStyle(),
+                tw`shadow-opacity-10 shadow-offset-[0px]/[2px] shadow-radius-[4px]`,
+                defaultShadowColor,
+                defaultBorderColor,
+                defaultBackgroundColor,
                 style,
             ]}>
             {children}

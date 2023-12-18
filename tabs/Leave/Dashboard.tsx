@@ -8,21 +8,20 @@ import {
 } from "lucide-react-native";
 import { useState } from "react";
 import { Pressable, SafeAreaView, Text, View } from "react-native";
-import tw from "twrnc";
 import {
     ContainerView,
     ScrollContainerView,
 } from "../../lib/components/ContainerView";
 import { IconButton } from "../../lib/components/IconButton";
-import { getBaseStyle, getDefaultBorderColourStyle } from "../../lib/style/StyleUtil";
+import { getBaseStyle, getDefaultColourStyle } from "../../lib/style/StyleUtil";
 import { FULL_MONTH } from "../../lib/util/DateConstant";
 import { LeaveBalanceModal } from "./_components/LeaveBalanceModal";
 import { LeaveCalender } from "./_components/LeaveCalender";
 import { LeaveDetail } from "./_components/LeaveDetail";
 import { LeaveFormModal } from "./_components/LeaveFormModal";
+import { tw } from "../../lib/util/Tailwind";
 
 
-const LEAVE_TYPE = ["AL", "ML", "RL", "etc"];
 
 export function DashboardScreen() {
     const today = new Date();
@@ -35,6 +34,8 @@ export function DashboardScreen() {
     const [openLeaveFormModal, setOpenLeaveFormModal] = useState(false);
     const [selectedLeaveType, setSelectedLeaveType] = useState("");
     const baseStyle = getBaseStyle();
+    const { defaultFontColor, defaultBackgroundColor, defaultBorderColor } =
+        getDefaultColourStyle();
 
     const changeMonth = (months: number) => {
         const newMonth = new Date(selectedYear, selectedMonth, 1);
@@ -79,9 +80,9 @@ export function DashboardScreen() {
                         <View
                             id="Header"
                             style={[
-                                tw`w-full mw-[300px] p-0`,
+                                tw`w-full min-w-[300px] p-0`,
                                 tw`flex flex-row items-center justify-center`,
-                                getDefaultBorderColourStyle()
+                                defaultBorderColor,
                             ]}>
                             <Pressable
                                 id="Header"

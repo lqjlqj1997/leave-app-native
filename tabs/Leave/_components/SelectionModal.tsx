@@ -5,7 +5,11 @@ import {
     ContainerView,
     ScrollContainerView,
 } from "../../../lib/components/ContainerView";
-import { getBaseStyle } from "../../../lib/style/StyleUtil";
+import {
+    getBaseStyle,
+    getDefaultColourStyle,
+} from "../../../lib/style/StyleUtil";
+import { tw, twStyle } from "../../../lib/util/Tailwind";
 
 type dataType = {
     key: string;
@@ -21,6 +25,19 @@ interface SelectionModalProps extends ModalProps {
     setSelectedData: (dataType: dataType) => void | undefined;
 }
 
+const LabelPressable = {
+    SelectionButton: Pressable,
+};
+const LabelContainerView = {
+    Overlay: ContainerView,
+    MainBody: ContainerView,
+    SelectionOption: ContainerView,
+};
+
+const LabelView = {
+    ModalHeader: View,
+};
+
 export const SelectionModal = ({
     title,
     placeholder,
@@ -29,98 +46,72 @@ export const SelectionModal = ({
     setSelectedData,
 }: SelectionModalProps) => {
     const baseStyle = getBaseStyle();
+    const {
+        defaultFontColor,
+        defaultBackgroundColor,
+        defaultBorderColor,
+        defaultShadowColor,
+    } = getDefaultColourStyle();
     const [openModal, setOpenModal] = useState(false);
     const [dataList, setDataList] = useState(initialDataList);
     const [selectedKey, setSelectedKey] = useState(initialSelect);
     const selectedData = dataList.findLast((data) => data.key === selectedKey);
     return (
         <>
-            {/* <ContainerView
-                style={{ width: "100%", borderWidth: 0, shadowOpacity: 0 }}
-            > */}
-            <Pressable
-                style={{
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    alignItems: "center",
-
-                    borderWidth: 1,
-                    borderColor: baseStyle.color.input,
-                    borderRadius: baseStyle.rounded.md,
-                    backgroundColor: baseStyle.color.background,
-                    paddingHorizontal: baseStyle.space.p3,
-                    shadowColor: baseStyle.color.background,
-                    paddingVertical: baseStyle.space.p2,
-                }}
+            <LabelPressable.SelectionButton
+                style={[
+                    tw`w-full px-3 py-2`,
+                    tw`flex flex-row justify-center items-center`,
+                    tw`border rounded-md`,
+                    defaultBorderColor,
+                    defaultBorderColor,
+                    defaultBackgroundColor,
+                ]}
                 onPress={() => setOpenModal(true)}>
-                <View
-                    style={{
-                        flex: 1,
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "flex-start",
-                        // borderWidth: 1,
-                    }}>
+                <View style={tw`flex-1 flex justify-center items-start`}>
                     <Text
-                        style={{
-                            // borderWidth: 1,
-                            color: selectedData
-                                ? baseStyle.color.foreground
-                                : baseStyle.color.mutedForeground,
-                            fontSize: baseStyle.fontSize.base,
-                        }}>
+                        style={[
+                            tw`text-base`,
+                            {
+                                color: selectedData
+                                    ? baseStyle.color.foreground
+                                    : baseStyle.color.mutedForeground,
+                            },
+                        ]}>
                         {selectedData ? selectedData.value : placeholder}
                     </Text>
                 </View>
                 <ChevronDown
-                    style={{ aspectRatio: "1/1" }}
+                    style={tw`aspect-square`}
                     color={baseStyle.color.foreground}
                 />
-            </Pressable>
+            </LabelPressable.SelectionButton>
             {/* </ContainerView> */}
-            {/* <Modal animationType="fade" transparent={true} visible={openModal}> */}
-                <ContainerView
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                        backgroundColor: baseStyle.color.overlay,
-                    }}>
-                    <ContainerView
-                        style={{
-                            padding: 0,
-                            paddingTop: baseStyle.space.p4,
-                            width: "100%",
-                            height: "100%",
-                            minWidth: 350,
-                            maxWidth: 400,
-                            minHeight: 500,
-                            maxHeight: 500,
-                        }}>
-                        <View
-                            style={{
-                                width: "100%",
-                                display: "flex",
-                                flexDirection: "row",
-                                maxWidth: "100%",
-                                alignContent: "center",
-                                justifyContent: "center",
-                            }}>
+            <Modal animationType="fade" transparent={true} visible={openModal}>
+                <LabelContainerView.Overlay
+                    style={[
+                        tw`h-full w-full`,
+                        {
+                            backgroundColor: baseStyle.color.overlay,
+                        },
+                    ]}>
+                    <LabelContainerView.MainBody
+                        style={[
+                            tw`w-full h-full pt-4`,
+                            tw`min-w-[350px] max-w-[400px] min-h-[500px] max-h-[500px]`,
+                        ]}>
+                        <LabelView.ModalHeader
+                            style={[
+                                tw`w-full max-h-full`,
+                                tw`flex flex-row justify-center items-center`,
+                            ]}>
                             <View
-                                style={{
-                                    width: "100%",
-                                    flex: 9,
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                }}>
+                                style={[
+                                    tw`w-full`,
+                                    tw`flex-9 flex flex-row justify-center items-center`,
+                                ]}>
                                 <ContainerView>
-                                    <Text
-                                        style={{
-                                            color: baseStyle.color.foreground,
-                                        }}>
+                                    <Text style={defaultFontColor}>
                                         {title}
                                     </Text>
                                 </ContainerView>
@@ -128,36 +119,22 @@ export const SelectionModal = ({
 
                             <View
                                 id="CloseButton"
-                                style={{
-                                    width: "100%",
-                                    position: "absolute",
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    alignItems: "center",
-                                    justifyContent: "flex-end",
-                                }}>
+                                style={[
+                                    tw`w-full absolute`,
+                                    tw`flex flex-row justify-end items-center`,
+                                ]}>
                                 <Pressable
                                     style={({ pressed }) => [
+                                        tw`h-[10px]`,
+                                        tw`justify-center items-center flex-nowrap`,
+                                        tw`rounded-full`,
+                                        tw`aspect-square`,
+                                        tw`text-sm font-medium`,
+                                        defaultShadowColor,
                                         {
-                                            // flex: 1,
-                                            // display:"inline"
-                                            height: baseStyle.space.p10,
-                                            // width: "100%",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            flexWrap: "nowrap",
-                                            borderRadius: baseStyle.rounded.xl3,
-                                            aspectRatio: "1/1",
-                                            fontSize: baseStyle.fontSize.sm,
-                                            fontWeight:
-                                                baseStyle.fontWeight.medium,
-                                            shadowColor:
-                                                baseStyle.color.background,
                                             backgroundColor: pressed
                                                 ? baseStyle.color.secondary
                                                 : baseStyle.color.secondary,
-                                            // paddingHorizontal: baseStyle.space.p1,
-                                            // paddingVertical: baseStyle.space.p1,
                                         },
                                     ]}
                                     onPress={() => setOpenModal(false)}>
@@ -170,81 +147,56 @@ export const SelectionModal = ({
                                                     : baseStyle.color
                                                           .secondaryForeground
                                             }
-                                            style={{
-                                                color: pressed
-                                                    ? baseStyle.color
-                                                          .secondaryForeground
-                                                    : baseStyle.color
-                                                          .secondaryForeground,
-                                                // width: "100%",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                textAlign: "center",
-                                                flexWrap: "nowrap",
-                                                borderRadius:
-                                                    baseStyle.rounded.md,
-                                                fontSize: baseStyle.fontSize.sm,
-                                                fontWeight:
-                                                    baseStyle.fontWeight.medium,
-                                                // shadowColor: baseStyle.background,?
-                                                // backgroundColor: pressed
-                                                //     ? baseStyle.primaryHover
-                                                //     : baseStyle.primary,
-                                            }}
+                                            style={twStyle(
+                                                "items-center justify-cente",
+                                                "text-sm font-medium text-center flex-nowrap",
+                                                "rounded-full"
+                                            )}
                                         />
                                     )}
                                 </Pressable>
                             </View>
-                        </View>
+                        </LabelView.ModalHeader>
 
-                        <ScrollContainerView style={{}}>
-                            {dataList.map((data, i) => (
-                                <ContainerView
-                                    tag={["Calender Selection Bar"]}
-                                    style={{
-                                        width: "100%",
-                                        borderWidth: 1,
-                                        shadowOpacity: 0,
-                                        flexDirection: "row",
-                                        paddingHorizontal: 0,
-                                        paddingVertical: 0,
-                                        marginBottom:
-                                            i == dataList.length - 1
-                                                ? baseStyle.space.p8
-                                                : baseStyle.space.p2,
-                                        backgroundColor:
-                                            data.key == selectedKey
-                                                ? baseStyle.color.muted
-                                                : baseStyle.color.background,
-                                    }}>
-                                    <Pressable
-                                        style={{
-                                            width: "100%",
-                                            height: "100%",
-                                            paddingHorizontal:
-                                                baseStyle.space.p8,
-                                            paddingVertical: baseStyle.space.p4,
-                                        }}
-                                        onPress={() => {
-                                            setSelectedData(data);
-                                            setSelectedKey(data.key);
-                                        }}
-                                    >
-                                        <Text
-                                            style={{
-                                                color: baseStyle.color
-                                                    .foreground,
-                                            }}
-                                        >
-                                            {data.value}
-                                        </Text>
-                                    </Pressable>
-                                </ContainerView>
-                            ))}
+                        <ScrollContainerView style={tw`border-0`}>
+                            {dataList.map((data, i) => {
+                                const isLast = i == dataList.length - 1;
+                                return (
+                                    <LabelContainerView.SelectionOption
+                                        style={[
+                                            tw`w-full p-0`,
+                                            tw`border`,
+                                            tw`shadow-opacity-[0px]`,
+                                            tw`flex-row`,
+                                            isLast ? tw`mb-8` : tw`mb-2`,
+                                            {
+                                                backgroundColor:
+                                                    data.key == selectedKey
+                                                        ? baseStyle.color.muted
+                                                        : baseStyle.color
+                                                              .background,
+                                            },
+                                        ]}>
+                                        <Pressable
+                                            style={[
+                                                tw`w-full h-full px-8 py-4`,
+                                            ]}
+                                            onPress={() => {
+                                                setSelectedData(data);
+                                                setSelectedKey(data.key);
+                                            }}>
+                                            <Text
+                                                style={defaultFontColor}>
+                                                {data.value}
+                                            </Text>
+                                        </Pressable>
+                                    </LabelContainerView.SelectionOption>
+                                );
+                            })}
                         </ScrollContainerView>
-                    </ContainerView>
-                </ContainerView>
-            {/* </Modal> */}
+                    </LabelContainerView.MainBody>
+                </LabelContainerView.Overlay>
+            </Modal>
         </>
     );
 };

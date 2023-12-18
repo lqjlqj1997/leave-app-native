@@ -7,14 +7,28 @@ import {
     View,
 } from "react-native";
 import { ContainerView } from "../../../lib/components/ContainerView";
-import { getBaseStyle } from "../../../lib/style/StyleUtil";
+import {
+    getBaseStyle,
+    getDefaultColourStyle,
+} from "../../../lib/style/StyleUtil";
 import { DAY_LIST } from "../../../lib/util/DateConstant";
+import { tw } from "../../../lib/util/Tailwind";
+
+const LabelContainerView = {
+    Overlay: ContainerView,
+    MainBody: ContainerView,
+    CalenderSection: ContainerView,
+    ButtonSection: ContainerView,
+};
+
+const LabelView = {
+    dayHeader: View,
+};
 
 const getCalendarList = (year: number, month: number) => {
     const firstDayMonth = new Date(year, month, 1);
     const startDay = new Date(year, month, 1);
     startDay.setDate(startDay.getDate() - firstDayMonth.getDay());
-    console.log(startDay);
     const nextMonth = (month + 1) % 12;
 
     const dateList: Date[][] = [];
@@ -54,50 +68,32 @@ export const LeaveCalender = ({
 }: LeaveCalenderProps) => {
     const baseStyle = getBaseStyle();
     const dateList = getCalendarList(selectedYear, selectedMonth);
+    const { defaultFontColor, defaultBorderColor, defaultBackgroundColor } =
+        getDefaultColourStyle();
     return (
-        <ContainerView
-            style={{
-                // flex: 1,
-                paddingVertical: 0,
-                width: "100%",
-                gap: 0,
-            }}>
-            <View
+        <LabelContainerView.MainBody style={[tw`py-0 w-full gap-0 `]}>
+            <LabelView.dayHeader
                 id="Header"
-                style={{
-                    // flex: 1,
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    borderColor: baseStyle.color.border,
-                    borderBottomWidth: baseStyle.borderWidth,
-                    paddingVertical: baseStyle.space.p2,
-                }}>
+                style={[
+                    tw`py-2 w-full flex flex-row justify-center items-center`,
+                    tw`border-[0.5px]`,
+                    defaultBorderColor,
+                ]}>
                 {DAY_LIST.map((day) => {
                     return (
                         <View
                             id="Header"
                             key={day}
-                            style={{
-                                flex: 1,
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyContent: "center",
-                                alignItems: "center",
-                            }}>
-                            <Text
-                                style={{
-                                    fontWeight: baseStyle.fontWeight.bold,
-                                    color: baseStyle.color.foreground,
-                                }}>
+                            style={[
+                                tw`flex-1 flex flex-row justify-center items-center`,
+                            ]}>
+                            <Text style={[tw`font-bold`, defaultFontColor]}>
                                 {day}
                             </Text>
                         </View>
                     );
                 })}
-            </View>
+            </LabelView.dayHeader>
 
             {dateList.map((rowDate, i) => {
                 const isLast = i + 1 === dateList.length;
@@ -105,55 +101,33 @@ export const LeaveCalender = ({
                     <View
                         id="Row"
                         key={`row${i}`}
-                        style={{
-                            // flex: 1,0
-                            width: "100%",
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            borderColor: baseStyle.color.border,
-                            borderBottomWidth: isLast
-                                ? 0
-                                : baseStyle.borderWidth,
-                            paddingVertical: baseStyle.space.p2,
-                        }}>
+                        style={[
+                            tw`w-full py-2`,
+                            tw`flex flex-row justify-center items-center`,
+                            isLast ? tw`border-0` : tw`border-b-[0.5px]`,
+                            defaultBorderColor,
+                        ]}>
                         {rowDate.map((date) => {
                             const notSelectedMonth =
                                 date.getMonth() != selectedMonth;
+                            const isSelectedDate =
+                                selectedDate &&
+                                selectedDate.getTime() == date.getTime();
                             // const isWeekend =
                             //     date.getDay() == 0 || date.getDay() == 6;
                             return (
                                 <View
                                     id="Cell"
                                     key={`${date.getMonth()}-${date.getDate()}`}
-                                    style={{
-                                        flex: 1,
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                    }}>
+                                    style={[
+                                        tw`flex-1 flex flex-row justify-center items-center`,
+                                    ]}>
                                     <Pressable
                                         style={[
-                                            {
-                                                display: "flex",
-                                                justifyContent: "center",
-                                                alignItems: "center",
-                                                backgroundColor: false //notSelectedMonth
-                                                    ? baseStyle.color.muted
-                                                    : baseStyle.color
-                                                          .background,
-                                                // padding: baseStyle.space.p2,
-                                                padding: baseStyle.space.p1,
-                                                aspectRatio: "1/1",
-                                                minHeight: 20,
-                                                // borderRadius:
-                                                //     baseStyle.rounded.xl3,
-                                            },
-                                            selectedDate &&
-                                            selectedDate.getTime() ==
-                                                date.getTime()
+                                            tw`flex justify-center items-center`,
+                                            tw`p-1 aspect-square min-h-[20px]`,
+                                            defaultBackgroundColor,
+                                            isSelectedDate
                                                 ? {
                                                       backgroundColor:
                                                           baseStyle.color
@@ -165,15 +139,10 @@ export const LeaveCalender = ({
                                         ]}
                                         onPress={() => setSelectedDate(date)}>
                                         <Text
-                                            style={{
-                                                lineHeight:
-                                                    baseStyle.fontSize.base,
-                                                fontSize:
-                                                    baseStyle.fontSize.base,
-                                                color:
-                                                    selectedDate &&
-                                                    selectedDate.getTime() ==
-                                                        date.getTime()
+                                            style={[
+                                                tw`text-base leading-none`,
+                                                {
+                                                    color: isSelectedDate
                                                         ? baseStyle.color
                                                               .destructiveForeground
                                                         : notSelectedMonth
@@ -181,7 +150,8 @@ export const LeaveCalender = ({
                                                               .mutedForeground
                                                         : baseStyle.color
                                                               .foreground,
-                                            }}>
+                                                },
+                                            ]}>
                                             {date.getDate()}
                                         </Text>
                                     </Pressable>
@@ -191,6 +161,6 @@ export const LeaveCalender = ({
                     </View>
                 );
             })}
-        </ContainerView>
+        </LabelContainerView.MainBody>
     );
 };

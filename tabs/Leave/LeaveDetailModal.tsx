@@ -8,12 +8,12 @@ import {
     View,
     TouchableWithoutFeedback,
 } from "react-native";
-import { getBaseStyle } from "../../lib/style/GlobalStyle";
 import {
     ContainerView,
     ScrollContainerView,
 } from "../../lib/components/ContainerView";
 import { Button } from "../../lib/components/Button";
+import { getBaseStyle } from "../../lib/style/StyleUtil";
 
     const baseStyle = getBaseStyle();
     const [modalVisible, setModalVisible] = useState(false);

@@ -8,19 +8,37 @@ import {
     Text,
     View,
 } from "react-native";
-import { ContainerView } from "../../../lib/components/ContainerView";
-import { getBaseStyle } from "../../../lib/style/StyleUtil";
 
+import { ContainerView } from "../../../lib/components/ContainerView";
+import {
+    getBaseStyle,
+    getDefaultColourStyle,
+} from "../../../lib/style/StyleUtil";
+import { tw, twStyle } from "../../../lib/util/Tailwind";
 interface LeaveDetailModalProps extends ModalProps {
     modalVisible: boolean;
     onDemise: ((event: NativeSyntheticEvent<any>) => void) | undefined;
 }
+
+const LabelContainerView = {
+    Overlay: ContainerView,
+    MainBody: ContainerView,
+    LegendSection: ContainerView,
+};
+
+const LabelView = {
+    Container: View,
+    Header: View,
+    Cell: View,
+};
 
 export const DayModeLegendModal = ({
     modalVisible,
     onDemise,
 }: LeaveDetailModalProps) => {
     const baseStyle = getBaseStyle();
+    const { defaultFontColor, defaultBackgroundColor, defaultBorderColor } =
+        getDefaultColourStyle();
 
     return (
         <Modal
@@ -31,93 +49,47 @@ export const DayModeLegendModal = ({
             //     setModalVisible(!modalVisible);
             // }}
         >
-            <ContainerView
-                style={{
-                    width: "100%",
-                    height: "100%",
-                    backgroundColor: baseStyle.color.overlay,
-                }}
-            >
-                {/* <TouchableWithoutFeedback
-                        onPress={() => setModalVisible(false)}
-                    > */}
-                <ContainerView
-                    style={{
-                        padding: 0,
-                        paddingTop: baseStyle.space.p4,
-                        // width: "100%",
-                        // height: "100%",
-                        // minWidth: 350,
-                        // maxWidth: 800,
-                        // minHeight: 200,
-                        // maxHeight: 600,
-                    }}
-                >
-                    <View
-                        style={{
-                            width: "100%",
-                            display: "flex",
-                            flexDirection: "row",
-                            maxWidth: "100%",
-                            alignContent: "center",
-                            justifyContent: "center",
-                        }}
-                    >
+            <LabelContainerView.Overlay
+                style={[
+                    tw`w-full h-full`,
+                    {
+                        backgroundColor: baseStyle.color.overlay,
+                    },
+                ]}>
+                <LabelContainerView.MainBody style={[tw`p-0 py-4`]}>
+                    <LabelView.Header
+                        style={[
+                            tw`w-full max-w-full`,
+                            tw`flex flex-row justify-center items-center`,
+                        ]}>
                         <View
-                            style={{
-                                width: "100%",
-                                flex: 9,
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyContent: "center",
-                                alignItems: "center",
-                            }}
-                        >
+                            style={[
+                                tw`w-full flex-9`,
+                                tw`flex flex-row justify-center items-center`,
+                                ,
+                            ]}>
                             <ContainerView>
-                                <Text
-style={{
-                                        color: baseStyle.color.foreground,
-                                    }}
-                                >
-                                    Help
-                                </Text>
+                                <Text style={[defaultFontColor]}>Help</Text>
                             </ContainerView>
                         </View>
                         <View
                             id="CloseButton"
-                            style={{
-                                width: "100%",
-                                position: "absolute",
-                                display: "flex",
-                                flexDirection: "row",
-                                alignItems: "center",
-                                justifyContent: "flex-end",
-                            }}
-                        >
+                            style={[
+                                tw`w-full absolute pr-4`,
+                                tw`flex flex-row justify-end items-center`,
+                            ]}>
                             <Pressable
                                 style={({ pressed }) => [
+                                    tw`h-10 aspect-square rounded-full`,
+                                    tw`flex flex-row flex-nowrap justify-center items-center`,
+                                    tw`text-sm font-medium`,
                                     {
-                                        // flex: 1,
-                                        // display:"inline"
-                                        height: baseStyle.space.p10,
-                                        // width: "100%",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        flexWrap: "nowrap",
-                                        borderRadius: baseStyle.rounded.xl3,
-                                        aspectRatio: "1/1",
-                                        fontSize: baseStyle.fontSize.sm,
-                                        fontWeight: baseStyle.fontWeight.medium,
-                                        shadowColor: baseStyle.color.background,
                                         backgroundColor: pressed
                                             ? baseStyle.color.secondary
                                             : baseStyle.color.secondary,
-                                        // paddingHorizontal: baseStyle.space.p1,
-                                        // paddingVertical: baseStyle.space.p1,
                                     },
                                 ]}
-                                onPress={onDemise}
-                            >
+                                onPress={onDemise}>
                                 {({ pressed }) => (
                                     <XCircle
                                         color={
@@ -127,169 +99,116 @@ style={{
                                                 : baseStyle.color
                                                       .secondaryForeground
                                         }
-                                        style={{
-                                            color: pressed
-                                                ? baseStyle.color
-                                                      .secondaryForeground
-                                                : baseStyle.color
-                                                      .secondaryForeground,
-                                            // width: "100%",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            textAlign: "center",
-                                            flexWrap: "nowrap",
-                                            borderRadius: baseStyle.rounded.md,
-                                            fontSize: baseStyle.fontSize.sm,
-                                            fontWeight:
-                                                baseStyle.fontWeight.medium,
-                                            // shadowColor: baseStyle.background,?
-                                            // backgroundColor: pressed
-                                            //     ? baseStyle.primaryHover
-                                            //     : baseStyle.primary,
-                                        }}
+                                        style={twStyle(
+                                            "justify-center items-center",
+                                            "text-sm font-medium text-center",
+                                            "flex-nowrap",
+                                            "rounded-md"
+                                        )}
                                     />
                                 )}
                             </Pressable>
                         </View>
-                    </View>
+                    </LabelView.Header>
 
-                    <ContainerView
-                        style={{
-                            // flex: 1,
-                            padding: 0,
-                            paddingHorizontal: 0,
-                            borderWidth: 1,
-                            shadowOpacity: 0,
-                            gap: 0,
-                        }}
-                    >
-                        <View
+                    <LabelContainerView.LegendSection
+                        style={[tw`p-0 py-2 border shadow-opacity-0 gap-0`]}>
+                        <LabelView.Container
                             id="Header"
-                            style={{
-                                // flex: 1,
-                                // width: "100%",
-                                // minWidth: 300,
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                borderColor: baseStyle.color.border,
-                                // borderBottomWidth: baseStyle.borderWidth,
-                                padding: 0,
-                            }}
-                        >
-                            <View
+                            style={[
+                                tw`flex flex-row justify-center items-center`,
+                                tw`p-0`,
+                                defaultBorderColor,
+                            ]}>
+                                
+                            <LabelView.Cell
                                 id="Header"
-                                style={{
-                                    // flex: 1,
-                                    display: "flex",
-                                    // flexDirection: "row",
-                                    justifyContent: "space-evenly",
-                                    alignItems: "center",
-                                    paddingHorizontal: baseStyle.space.p2,
-                                    borderColor: baseStyle.color.border,
-                                }}
-                            >
+                                style={[
+                                    tw`flex justify-evenly items-center`,
+                                    tw`px-2`,
+                                    // tw`border-l-[0.5px]`,
+                                    defaultBorderColor,
+                                ]}>
                                 <View
-                                    style={{
-                                        padding: baseStyle.space.p2,
-                                        borderRadius: baseStyle.rounded.md,
-                                        backgroundColor: baseStyle.color.muted,
-                                    }}
-                                >
+                                    style={[
+                                        tw`p-2 rounded-md`,
+                                        {
+                                            backgroundColor:
+                                                baseStyle.color.muted,
+                                        },
+                                    ]}>
                                     <Sun color={baseStyle.color.primary}></Sun>
                                 </View>
                                 <Text
-style={{
+                                    style={{
                                         color: baseStyle.color.foreground,
-                                    }}
-                                >
+                                    }}>
                                     Whole Day
                                 </Text>
-                            </View>
+                            </LabelView.Cell>
 
-                            <View
+                            <LabelView.Cell
                                 id="Header"
-                                style={{
-                                    // flex: 1,
-                                    display: "flex",
-                                    // flexDirection: "row",
-                                    justifyContent: "space-evenly",
-                                    alignItems: "center",
-                                    paddingHorizontal: baseStyle.space.p2,
-                                    borderColor: baseStyle.color.border,
-                                    borderLeftWidth: baseStyle.borderWidth,
-                                }}
-                            >
+                                style={[
+                                    tw`flex justify-evenly items-center`,
+                                    tw`px-2`,
+                                    tw`border-l-[0.5px]`,
+                                    defaultBorderColor,
+                                ]}>
                                 <View
-                                    style={{
-                                        padding: baseStyle.space.p2,
-                                        borderRadius: baseStyle.rounded.md,
-                                        backgroundColor: baseStyle.color.muted,
-                                    }}
-                                >
+                                    style={[
+                                        tw`p-2 rounded-md`,
+                                        {
+                                            backgroundColor:
+                                                baseStyle.color.muted,
+                                        },
+                                    ]}>
                                     <Sunrise
                                         color={
-                                            !true
-                                                ? baseStyle.color
-                                                      .mutedForeground
-                                                : baseStyle.color.primary
-                                        }
-                                    ></Sunrise>
+                                            baseStyle.color.primary
+                                        }></Sunrise>
                                 </View>
                                 <Text
-style={{
-                                        color: !true
-                                            ? baseStyle.color.mutedForeground
-                                            : baseStyle.color.foreground,
-                                    }}
-                                >
+                                    style={{
+                                        color: baseStyle.color.foreground,
+                                    }}>
                                     Morning
                                 </Text>
-                            </View>
-                            <View
+                            </LabelView.Cell>
+
+                            <LabelView.Cell
                                 id="Header"
-                                style={{
-                                    // flex: 1,
-                                    display: "flex",
-                                    // flexDirection: "row",
-                                    justifyContent: "space-evenly",
-                                    alignItems: "center",
-                                    paddingHorizontal: baseStyle.space.p2,
-                                    borderColor: baseStyle.color.border,
-                                    borderLeftWidth: baseStyle.borderWidth,
-                                }}
-                            >
+                                style={[
+                                    tw`flex justify-evenly items-center`,
+                                    tw`px-2`,
+                                    tw`border-l-[0.5px]`,
+                                    defaultBorderColor,
+                                ]}>
                                 <View
-                                    style={{
-                                        padding: baseStyle.space.p2,
-                                        borderRadius: baseStyle.rounded.md,
-                                        backgroundColor: baseStyle.color.muted,
-                                    }}
-                                >
+                                    style={[
+                                        tw`p-2 rounded-md`,
+                                        {
+                                            backgroundColor:
+                                                baseStyle.color.muted,
+                                        },
+                                    ]}>
                                     <Sunset
                                         color={
-                                            !true
-                                                ? baseStyle.color
-                                                      .mutedForeground
-                                                : baseStyle.color.primary
-                                        }
-                                    ></Sunset>
+                                            baseStyle.color.primary
+                                        }></Sunset>
                                 </View>
                                 <Text
-style={{
-                                        color: !true
-                                            ? baseStyle.color.mutedForeground
-                                            : baseStyle.color.foreground,
-                                    }}
-                                >
+                                    style={{
+                                        color: baseStyle.color.foreground,
+                                    }}>
                                     Afternoon
                                 </Text>
-                            </View>
-                        </View>
-                    </ContainerView>
-                </ContainerView>
-            </ContainerView>
+                            </LabelView.Cell>
+
+                        </LabelView.Container>
+                    </LabelContainerView.LegendSection>
+                </LabelContainerView.MainBody>
+            </LabelContainerView.Overlay>
         </Modal>
     );
 };

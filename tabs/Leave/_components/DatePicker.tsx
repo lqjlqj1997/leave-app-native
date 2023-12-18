@@ -1,17 +1,15 @@
 import { Check, ChevronLeft, ChevronRight, XCircle } from "lucide-react-native";
 import React, { useState } from "react";
-import {
-    Modal,
-    ModalProps,
-    Pressable,
-    View,
-    Text
-} from "react-native";
+import { Modal, ModalProps, Pressable, Text, View } from "react-native";
 import { ContainerView } from "../../../lib/components/ContainerView";
 import { IconButton } from "../../../lib/components/IconButton";
-import { getBaseStyle } from "../../../lib/style/StyleUtil";
+import {
+    getBaseStyle,
+    getDefaultColourStyle,
+} from "../../../lib/style/StyleUtil";
 import { DAY_LIST, FULL_MONTH } from "../../../lib/util/DateConstant";
 import { LeaveDataType } from "./LeaveFormModal";
+import { tw, twStyle } from "../../../lib/util/Tailwind";
 
 const getCalendarList = (year: number, month: number) => {
     const firstDayMonth = new Date(year, month, 1);
@@ -49,6 +47,18 @@ interface LeaveCalenderProps extends ModalProps {
     setDateList: (selectedDateList: LeaveDataType[]) => void | undefined;
 }
 
+const LabelContainerView = {
+    Overlay: ContainerView,
+    MainBody: ContainerView,
+    CalenderSection: ContainerView,
+    ButtonSection: ContainerView,
+};
+
+const LabelView = {
+    MonthSelection: View,
+    dayHeader: View,
+};
+
 export const DatePicker = ({
     modalVisible,
     onDemise,
@@ -56,6 +66,8 @@ export const DatePicker = ({
     setDateList,
 }: LeaveCalenderProps) => {
     const baseStyle = getBaseStyle();
+    const { defaultFontColor, defaultBackgroundColor, defaultBorderColor } =
+        getDefaultColourStyle();
     const today = new Date();
     const [selectedYear, setSelectedYear] = useState(today.getFullYear());
     const [selectedMonth, setSelectedMonth] = useState(today.getMonth());
@@ -107,64 +119,41 @@ export const DatePicker = ({
             //     setModalVisible(!modalVisible);
             // }}
         >
-            <ContainerView
-                style={{
-                    width: "100%",
-                    height: "100%",
-                    backgroundColor: baseStyle.color.overlay,
-                }}
-            >
+            <LabelContainerView.Overlay
+                style={[
+                    tw`w-full h-full`,
+                    {
+                        backgroundColor: baseStyle.color.overlay,
+                    },
+                ]}>
                 {/* <TouchableWithoutFeedback
                         onPress={() => setModalVisible(false)}
                     > */}
-                <ContainerView
-                    style={{
-                        padding: 0,
-                        paddingTop: baseStyle.space.p4,
-                        width: "100%",
-                        height: "100%",
-                        minWidth: 350,
-                        maxWidth: 400,
-                        minHeight: 500,
-                        maxHeight: 500,
-                    }}
-                >
-                    <View
-                        style={{
-                            width: "100%",
-                            display: "flex",
-                            flexDirection: "row",
-                            maxWidth: "100%",
-                            alignContent: "center",
-                            justifyContent: "center",
-                        }}
-                    >
+                <LabelContainerView.MainBody
+                    style={[
+                        tw`w-full h-full p-0 pt-4`,
+                        tw`min-w-[350px] min-h-[400px] max-w-[500px] max-h-[500px]`,
+                    ]}>
+                    <LabelView.MonthSelection
+                        style={[
+                            tw`w-full max-w-full`,
+                            tw`flex flex-row justify-center items-center`,
+                        ]}>
                         <View
-                            style={{
-                                width: "100%",
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyContent: "center",
-                                alignItems: "center",
-                            }}
-                        >
+                            style={[
+                                tw`w-full `,
+                                tw`flex flex-row justify-center items-center`,
+                            ]}>
                             <ContainerView
                                 tag={["Calender Selection Bar"]}
-                                style={{
-                                    borderWidth: 0,
-                                    shadowOpacity: 0,
-                                    flexDirection: "row",
-                                }}
-                            >
+                                style={[
+                                    tw`border-0 shadow-opacity-0 flex-row`,
+                                ]}>
                                 <IconButton
                                     onPress={() => {
                                         changeMonth(-1);
                                     }}
-                                    style={{
-                                        borderRadius: baseStyle.rounded.xl3,
-                                        aspectRatio: "1/1",
-                                    }}
-                                >
+                                    style={[tw`rounded-full aspect-square`]}>
                                     {({ pressed }) => (
                                         <ChevronLeft
                                             color={
@@ -172,52 +161,40 @@ export const DatePicker = ({
                                                     ? baseStyle.color.muted
                                                     : baseStyle.color.background
                                             }
-                                            style={{
-                                                color: pressed
-                                                    ? baseStyle.color
-                                                          .primaryForeground
-                                                    : baseStyle.color
-                                                          .primaryForeground,
-                                                // width: "100%",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                textAlign: "center",
-                                                flexWrap: "nowrap",
-                                                borderRadius:
-                                                    baseStyle.rounded.md,
-                                                fontSize: baseStyle.fontSize.sm,
-                                                fontWeight:
-                                                    baseStyle.fontWeight.medium,
-                                                // shadowColor: baseStyle.background,?
-                                                // backgroundColor: pressed
-                                                //     ? baseStyle.primaryHover
-                                                //     : baseStyle.primary,
-                                            }}
+                                            style={twStyle(
+                                                `flex-1 `,
+                                                `justify-center items-center`,
+                                                `text-center text-sm font-medium`,
+                                                `rounded-full`,
+                                                {
+                                                    color: pressed
+                                                        ? baseStyle.color
+                                                              .primaryForeground
+                                                        : baseStyle.color
+                                                              .primaryForeground,
+                                                }
+                                            )}
                                         />
                                     )}
                                 </IconButton>
                                 <Text
-                                    style={{
-                                        // flex: 1,
-                                        // width: "100%",
-                                        minWidth: baseStyle.space.p36,
-                                        color: baseStyle.color.cardForeground,
-                                        fontSize: baseStyle.fontSize.lg,
-                                        textAlign: "center",
-                                        fontWeight: baseStyle.fontWeight.normal,
-                                    }}
-                                >
+                                    style={[
+                                        tw`min-w-[100px]`,
+                                        tw`text-lg text-center font-normal`,
+                                        tw`text-lg`,
+                                        // getDefaultFontColourStyle(),
+                                        {
+                                            color: baseStyle.color
+                                                .cardForeground,
+                                        },
+                                    ]}>
                                     {`${selectedYear} ${FULL_MONTH[selectedMonth]}`}
                                 </Text>
                                 <IconButton
                                     onPress={() => {
                                         changeMonth(1);
                                     }}
-                                    style={{
-                                        borderRadius: baseStyle.rounded.xl3,
-                                        aspectRatio: "1/1",
-                                    }}
-                                >
+                                    style={[tw` rounded-full aspect-square`]}>
                                     {({ pressed }) => (
                                         <ChevronRight
                                             color={
@@ -225,83 +202,55 @@ export const DatePicker = ({
                                                     ? baseStyle.color.muted
                                                     : baseStyle.color.background
                                             }
-                                            style={{
-                                                color: pressed
-                                                    ? baseStyle.color
-                                                          .primaryForeground
-                                                    : baseStyle.color
-                                                          .primaryForeground,
-                                                // width: "100%",
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                textAlign: "center",
-                                                flexWrap: "nowrap",
-                                                borderRadius:
-                                                    baseStyle.rounded.md,
-                                                fontSize: baseStyle.fontSize.sm,
-                                                fontWeight:
-                                                    baseStyle.fontWeight.medium,
-                                                // shadowColor: baseStyle.background,?
-                                                // backgroundColor: pressed
-                                                //     ? baseStyle.primaryHover
-                                                //     : baseStyle.primary,
-                                            }}
+                                            style={twStyle(
+                                                `flex-1 `,
+                                                `justify-center items-center`,
+                                                `text-center text-sm font-medium`,
+                                                `rounded-full`,
+                                                {
+                                                    color: pressed
+                                                        ? baseStyle.color
+                                                              .primaryForeground
+                                                        : baseStyle.color
+                                                              .primaryForeground,
+                                                }
+                                            )}
                                         />
                                     )}
                                 </IconButton>
                             </ContainerView>
                         </View>
-                    </View>
+                    </LabelView.MonthSelection>
 
-                    <ContainerView
-                        style={{
-                            // flex: 1,
-                            paddingVertical: 0,
-                            width: "100%",
-                            gap: 0,
-                        }}
-                    >
-                        <View
+                    <LabelContainerView.CalenderSection
+                        style={[tw`p-0 w-full gap-0`]}>
+                        <LabelView.dayHeader
                             id="Header"
-                            style={{
-                                // flex: 1,
-                                width: "100%",
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                borderColor: baseStyle.color.border,
-                                borderBottomWidth: baseStyle.borderWidth,
-                                paddingVertical: baseStyle.space.p2,
-                            }}
-                        >
+                            style={[
+                                tw`w-full py-2`,
+                                tw`flex flex-row justify-center items-center`,
+                                tw`border-b-[0.5px]`,
+                                defaultBorderColor,
+                            ]}>
                             {DAY_LIST.map((day) => {
                                 return (
                                     <View
                                         id="Header"
                                         key={day}
-                                        style={{
-                                            flex: 1,
-                                            display: "flex",
-                                            flexDirection: "row",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                        }}
-                                    >
+                                        style={[
+                                            tw`flex-1 flex flex-row justify-center items-center`,
+                                        ]}>
                                         <Text
-                                            style={{
-                                                fontWeight:
-                                                    baseStyle.fontWeight.bold,
-                                                color: baseStyle.color
-                                                    .foreground,
-                                            }}
-                                        >
+                                            style={[
+                                                defaultFontColor,
+                                                tw`font-bold`,
+                                            ]}>
                                             {day}
                                         </Text>
                                     </View>
                                 );
                             })}
-                        </View>
+                        </LabelView.dayHeader>
 
                         {dateList.map((rowDate, i) => {
                             const isLast = i + 1 === dateList.length;
@@ -309,68 +258,38 @@ export const DatePicker = ({
                                 <View
                                     id="Row"
                                     key={`row${i}`}
-                                    style={{
-                                        // flex: 1,0
-                                        width: "100%",
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        borderColor: baseStyle.color.border,
-                                        borderBottomWidth: isLast
-                                            ? 0
-                                            : baseStyle.borderWidth,
-                                        paddingVertical: baseStyle.space.p2,
-                                    }}
-                                >
+                                    style={[
+                                        tw`w-full py-2`,
+                                        tw`flex flex-row justify-center items-center`,
+                                        isLast
+                                            ? tw`border-0`
+                                            : tw`border-b-[0.5px]`,
+                                        defaultBorderColor,
+                                    ]}>
                                     {rowDate.map((date) => {
                                         const notSelectedMonth =
                                             date.getMonth() != selectedMonth;
+                                        const isSelectedDate =
+                                            selectedDateList.some(
+                                                (day) =>
+                                                    day.date.getTime() ===
+                                                    date.getTime()
+                                            );
                                         // const isWeekend =
                                         //     date.getDay() == 0 || date.getDay() == 6;
                                         return (
                                             <View
                                                 id="Cell"
                                                 key={`${date.getMonth()}-${date.getDate()}`}
-                                                style={{
-                                                    flex: 1,
-                                                    display: "flex",
-                                                    flexDirection: "row",
-                                                    justifyContent: "center",
-                                                    alignItems: "center",
-                                                }}
-                                            >
+                                                style={[
+                                                    tw`flex-1 flex flex-row justify-center items-center`,
+                                                ]}>
                                                 <Pressable
                                                     style={[
-                                                        {
-                                                            display: "flex",
-                                                            justifyContent:
-                                                                "center",
-                                                            alignItems:
-                                                                "center",
-                                                            backgroundColor:
-                                                                false //notSelectedMonth
-                                                                    ? baseStyle
-                                                                          .color
-                                                                          .muted
-                                                                    : baseStyle
-                                                                          .color
-                                                                          .background,
-                                                            // padding: baseStyle.space.p2,
-                                                            padding:
-                                                                baseStyle.space
-                                                                    .p1,
-                                                            aspectRatio: "1/1",
-                                                            minHeight: 20,
-                                                            // borderRadius:
-                                                            //     baseStyle.rounded.xl3,
-                                                        },
-
-                                                        selectedDateList.some(
-                                                            (day) =>
-                                                                day.date.getTime() ===
-                                                                date.getTime()
-                                                        )
+                                                        tw`flex justify-center items-center`,
+                                                        tw`p-1 aspect-square min-h-[20px]`,
+                                                        defaultBackgroundColor,
+                                                        isSelectedDate
                                                             ? {
                                                                   backgroundColor:
                                                                       baseStyle
@@ -385,35 +304,24 @@ export const DatePicker = ({
                                                     ]}
                                                     onPress={() =>
                                                         selectDateFunction(date)
-                                                    }
-                                                >
+                                                    }>
                                                     <Text
-                                                        style={{
-                                                            lineHeight:
-                                                                baseStyle
-                                                                    .fontSize
-                                                                    .base,
-                                                            fontSize:
-                                                                baseStyle
-                                                                    .fontSize
-                                                                    .base,
-                                                            color: selectedDateList.some(
-                                                                (day) =>
-                                                                    day.date.getTime() ===
-                                                                    date.getTime()
-                                                            )
-                                                                ? baseStyle
-                                                                      .color
-                                                                      .destructiveForeground
-                                                                : notSelectedMonth
-                                                                ? baseStyle
-                                                                      .color
-                                                                      .mutedForeground
-                                                                : baseStyle
-                                                                      .color
-                                                                      .foreground,
-                                                        }}
-                                                    >
+                                                        style={[
+                                                            tw`text-base leading-none`,
+                                                            {
+                                                                color: isSelectedDate
+                                                                    ? baseStyle
+                                                                          .color
+                                                                          .destructiveForeground
+                                                                    : notSelectedMonth
+                                                                    ? baseStyle
+                                                                          .color
+                                                                          .mutedForeground
+                                                                    : baseStyle
+                                                                          .color
+                                                                          .foreground,
+                                                            },
+                                                        ]}>
                                                         {date.getDate()}
                                                     </Text>
                                                 </Pressable>
@@ -423,15 +331,10 @@ export const DatePicker = ({
                                 </View>
                             );
                         })}
-                    </ContainerView>
-                    <ContainerView
-                        tag={["Calender Selection Bar"]}
-                        style={{
-                            borderWidth: 0,
-                            shadowOpacity: 0,
-                            flexDirection: "row",
-                        }}
-                    >
+                    </LabelContainerView.CalenderSection>
+
+                    <LabelContainerView.ButtonSection
+                        style={[tw`border-0 shadow-opacity-0 flex-row`]}>
                         <IconButton
                             onPress={() => {
                                 setDateList(
@@ -442,11 +345,7 @@ export const DatePicker = ({
                                 );
                                 onDemise();
                             }}
-                            style={{
-                                borderRadius: baseStyle.rounded.xl3,
-                                aspectRatio: "1/1",
-                            }}
-                        >
+                            style={[tw`rounded-full aspect-square`]}>
                             {({ pressed }) => (
                                 <Check
                                     color={
@@ -454,23 +353,13 @@ export const DatePicker = ({
                                             ? baseStyle.color.muted
                                             : baseStyle.color.background
                                     }
-                                    style={{
-                                        color: pressed
-                                            ? baseStyle.color.primaryForeground
-                                            : baseStyle.color.primaryForeground,
-                                        // width: "100%",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        textAlign: "center",
-                                        flexWrap: "nowrap",
-                                        borderRadius: baseStyle.rounded.md,
-                                        fontSize: baseStyle.fontSize.sm,
-                                        fontWeight: baseStyle.fontWeight.medium,
-                                        // shadowColor: baseStyle.background,?
-                                        // backgroundColor: pressed
-                                        //     ? baseStyle.primaryHover
-                                        //     : baseStyle.primary,
-                                    }}
+                                    style={twStyle(
+                                        `flex-1 `,
+                                        `justify-center items-center`,
+                                        `text-center text-sm font-medium`,
+                                        "flex-nowrap",
+                                        `rounded-md`
+                                    )}
                                 />
                             )}
                         </IconButton>
@@ -479,11 +368,7 @@ export const DatePicker = ({
                                 setSelectedDateList([...initialDateList]);
                                 onDemise();
                             }}
-                            style={{
-                                borderRadius: baseStyle.rounded.xl3,
-                                aspectRatio: "1/1",
-                            }}
-                        >
+                            style={[tw`rounded-full aspect-square`]}>
                             {({ pressed }) => (
                                 <XCircle
                                     color={
@@ -491,29 +376,19 @@ export const DatePicker = ({
                                             ? baseStyle.color.muted
                                             : baseStyle.color.background
                                     }
-                                    style={{
-                                        color: pressed
-                                            ? baseStyle.color.primaryForeground
-                                            : baseStyle.color.primaryForeground,
-                                        // width: "100%",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        textAlign: "center",
-                                        flexWrap: "nowrap",
-                                        borderRadius: baseStyle.rounded.md,
-                                        fontSize: baseStyle.fontSize.sm,
-                                        fontWeight: baseStyle.fontWeight.medium,
-                                        // shadowColor: baseStyle.background,?
-                                        // backgroundColor: pressed
-                                        //     ? baseStyle.primaryHover
-                                        //     : baseStyle.primary,
-                                    }}
+                                    style={twStyle(
+                                        `flex-1 `,
+                                        `justify-center items-center`,
+                                        `text-center text-sm font-medium`,
+                                        "flex-nowrap",
+                                        `rounded-md`
+                                    )}
                                 />
                             )}
                         </IconButton>
-                    </ContainerView>
-                </ContainerView>
-            </ContainerView>
+                    </LabelContainerView.ButtonSection>
+                </LabelContainerView.MainBody>
+            </LabelContainerView.Overlay>
         </Modal>
     );
 };

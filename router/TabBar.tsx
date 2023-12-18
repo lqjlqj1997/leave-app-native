@@ -2,11 +2,8 @@ import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { ChevronDown } from "lucide-react-native";
 import { Text, TouchableOpacity, View } from "react-native";
 import { ContainerView } from "../lib/components/ContainerView";
-import tw from "twrnc";
-import {
-    getBaseStyle,
-    getDefaultFontColourStyle,
-} from "../lib/style/StyleUtil";
+import { getBaseStyle, getDefaultColourStyle } from "../lib/style/StyleUtil";
+import { tw } from "../lib/util/Tailwind";
 
 export function MyTabBar({
     state,
@@ -14,6 +11,8 @@ export function MyTabBar({
     navigation,
 }: BottomTabBarProps) {
     const baseStyle = getBaseStyle();
+    const { defaultFontColor, defaultBackgroundColor, defaultBorderColor } =
+        getDefaultColourStyle();
     return (
         <View
             style={[
@@ -95,7 +94,7 @@ export function MyTabBar({
                                 {isFocused ? (
                                     <Text
                                         style={[
-                                            getDefaultFontColourStyle(),
+                                            defaultFontColor,
                                             {
                                                 color: isFocused
                                                     ? baseStyle.color.foreground

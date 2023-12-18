@@ -1,7 +1,7 @@
 import { Pressable, SafeAreaView, ScrollView, Text, View } from "react-native";
 import { ContainerView } from "../../../lib/components/ContainerView";
 import { useState } from "react";
-import { getBaseStyle } from "../../../lib/style/GlobalStyle";
+import { getBaseStyle } from "../../../lib/style/StyleUtil";
 
 function LeaveBalancePage() {
 
