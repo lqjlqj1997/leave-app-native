@@ -1,10 +1,8 @@
 import { Modal, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ContainerView } from "../../../lib/components/ContainerView";
-import TabViewExample from "../test";
 import { useState } from "react";
 import { Button } from "../../../lib/components/Button";
-import { yellow } from "@mui/material/colors";
 import { getBaseStyle } from "../../../lib/style/StyleUtil";
 
 
@@ -12,8 +10,6 @@ function UserSettingPage() {
     const [openModal, setOpenModal] = useState(false);
     const baseStyle = getBaseStyle();
 
-    const [oldPass,setOldPass] = useState("");
-    const [newPass, setNewPass] = useState("");
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ScrollView style={{borderWidth:0}}>
@@ -53,7 +49,6 @@ function UserSettingPage() {
                 </ContainerView>
                 <Modal animationType="fade" transparent={true} visible={openModal}>
 
-                    {/* <TabViewExample /> */}
                     <ContainerView
                         style={{
                             width: "100%",

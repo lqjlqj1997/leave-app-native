@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Image, Modal, ScrollView, Text, TextInput, View } from "react-native";
+import { Image, Modal, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { ContainerView } from "../../../lib/components/ContainerView";
-import { Cake, CheckSquare, Mail, MapPin, Phone, User } from "lucide-react-native";
+import { Cake, Check, CheckSquare, Mail, MapPin, Phone, User, X } from "lucide-react-native";
 import { Button } from "../../../lib/components/Button";
 import { getBaseStyle } from "../../../lib/style/StyleUtil";
 
@@ -18,24 +18,11 @@ function UserProfilePage() {
     const [status] = useState('Employed');
     const [phone, setPhone] = useState('0107867361');
     const [role] = useState('Employed');
-    // const DATA = [
-    //     {"email":"a@gmail.com", "address":"safceeva", "status":"employed"},
-    //     // {"email":"b@gmail.com", "address":"xyz street", "status":"unemployed"},
-    //     // {"email":"c@gmail.com", "address":"123 avenue", "status":"employed"},
-    //     // {"email":"d@gmail.com", "address":"main road", "status":"unemployed"},
-    //     // {"email":"e@gmail.com", "address":"palm street", "status":"employed"},
-    //     // {"email":"f@gmail.com", "address":"ocean view", "status":"unemployed"},
-    //     // {"email":"g@gmail.com", "address":"mountain top", "status":"employed"},
-    //     // {"email":"h@gmail.com", "address":"river side", "status":"unemployed"},
-    //     // {"email":"i@gmail.com", "address":"sunrise lane", "status":"employed"},
-    //     // {"email":"j@gmail.com", "address":"moonlight drive", "status":"unemployed"}
-    //   ]
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ScrollView
                 style={{
-                    // paddingBottom: baseStyle.space.p32,
                     borderWidth: 0,
                 }}
             >
@@ -57,7 +44,6 @@ function UserProfilePage() {
                                 onChangeText={setName}
                                 style={{ flex: 1 }}
                                 value={name}
-                            // placeholder="Fatimah"
                             />
 
                         </ContainerView>
@@ -68,23 +54,19 @@ function UserProfilePage() {
                         </ContainerView>
                         <ContainerView style={{ flexDirection: "row", width: "100%", }}>
                             <MapPin color={baseStyle.color.primary} />
-                            {/* <TextInput style={{ flex: 6, width: "100%", }}>Address</TextInput> */}
                             <TextInput
                                 onChangeText={setAddress}
                                 style={{ flex: 1 }}
                                 value={address}
-                            // placeholder="xyz street"
                             />
                         </ContainerView>
 
                         <ContainerView style={{ flexDirection: "row", width: "100%", }}>
                             <Cake color={baseStyle.color.primary} />
-                            {/* <Text style={{ flex: 6 }}>BOD</Text> */}
                             <TextInput
                                 onChangeText={setBOD}
                                 style={{ flex: 1 }}
                                 value={BOD}
-                            // placeholder="xyz street"
                             />
                         </ContainerView>
                         <ContainerView style={{ flexDirection: "row", width: "100%" }}>
@@ -94,12 +76,10 @@ function UserProfilePage() {
                         </ContainerView>
                         <ContainerView style={{ flexDirection: "row", width: "100%" }}>
                             <Phone color={baseStyle.color.primary} />
-                            {/* <TextInput style={{ flex: 6 }}>Phone Number</TextInput> */}
                             <TextInput
                                 onChangeText={setPhone}
                                 style={{ flex: 1 }}
                                 value={phone}
-                            // placeholder="Fatimah"
                             />
                         </ContainerView>
                         <ContainerView style={{ flexDirection: "row", width: "100%" }}>
@@ -109,7 +89,7 @@ function UserProfilePage() {
 
                         <Button title="Update Profile"
                             onPress={() => setModalVisible(true)}
-                            style={{alignSelf:"center"}}
+                            style={{ alignSelf: "center" }}
                         ></Button>
                     </ContainerView>
                 </ContainerView>
@@ -128,7 +108,6 @@ function UserProfilePage() {
                         onRequestClose={() => {
                             setModalVisible(!modalVisible);
                         }}>
-                        {/* <LeaveBalance /> */}
                         <ContainerView
                             style={{
                                 width: "100%",
@@ -149,14 +128,37 @@ function UserProfilePage() {
                                 <Text >
                                     Are you sure to make the above changes?
                                 </Text>
-                                <View style={{flexDirection:"row"}}>
+                                <View style={{ flexDirection: "row" }}>
+                                    <ContainerView style={{ flex: 1, flexDirection: "row", width: "100%", borderWidth:0, shadowOpacity:0}}>
 
-                            <Button title="confirm update" onPress={() => {
-                                //TODO
-                                setModalVisible(!modalVisible)
-                            }} />
-                            <Button title="cancel update" onPress={() => setModalVisible(!modalVisible)} />
-                            {/* </ScrollContainerView> */}
+                                        <Pressable
+                                            onPress={() => {
+                                                //TODO button function when confirm
+                                                setModalVisible(!modalVisible)
+                                            }}
+                                            style={{
+                                                height: 25,
+                                                width: 25,
+                                                borderRadius: 25 / 2,
+                                                backgroundColor: baseStyle.color.primary,
+                                                alignItems: "center",
+                                            }}
+                                        >
+                                            <Check color="white"/>
+                                        </Pressable>
+                                        <Pressable
+                                            onPress={() => setModalVisible(!modalVisible)}
+                                            style={{
+                                                height: 20,
+                                                width: 20,
+                                                borderRadius: 20 / 2,
+                                                backgroundColor: baseStyle.color.primary,
+                                                alignItems: "center",
+                                            }}
+                                        >
+                                            <X color="white"/>
+                                        </Pressable>
+                                    </ContainerView>
                                 </View>
                             </ContainerView>
                         </ContainerView>
