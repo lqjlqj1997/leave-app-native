@@ -8,10 +8,21 @@ import {
 import { getBaseStyle, getDefaultColourStyle } from "../../lib/style/StyleUtil";
 import { tw } from "../../lib/util/Tailwind";
 import { fetchLeaveApplication } from "./_api/LeaveApplicationApi";
+import { useState } from "react";
+import { SelectionModal } from "../../lib/components/SelectionModal";
+import { Button } from "../../lib/components/Button";
+
+type LeaveDecision = {
+    id: string;
+    status: "Accept" | "Reject" | "Unselected";
+};
 
 export function TeamScreen() {
     const today = new Date();
     const baseStyle = getBaseStyle();
+    const [leaveDecisionList, setLeaveDecisionList] = useState<LeaveDecision[]>(
+        []
+    );
     const { defaultFontColor, defaultBorderColor } = getDefaultColourStyle();
     const query = useQuery({
         queryKey: ["leaveApplication"],
@@ -23,12 +34,32 @@ export function TeamScreen() {
 
     const dataGroupList = new Set(data.map((data) => data.leaveDate));
 
+    const updateLeaveDecision = (decision: LeaveDecision) => {
+        if (decision.status === "Unselected") {
+            setLeaveDecisionList([
+                ...leaveDecisionList.filter((d) => d.id !== decision.id),
+            ]);
+            return;
+        }
+
+        const prevDecision = leaveDecisionList.findLast(
+            (d) => d.id === decision.id
+        );
+        if (prevDecision) {
+            prevDecision.status = decision.status;
+            setLeaveDecisionList([...leaveDecisionList]);
+            return;
+        }
+        setLeaveDecisionList([...leaveDecisionList, decision]);
+    };
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <ContainerView>
-                <Text style={defaultFontColor}>Your Team</Text>
-            </ContainerView>
-
+            <View style={tw`flex p-4 gap-2`}>
+                <ContainerView>
+                    <Text style={defaultFontColor}>Leave Application</Text>
+                </ContainerView>
+            </View>
             <ScrollContainerView
                 style={[tw`w-full border-0 shadow-opacity-0 gap-20`]}>
                 <ContainerView
@@ -77,89 +108,177 @@ export function TeamScreen() {
                                         </Text>
                                     </View>
                                     {dayData.map((LeaveApp, i, list) => {
+                                        const [showDetail, setShowDetail] =
+                                            useState(false);
                                         const isLast = i + 1 === list.length;
+                                        const currentLeaveDecision =
+                                            leaveDecisionList.findLast(
+                                                (decision) =>
+                                                    decision.id === LeaveApp.id
+                                            );
+                                        const isAccepted = currentLeaveDecision
+                                            ? currentLeaveDecision.status ===
+                                              "Accept"
+                                            : false;
+                                        const isRejected = currentLeaveDecision
+                                            ? currentLeaveDecision.status ===
+                                              "Reject"
+                                            : false;
                                         return (
                                             <View style={tw`w-full pt-2`}>
-                                                <ContainerView
-                                                    tag={["Row"]}
-                                                    key={`row-${i}`}
-                                                    style={[
-                                                        tw`w-full py-4`,
-                                                        tw`flex flex-row justify-center items-center`,
-                                                        defaultBorderColor,
-                                                    ]}>
-                                                    <View style={{ flex: 1 }}>
-                                                        <Text
-                                                            style={
-                                                                defaultFontColor
-                                                            }>
-                                                            {LeaveApp.username}
-                                                        </Text>
-                                                        <Text
-                                                            style={
-                                                                defaultFontColor
-                                                            }>
-                                                            {LeaveApp.leaveType}
-                                                        </Text>
-                                                    </View>
-                                                    <View
-                                                        style={tw`flex justify-start items-center`}>
-                                                        <Text
-                                                            style={
-                                                                defaultFontColor
-                                                            }>
-                                                            {LeaveApp.status}
-                                                        </Text>
-                                                    </View>
-                                                    {/* <View style={{ flex: 1 }}>
+                                                <Pressable
+                                                    onPress={() =>
+                                                        setShowDetail(
+                                                            !showDetail
+                                                        )
+                                                    }>
+                                                    <ContainerView
+                                                        tag={["Row"]}
+                                                        key={`row-${i}`}
+                                                        style={[
+                                                            tw`w-full py-4`,
+
+                                                            defaultBorderColor,
+                                                        ]}>
+                                                        <View
+                                                            style={[
+                                                                tw`flex flex-row justify-center items-center`,
+                                                                tw`gap-4`,
+                                                            ]}>
+                                                            <View
+                                                                style={{
+                                                                    flex: 1,
+                                                                }}>
+                                                                <Text
+                                                                    style={
+                                                                        defaultFontColor
+                                                                    }>
+                                                                    {
+                                                                        LeaveApp.username
+                                                                    }
+                                                                </Text>
+                                                                <Text
+                                                                    style={
+                                                                        defaultFontColor
+                                                                    }>
+                                                                    {
+                                                                        LeaveApp.leaveType
+                                                                    }
+                                                                </Text>
+                                                            </View>
+                                                            <View
+                                                                style={tw`flex justify-start items-center`}>
+                                                                <Text
+                                                                    style={
+                                                                        defaultFontColor
+                                                                    }>
+                                                                    {
+                                                                        LeaveApp.status
+                                                                    }
+                                                                </Text>
+                                                            </View>
+                                                            {/* <View style={{ flex: 1 }}>
                                                         <Text>
                                                             {LeaveApp.leaveDate.toDateString()}
                                                         </Text>
                                                     </View> */}
-                                                    <View
-                                                        style={[
-                                                            tw`flex flex-row justify-end items-center gap-2`,
-                                                        ]}>
-                                                        <Pressable
-                                                            style={[
-                                                                tw`aspect-square p-2`,
-                                                                tw`rounded-md`,
-                                                                {
-                                                                    backgroundColor:
-                                                                        baseStyle
-                                                                            .color
-                                                                            .muted,
-                                                                },
-                                                            ]}>
-                                                            <Check
-                                                                color={
-                                                                    baseStyle
-                                                                        .color
-                                                                        .foreground
-                                                                }
-                                                            />
-                                                        </Pressable>
-                                                        <Pressable
-                                                            style={[
-                                                                tw`aspect-square p-2`,
-                                                                tw`rounded-md`,
-                                                                {
-                                                                    backgroundColor:
-                                                                        baseStyle
-                                                                            .color
-                                                                            .muted,
-                                                                },
-                                                            ]}>
-                                                            <X
-                                                                color={
-                                                                    baseStyle
-                                                                        .color
-                                                                        .foreground
-                                                                }
-                                                            />
-                                                        </Pressable>
-                                                    </View>
-                                                </ContainerView>
+                                                            <View
+                                                                style={[
+                                                                    tw`flex flex-row justify-end items-center gap-2`,
+                                                                ]}>
+                                                                <Pressable
+                                                                    style={[
+                                                                        tw`aspect-square p-2`,
+                                                                        tw`rounded-md`,
+                                                                        {
+                                                                            backgroundColor:
+                                                                                isAccepted
+                                                                                    ? baseStyle
+                                                                                          .color
+                                                                                          .primary
+                                                                                    : baseStyle
+                                                                                          .color
+                                                                                          .muted,
+                                                                        },
+                                                                    ]}
+                                                                    onPress={() => {
+                                                                        updateLeaveDecision(
+                                                                            {
+                                                                                id: LeaveApp.id,
+                                                                                status: isAccepted
+                                                                                    ? "Unselected"
+                                                                                    : "Accept",
+                                                                            }
+                                                                        );
+                                                                    }}>
+                                                                    <Check
+                                                                        color={
+                                                                            isAccepted
+                                                                                ? baseStyle
+                                                                                      .color
+                                                                                      .primaryForeground
+                                                                                : baseStyle
+                                                                                      .color
+                                                                                      .foreground
+                                                                        }
+                                                                    />
+                                                                </Pressable>
+                                                                <Pressable
+                                                                    style={[
+                                                                        tw`aspect-square p-2`,
+                                                                        tw`rounded-md`,
+                                                                        {
+                                                                            backgroundColor:
+                                                                                isRejected
+                                                                                    ? baseStyle
+                                                                                          .color
+                                                                                          .primary
+                                                                                    : baseStyle
+                                                                                          .color
+                                                                                          .muted,
+                                                                        },
+                                                                    ]}
+                                                                    onPress={() => {
+                                                                        updateLeaveDecision(
+                                                                            {
+                                                                                id: LeaveApp.id,
+                                                                                status: isRejected
+                                                                                    ? "Unselected"
+                                                                                    : "Reject",
+                                                                            }
+                                                                        );
+                                                                    }}>
+                                                                    <X
+                                                                        color={
+                                                                            isRejected
+                                                                                ? baseStyle
+                                                                                      .color
+                                                                                      .primaryForeground
+                                                                                : baseStyle
+                                                                                      .color
+                                                                                      .foreground
+                                                                        }
+                                                                    />
+                                                                </Pressable>
+                                                            </View>
+                                                        </View>
+                                                        {showDetail ? (
+                                                            <View
+                                                                style={[
+                                                                    tw`w-full pt-4 border-t-[0.5px]`,
+                                                                    defaultBorderColor,
+                                                                ]}>
+                                                                <Text>
+                                                                    {
+                                                                        LeaveApp.reason
+                                                                    }
+                                                                </Text>
+                                                            </View>
+                                                        ) : (
+                                                            <></>
+                                                        )}
+                                                    </ContainerView>
+                                                </Pressable>
                                             </View>
                                         );
                                     })}
@@ -169,6 +288,16 @@ export function TeamScreen() {
                     )}
                 </ContainerView>
             </ScrollContainerView>
+
+            <View style={tw`flex px-4 pt-2`}>
+                {leaveDecisionList.length > 0 ? (
+                    <Button
+                        title="Confirm"
+                        onPress={() => console.log("Confirm")}></Button>
+                ) : (
+                    <></>
+                )}
+            </View>
         </SafeAreaView>
     );
 }

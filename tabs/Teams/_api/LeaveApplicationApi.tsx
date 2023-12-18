@@ -1,6 +1,7 @@
 import { faker } from "@faker-js/faker";
 
 export type LeaveApplicationDetail = {
+    id: string;
     username: string;
     leaveType: string;
     reason: string;
@@ -32,6 +33,7 @@ const newLeaveBalanceDetail = (): LeaveApplicationDetail => {
         to: new Date(2023, 12, 31),
     });
     return {
+        id: `Id-${faker.number.int(100000)}`,
         username: faker.person.fullName(),
         leaveType: leaveType,
         reason: faker.lorem.sentence(5),
