@@ -20,13 +20,17 @@ import {
     ContainerView,
     ScrollContainerView,
 } from "../../../lib/components/ContainerView";
-import { getBaseStyle } from "../../../lib/style/GlobalStyle";
+import {
+    getBaseStyle,
+    getDefaultColourStyle,
+} from "../../../lib/style/StyleUtil";
 import { DatePicker } from "./DatePicker";
 
 import { Button } from "../../../lib/components/Button";
 import { IconButton } from "../../../lib/components/IconButton";
 import { DayModeLegendModal } from "./DayModeLegendModal";
 import { SelectionModal } from "./SelectionModal";
+import { tw, twStyle } from "../../../lib/util/Tailwind";
 
 interface LeaveDetailModalProps extends ModalProps {
     modalVisible: boolean;
@@ -56,6 +60,7 @@ export const LeaveFormModal = ({
     onDemise,
 }: LeaveDetailModalProps) => {
     const [leaveType, setLeaveType] = useState("");
+    const [reason, setReason] = useState("");
     const [selectedDateList, setSelectedDateList] = useState<LeaveDataType[]>([
         {
             date: new Date(
@@ -69,6 +74,12 @@ export const LeaveFormModal = ({
     const [openDatePickerModal, setOpenDatePickerModal] = useState(false);
     const [openDayModeLegendModal, setOpenDayModeLegendModal] = useState(false);
     const baseStyle = getBaseStyle();
+    const {
+        defaultFontColor,
+        defaultBackgroundColor,
+        defaultShadowColor,
+        defaultBorderColor,
+    } = getDefaultColourStyle();
 
     const toggleDayMode = (leaveData: LeaveDataType) => {
         let newDayMode: LeaveDataType["dayMode"] = leaveData.dayMode;
@@ -99,93 +110,56 @@ export const LeaveFormModal = ({
             // }}
         >
             <ContainerView
-                style={{
-                    width: "100%",
-                    height: "100%",
-                    backgroundColor: baseStyle.color.overlay,
-                }}
-            >
+                style={[
+                    tw`w-full h-full`,
+                    {
+                        backgroundColor: baseStyle.color.overlay,
+                    },
+                ]}>
                 {/* <TouchableWithoutFeedback
                         onPress={() => setModalVisible(false)}
                     > */}
                 <ContainerView
-                    style={{
-                        padding: 0,
-                        paddingTop: baseStyle.space.p4,
-                        width: "100%",
-                        height: "100%",
-                        minWidth: 350,
-                        maxWidth: 800,
-                        minHeight: 200,
-                        maxHeight: 600,
-                    }}
-                >
+                    style={[
+                        tw`p-0 pt-4 px-4 w-full h-full`,
+                        tw`min-w-[350px] max-w-[800px] min-h-[200px] max-h-[600px]`,
+                    ]}>
                     <View
-                        style={{
-                            width: "100%",
-                            display: "flex",
-                            flexDirection: "row",
-                            maxWidth: "100%",
-                            alignContent: "center",
-                            justifyContent: "center",
-                        }}
-                    >
+                        style={[
+                            tw`w-full `,
+                            tw`flex flex-row justify-center items-center`,
+                        ]}>
                         <View
-                            style={{
-                                width: "100%",
-                                flex: 9,
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyContent: "center",
-                                alignItems: "center",
-                            }}
-                        >
+                            style={[
+                                tw`w-full`,
+                                tw`flex-9 flex flex-row justify-center items-center`,
+                            ]}>
                             <ContainerView>
-                                <Text
-                                    style={{
-                                        color: baseStyle.color.foreground,
-                                    }}
-                                >
-                                    New Leave
-                                </Text>
+                                <Text style={defaultFontColor}>New Leave</Text>
                             </ContainerView>
                         </View>
 
                         <View
                             id="CloseButton"
-                            style={{
-                                width: "100%",
-                                position: "absolute",
-                                display: "flex",
-                                flexDirection: "row",
-                                alignItems: "center",
-                                justifyContent: "flex-end",
-                            }}
-                        >
+                            style={[
+                                tw`w-full absolute`,
+                                tw`flex flex-row justify-end items-center`,
+                            ]}>
                             <Pressable
                                 style={({ pressed }) => [
+                                    tw`h-[10px]`,
+                                    tw`justify-center items-center flex-nowrap`,
+                                    tw`rounded-full`,
+                                    tw`aspect-square`,
+                                    tw`text-sm font-medium`,
+                                    defaultShadowColor,
                                     {
-                                        // flex: 1,
-                                        // display:"inline"
-                                        height: baseStyle.space.p10,
-                                        // width: "100%",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        flexWrap: "nowrap",
-                                        borderRadius: baseStyle.rounded.xl3,
-                                        aspectRatio: "1/1",
-                                        fontSize: baseStyle.fontSize.sm,
-                                        fontWeight: baseStyle.fontWeight.medium,
-                                        shadowColor: baseStyle.color.background,
                                         backgroundColor: pressed
                                             ? baseStyle.color.secondary
                                             : baseStyle.color.secondary,
-                                        // paddingHorizontal: baseStyle.space.p1,
-                                        // paddingVertical: baseStyle.space.p1,
                                     },
                                 ]}
-                                onPress={onDemise}
-                            >
+                                onPress={onDemise}>
                                 {({ pressed }) => (
                                     <XCircle
                                         color={
@@ -195,26 +169,11 @@ export const LeaveFormModal = ({
                                                 : baseStyle.color
                                                       .secondaryForeground
                                         }
-                                        style={{
-                                            color: pressed
-                                                ? baseStyle.color
-                                                      .secondaryForeground
-                                                : baseStyle.color
-                                                      .secondaryForeground,
-                                            // width: "100%",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            textAlign: "center",
-                                            flexWrap: "nowrap",
-                                            borderRadius: baseStyle.rounded.md,
-                                            fontSize: baseStyle.fontSize.sm,
-                                            fontWeight:
-                                                baseStyle.fontWeight.medium,
-                                            // shadowColor: baseStyle.background,?
-                                            // backgroundColor: pressed
-                                            //     ? baseStyle.primaryHover
-                                            //     : baseStyle.primary,
-                                        }}
+                                        style={twStyle(
+                                            "items-center justify-cente",
+                                            "text-sm font-medium text-center flex-nowrap",
+                                            "rounded-full"
+                                        )}
                                     />
                                 )}
                             </Pressable>
@@ -222,167 +181,34 @@ export const LeaveFormModal = ({
                     </View>
 
                     <ScrollContainerView
-                        style={{
-                            padding: 0,
-                            width: "100%",
-                            height: "100%",
-                            borderWidth: 0,
-                            shadowOpacity: 0,
-                            // gap: 5,
-                        }}
-                    >
+                        style={[
+                            tw`w-full h-full border-0 shadow-opacity-[0px]`,
+                        ]}>
                         <ContainerView
-                            style={{ borderWidth: 0, shadowOpacity: 0 }}
-                        >
-                            {/* <TextInput
-                                style={{
-                                    // flex: 1,
-                                    display: "flex",
-                                    height: baseStyle.space.p10,
-                                    width: "100%",
-                                    borderWidth: 1,
-                                    borderColor: baseStyle.input,
-                                    borderRadius: baseStyle.rounded.md,
-                                    backgroundColor: baseStyle.background,
-                                    paddingHorizontal: baseStyle.space.p3,
-                                    paddingVertical: baseStyle.space.p2,
-                                    fontSize: baseStyle.fontSize.base,
-                                    shadowColor: baseStyle.background,
-                                }}
-                                placeholder="Leave Description"
-                                placeholderTextColor={baseStyle.mutedForeground}
-                                // keyboardType="email-address"
-                                // onChangeText={setLoginEmail}
-                            /> */}
-
-                            {/* <View style={{ width: "100%" }}>
-                                <SelectList
-                                    placeholder="Leave Balance"
-                                    boxStyles={{
-                                        width: "100%",
-                                        borderColor: baseStyle.color.border,
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        padding: 0,
-                                        // paddingRight: baseStyle.space.p8,
-                                    }}
-                                    inputStyles={{
-                                        width: "100%",
-                                        borderColor: baseStyle.color.border,
-                                        padding: 0,
-                                        color:
-                                            leaveType === ""
-                                                ? baseStyle.color
-                                                      .mutedForeground
-                                                : baseStyle.color.foreground,
-                                    }}
-                                    dropdownStyles={{
-                                        width: "100%",
-                                        borderColor: baseStyle.color.border,
-                                    }}
-                                    dropdownItemStyles={{
-                                        width: "100%",
-                                        borderColor: baseStyle.color.border,
-                                    }}
-                                    dropdownTextStyles={{
-                                        width: "100%",
-                                        borderColor: baseStyle.color.border,
-                                        color: baseStyle.color.foreground,
-                                    }}
-                                    disabledItemStyles={{
-                                        width: "100%",
-                                        backgroundColor: baseStyle.color.muted,
-                                        borderColor: baseStyle.color.border,
-                                    }}
-                                    disabledTextStyles={{
-                                        width: "100%",
-                                        borderColor: baseStyle.color.border,
-                                        color: baseStyle.color.mutedForeground,
-                                    }}
-                                    searchicon={
-                                        <Search
-                                            color={baseStyle.color.foreground}
-                                            style={{
-                                                color: baseStyle.color
-                                                    .foreground,
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                textAlign: "center",
-                                                // flexWrap: "nowrap",
-                                                // borderRadius: baseStyle.rounded.md,
-                                                // fontSize: baseStyle.fontSize.sm,
-                                                // paddingRight:
-                                                //     baseStyle.space.p4,
-                                                // fontWeight:
-                                                //     baseStyle.fontWeight.medium,
-                                            }}
-                                        ></Search>
-                                    }
-                                    arrowicon={
-                                        <ChevronDown
-                                            color={baseStyle.color.foreground}
-                                            style={{
-                                                color: baseStyle.color
-                                                    .foreground,
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                textAlign: "center",
-                                                // flexWrap: "nowrap",
-                                                // borderRadius: baseStyle.rounded.md,
-                                                // fontSize: baseStyle.fontSize.sm,
-                                                // paddingRight:
-                                                //     baseStyle.space.p4,
-                                                // fontWeight:
-                                                //     baseStyle.fontWeight.medium,
-                                            }}
-                                        ></ChevronDown>
-                                    }
-                                    closeicon={
-                                        <X
-                                            color={baseStyle.color.foreground}
-                                            style={{
-                                                color: baseStyle.color
-                                                    .foreground,
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                textAlign: "center",
-                                            }}
-                                        ></X>
-                                    }
-                                    setSelected={(val: string) =>
-                                        setLeaveType(val)
-                                    }
-                                    data={leaveTypeList}
-                                    save="key"
-                                />
-                            </View> */}
-
+                            style={tw`border-0 shadow-opacity-[0px]`}>
                             <SelectionModal
                                 title="Leave Balance"
                                 placeholder="Leave Balance"
                                 initialDataList={leaveTypeList}
                                 initialSelect={"0"}
                                 setSelectedData={(data) => {
-                                    console.log(data.value);
+                                    // console.log(data.value);
                                 }}
                             />
-
                             <TextInput
                                 // secureTextEntry={true}
-                                style={{
-                                    // flex: 1,
-                                    display: "flex",
-                                    height: baseStyle.space.p10,
-                                    width: "100%",
-                                    borderWidth: 1,
-                                    borderColor: baseStyle.color.input,
-                                    borderRadius: baseStyle.rounded.md,
-                                    backgroundColor: baseStyle.color.background,
-                                    paddingHorizontal: baseStyle.space.p3,
-                                    paddingVertical: baseStyle.space.p2,
-                                    fontSize: baseStyle.fontSize.base,
-                                    shadowColor: baseStyle.color.background,
-                                }}
+                                style={[
+                                    tw`w-full h-10 px-3 p2`,
+                                    tw`flex`,
+                                    tw`border rounded-md`,
+                                    tw`text-base`,
+                                    defaultBackgroundColor,
+                                    defaultShadowColor,
+                                    {
+                                        borderColor: baseStyle.color.input,
+                                    },
+                                ]}
+                                onChangeText={(text) => setReason(text)}
                                 placeholder="Reason"
                                 placeholderTextColor={
                                     baseStyle.color.mutedForeground
@@ -390,15 +216,11 @@ export const LeaveFormModal = ({
                             />
 
                             <View
-                                style={{
-                                    width: "100%",
-                                    display: "flex",
-                                    justifyContent: "flex-start",
-                                    alignItems: "center",
-                                    flexDirection: "row",
-                                    gap: baseStyle.space.p4,
-                                }}
-                            >
+                                style={[
+                                    tw`w-full`,
+                                    tw`flex flex-row justify-start items-center`,
+                                    tw`gap-4`,
+                                ]}>
                                 {openDatePickerModal ? (
                                     <DatePicker
                                         modalVisible={openDatePickerModal}
@@ -406,8 +228,9 @@ export const LeaveFormModal = ({
                                             setOpenDatePickerModal(false)
                                         }
                                         setDateList={setSelectedDateList}
-                                        initialDateList={selectedDateList}
-                                    ></DatePicker>
+                                        initialDateList={
+                                            selectedDateList
+                                        }></DatePicker>
                                 ) : (
                                     ""
                                 )}
@@ -419,34 +242,21 @@ export const LeaveFormModal = ({
                                         // aspectRatio: "1/1",
                                         backgroundColor:
                                             baseStyle.color.secondary,
-                                    }}
-                                >
+                                    }}>
                                     {({ pressed }) => (
                                         <View
-                                            style={{
-                                                display: "flex",
-                                                flexDirection: "row",
-                                                justifyContent: "center",
-                                                alignContent: "center",
-                                                gap: baseStyle.space.p2,
-                                            }}
-                                        >
+                                            style={tw`flex flex-row justify-center items-center gap-2`}>
                                             <View
-                                                style={{
-                                                    display: "flex",
-                                                    justifyContent: "center",
-                                                    alignContent: "center",
-                                                }}
-                                            >
+                                                style={tw`flex justify-center items-center`}>
                                                 <Text
-                                                    style={{
-                                                        color: baseStyle.color
-                                                            .secondaryForeground,
-                                                        textAlign: "center",
-                                                        textAlignVertical:
-                                                            "center",
-                                                    }}
-                                                >
+                                                    style={[
+                                                        tw`text-center align-middle`,
+                                                        {
+                                                            color: baseStyle
+                                                                .color
+                                                                .secondaryForeground,
+                                                        },
+                                                    ]}>
                                                     Pick Leave Date
                                                 </Text>
                                             </View>
@@ -455,23 +265,10 @@ export const LeaveFormModal = ({
                                                     baseStyle.color
                                                         .secondaryForeground
                                                 }
-                                                style={{
-                                                    color: pressed
-                                                        ? baseStyle.color
-                                                              .primaryForeground
-                                                        : baseStyle.color
-                                                              .primaryForeground,
-                                                    alignItems: "center",
-                                                    justifyContent: "center",
-                                                    textAlign: "center",
-                                                    flexWrap: "nowrap",
-                                                    // borderRadius: baseStyle.rounded.md,
-                                                    fontSize:
-                                                        baseStyle.fontSize.sm,
-                                                    fontWeight:
-                                                        baseStyle.fontWeight
-                                                            .medium,
-                                                }}
+                                                style={twStyle(
+                                                    `items-center justify-center text-center flex-nowrap`,
+                                                    `text-sm font-medium`
+                                                )}
                                             />
                                         </View>
                                     )}
@@ -481,35 +278,23 @@ export const LeaveFormModal = ({
                                     onPress={() =>
                                         setOpenDayModeLegendModal(true)
                                     }
-                                    style={{
-                                        // flex: 1,
-                                        // borderRadius: baseStyle.rounded.xl3,
-                                        aspectRatio: "1/1",
-                                        backgroundColor:
-                                            baseStyle.color.secondary,
-                                    }}
-                                >
+                                    style={[
+                                        tw`aspect-square`,
+                                        {
+                                            backgroundColor:
+                                                baseStyle.color.secondary,
+                                        },
+                                    ]}>
                                     {({ pressed }) => (
                                         <HelpCircle
                                             color={
                                                 baseStyle.color
                                                     .secondaryForeground
                                             }
-                                            style={{
-                                                color: pressed
-                                                    ? baseStyle.color
-                                                          .primaryForeground
-                                                    : baseStyle.color
-                                                          .primaryForeground,
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                textAlign: "center",
-                                                flexWrap: "nowrap",
-                                                // borderRadius: baseStyle.rounded.md,
-                                                fontSize: baseStyle.fontSize.sm,
-                                                fontWeight:
-                                                    baseStyle.fontWeight.medium,
-                                            }}
+                                            style={twStyle(
+                                                `items-center justify-center text-center flex-nowrap`,
+                                                `text-sm font-medium`
+                                            )}
                                         />
                                     )}
                                 </IconButton>
@@ -518,50 +303,33 @@ export const LeaveFormModal = ({
                                     modalVisible={openDayModeLegendModal}
                                     onDemise={() =>
                                         setOpenDayModeLegendModal(false)
-                                    }
-                                ></DayModeLegendModal>
+                                    }></DayModeLegendModal>
                             </View>
 
                             {selectedDateList.map((leaveData) => {
                                 return (
                                     <View
-                                        style={{
-                                            width: "100%",
-                                            display: "flex",
-                                            flexDirection: "row",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            gap: baseStyle.space.p4,
-                                        }}
-                                    >
+                                        style={[
+                                            tw`w-full gap-4`,
+                                            tw`flex flex-row justify-center items-center`,
+                                        ]}>
                                         <TextInput
                                             // secureTextEntry={true}
                                             editable={false}
-                                            style={{
-                                                flex: 1,
-                                                color: baseStyle.color
-                                                    .mutedForeground,
-                                                display: "flex",
-                                                justifyContent: "center",
-                                                alignItems: "center",
-                                                height: baseStyle.space.p10,
-                                                width: "100%",
-                                                borderWidth: 1,
-                                                borderColor:
-                                                    baseStyle.color.input,
-                                                borderRadius:
-                                                    baseStyle.rounded.md,
-                                                backgroundColor:
-                                                    baseStyle.color.background,
-                                                paddingHorizontal:
-                                                    baseStyle.space.p3,
-                                                paddingVertical:
-                                                    baseStyle.space.p2,
-                                                fontSize:
-                                                    baseStyle.fontSize.base,
-                                                shadowColor:
-                                                    baseStyle.color.background,
-                                            }}
+                                            style={[
+                                                tw`w-full h-10 px-3 py-2`,
+                                                tw`flex-1 flex justify-center items-center`,
+                                                tw`border rounded-md`,
+                                                tw`text-base`,
+                                                defaultBackgroundColor,
+                                                defaultShadowColor,
+                                                {
+                                                    color: baseStyle.color
+                                                        .mutedForeground,
+                                                    borderColor:
+                                                        baseStyle.color.input,
+                                                },
+                                            ]}
                                             value={leaveData.date.toDateString()}
                                             placeholder="Reason"
                                             placeholderTextColor={
@@ -571,32 +339,24 @@ export const LeaveFormModal = ({
 
                                         <Pressable
                                             id="Header"
-                                            style={{
-                                                // flex: 1,
-                                                display: "flex",
-                                                // flexDirection: "row",
-                                                justifyContent: "space-evenly",
-                                                alignItems: "center",
-                                                paddingHorizontal:
-                                                    baseStyle.space.p2,
-                                                borderColor:
-                                                    baseStyle.color.border,
-                                                borderLeftWidth:
-                                                    baseStyle.borderWidth,
-                                            }}
+                                            style={[
+                                                tw`px-2`,
+                                                tw`flex justify-evenly items-center`,
+                                                tw`border-l-[0.5px]`,
+                                                defaultBorderColor,
+                                            ]}
                                             onPress={() => {
                                                 toggleDayMode(leaveData);
-                                            }}
-                                        >
+                                            }}>
                                             <View
-                                                style={{
-                                                    padding: baseStyle.space.p2,
-                                                    borderRadius:
-                                                        baseStyle.rounded.md,
-                                                    backgroundColor:
-                                                        baseStyle.color.muted,
-                                                }}
-                                            >
+                                                style={[
+                                                    tw`p-2 rounded-md`,
+                                                    {
+                                                        backgroundColor:
+                                                            baseStyle.color
+                                                                .muted,
+                                                    },
+                                                ]}>
                                                 {leaveData.dayMode ===
                                                 "Whole Day" ? (
                                                     <Sun
@@ -644,8 +404,7 @@ export const LeaveFormModal = ({
 
                             <Button
                                 title="Submit"
-                                onPress={() => undefined}
-                            ></Button>
+                                onPress={() => undefined}></Button>
                         </ContainerView>
                     </ScrollContainerView>
                 </ContainerView>

@@ -8,7 +8,6 @@ import {
     View,
     TouchableWithoutFeedback,
 } from "react-native";
-import { getBaseStyle } from "../../lib/style/GlobalStyle";
 import {
     ContainerView,
     ScrollContainerView,

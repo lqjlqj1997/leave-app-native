@@ -4,9 +4,9 @@ import React, { useEffect, useState } from 'react';
 import { Animated, FlatList, Platform, Pressable, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Button } from "../../lib/components/Button";
 import { ContainerView } from "../../lib/components/ContainerView";
-import { getBaseStyle } from "../../lib/style/GlobalStyle";
 import { fetchEmployeeLeaveBalanceData } from "../Employee/_api/EmployeeLeaveBalanceApi";
 import { EmployeeLeaveBalanceModal } from "./EmployeeLeaveBalanceModal";
+import { getBaseStyle } from "../../lib/style/StyleUtil";
 
 // const baseStyle = getBaseStyle();
 

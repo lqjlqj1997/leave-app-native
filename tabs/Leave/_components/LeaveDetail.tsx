@@ -1,17 +1,14 @@
-import React from "react";
-import {
-    ModalProps,
-    NativeSyntheticEvent,
-    Pressable,
-    Text,
-    View,
-} from "react-native";
-import { ContainerView } from "../../../lib/components/ContainerView";
-import { getBaseStyle } from "../../../lib/style/GlobalStyle";
-import { DAY_LIST } from "../../../lib/util/DateConstant";
 import { useQuery } from "@tanstack/react-query";
-import { fetchLeaveApplication } from "../_api/LeaveApplicationApi";
+import React from "react";
+import { ModalProps, NativeSyntheticEvent, Text, View } from "react-native";
 import { Button } from "../../../lib/components/Button";
+import { ContainerView } from "../../../lib/components/ContainerView";
+import {
+    getBaseStyle,
+    getDefaultColourStyle,
+} from "../../../lib/style/StyleUtil";
+import { tw } from "../../../lib/util/Tailwind";
+import { fetchLeaveApplication } from "../_api/LeaveApplicationApi";
 
 interface LeaveCalenderProps extends ModalProps {
     selectedDate: Date;
@@ -23,6 +20,7 @@ export const LeaveDetail = ({
     onNewLeave,
 }: LeaveCalenderProps) => {
     const baseStyle = getBaseStyle();
+    const { defaultFontColor, defaultBorderColor } = getDefaultColourStyle();
 
     const query = useQuery({
         queryKey: ["leaveApplication", selectedDate],
@@ -30,37 +28,28 @@ export const LeaveDetail = ({
     });
 
     return (
-        <ContainerView
-            style={{
-                // flex: 1,
-                width: "100%",
-                // marginBottom: "20%",
-            }}
-        >
+        <ContainerView style={tw`w-full`}>
             <Text
-                style={{
-                    // flex: 1,
-                    // width: "100%",
-                    color: baseStyle.color.cardForeground,
-                    fontSize: baseStyle.fontSize.lg,
-                    // textAlign: "center",
-                    fontWeight: baseStyle.fontWeight.normal,
-                }}
-            >
+                style={[
+                    tw`text-lg font-normal`,
+                    {
+                        color: baseStyle.color.cardForeground,
+                    },
+                ]}>
                 Leave Applications
             </Text>
 
             {query.isLoading ? (
                 <ContainerView>
-                    <Text>Is Loading</Text>
+                    <Text style={defaultFontColor}>Is Loading</Text>
                 </ContainerView>
             ) : query.isError ? (
                 <ContainerView>
-                    <Text>Is Error</Text>
+                    <Text style={defaultFontColor}>Is Error</Text>
                 </ContainerView>
             ) : !query.data ? (
                 <ContainerView>
-                    <Text>Is Error</Text>
+                    <Text style={defaultFontColor}>Is Error</Text>
                 </ContainerView>
             ) : query.data.length == 0 ? (
                 <Button title="New Leave" onPress={onNewLeave}></Button>
@@ -71,28 +60,18 @@ export const LeaveDetail = ({
                         <View
                             id="Row"
                             key={`row-${i}`}
-                            style={{
-                                // flex: 1,
-                                width: "100%",
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                borderColor: baseStyle.color.border,
-                                borderBottomWidth: isLast
-                                    ? 0
-                                    : baseStyle.borderWidth,
-                                paddingVertical: baseStyle.space.p4,
-                            }}
-                        >
-                            <Text style={{ flex: 1 }}>
-                                {LeaveApp.leaveType}
-                            </Text>
-                            <View style={{ flex: 1 }}>
+                            style={[
+                                tw`w-full py-4`,
+                                tw`flex flex-row justify-center items-center`,
+                                defaultBorderColor,
+                                isLast ? tw`` : tw`border-b-[05.px]`,
+                            ]}>
+                            <Text style={tw`flex-1`}>{LeaveApp.leaveType}</Text>
+                            <View style={tw`flex-1`}>
                                 <Text>{LeaveApp.startDate.toDateString()}</Text>
                                 <Text>{LeaveApp.endDate.toDateString()}</Text>
                             </View>
-                            <Text style={{ flex: 1, textAlign: "right" }}>
+                            <Text style={tw`flex-1 text-right`}>
                                 {LeaveApp.status}
                             </Text>
                         </View>

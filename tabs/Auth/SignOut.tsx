@@ -7,7 +7,7 @@ import { useThemeStore } from "../../global-store/ThemeStore";
 import { Button } from "../../lib/components/Button";
 import { ContainerView } from "../../lib/components/ContainerView";
 import { ThemeSwitch } from "../../lib/components/ThemeToggle";
-import { getBaseStyle } from "../../lib/style/GlobalStyle";
+import { getBaseStyle } from "../../lib/style/StyleUtil";
 import { Layout } from "./Layout";
 // import axios from "axios";
 

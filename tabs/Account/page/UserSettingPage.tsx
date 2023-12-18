@@ -4,8 +4,8 @@ import { ContainerView } from "../../../lib/components/ContainerView";
 import TabViewExample from "../test";
 import { useState } from "react";
 import { Button } from "../../../lib/components/Button";
-import { getBaseStyle } from "../../../lib/style/GlobalStyle";
 import { yellow } from "@mui/material/colors";
+import { getBaseStyle } from "../../../lib/style/StyleUtil";
 
 
 function UserSettingPage() {

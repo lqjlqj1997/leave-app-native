@@ -1,8 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Dimensions, ImageBackground, Text, View } from "react-native";
-import { RootStackParamList } from "../router/Router";
 import { Button } from "../lib/components/Button";
+import { RootStackParamList } from "../router/Router";
 
 const image = { uri: "https://legacy.reactjs.org/logo-og.png" };
 
@@ -20,8 +20,7 @@ export function HomeScreen() {
         useNavigation<NativeStackNavigationProp<RootStackParamList, "Home">>();
     return (
         <View
-            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-        >
+            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
             <ImageBackground
                 source={require("../assets/home_bg.jpg")}
                 resizeMode="cover"
@@ -31,10 +30,7 @@ export function HomeScreen() {
                     justifyContent: "center",
                     width: md ? "100%" : "100%",
                     height: md ? "100%" : "100%",
-
-                    // aspectRatio: "16 / 9",
-                }}
-            >
+                }}>
                 <View
                     style={{
                         backgroundColor: "rgba(255, 255, 255, 0.4)",
@@ -43,8 +39,7 @@ export function HomeScreen() {
                         flex: 1,
                         alignItems: "center",
                         justifyContent: "center",
-                    }}
-                >
+                    }}>
                     <View
                         style={{
                             backgroundColor: "rgba(0, 0, 0, 0.4)",
@@ -56,16 +51,14 @@ export function HomeScreen() {
                             alignItems: "center",
                             justifyContent: "center",
                             gap: 20,
-                        }}
-                    >
+                        }}>
                         <Text
                             style={{
                                 color: "white",
                                 fontSize: 30,
                                 textAlign: "center",
                                 fontWeight: "700",
-                            }}
-                        >
+                            }}>
                             Enjoy Labor Free Holiday
                         </Text>
                         <Button

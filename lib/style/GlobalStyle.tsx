@@ -1,4 +1,3 @@
-import { useThemeStore } from "../../global-store/ThemeStore";
 
 type weightType =
     | "normal"
@@ -200,9 +199,4 @@ export const LightStyle = {
     radius: 20,
 };
 
-export const getBaseStyle = (isDark?: boolean) => {
-    if (isDark === undefined) {
-        isDark = useThemeStore((state) => state.isDark);
-    }
-    return isDark ? DarkStyle : LightStyle;
-};
+

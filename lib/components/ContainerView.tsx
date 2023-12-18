@@ -1,5 +1,6 @@
 import { ScrollView, StyleProp, View, ViewStyle } from "react-native";
-import { getBaseStyle } from "../style/GlobalStyle";
+import { getDefaultColourStyle } from "../style/StyleUtil";
+import { tw } from "../util/Tailwind";
 
 interface ContainerProps {
     tag?: any;
@@ -7,59 +8,44 @@ interface ContainerProps {
     style?: StyleProp<ViewStyle>;
 }
 export function ContainerView({ children, style }: ContainerProps) {
-    const baseStyle = getBaseStyle();
+    const { defaultShadowColor, defaultBackgroundColor, defaultBorderColor } =
+        getDefaultColourStyle();
     return (
         <View
             style={[
-                {
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    paddingVertical: 10,
-                    paddingHorizontal: 15,
-                    borderRadius: baseStyle.rounded.lg,
-                    borderWidth: baseStyle.borderWidth,
-                    borderColor: baseStyle.color.border,
-                    backgroundColor: baseStyle.color.card,
-                    shadowOpacity: 0.1,
-                    shadowColor: "#000",
-                    shadowOffset: { width: 0, height: 2 },
-                    shadowRadius: 4,
+                tw`flex items-center justify-center`,
+                tw`px-[15px] py-[10px]`,
+                tw`border-[0.5px] rounded-md `,
+                tw`gap-[20px]`,
+                tw` shadow-opacity-10 shadow-offset-[0px]/[2px] shadow-radius-[4px]`,
+                defaultShadowColor,
+                defaultBorderColor,
+                defaultBackgroundColor,
 
-                    gap: 20,
-                },
                 style,
-            ]}
-        >
+            ]}>
             {children}
         </View>
     );
 }
 
 export function ScrollContainerView({ children, style }: ContainerProps) {
-    const baseStyle = getBaseStyle();
+    const { defaultShadowColor, defaultBackgroundColor, defaultBorderColor } =
+        getDefaultColourStyle();
     return (
         <ScrollView
             style={[
-                {
-                    paddingVertical: 10,
-                    paddingHorizontal: 15,
-                    // overflow: "hidden",
-                    borderRadius: baseStyle.rounded.lg,
-                    borderWidth: baseStyle.borderWidth,
-                    borderColor: baseStyle.color.border,
-                    backgroundColor: baseStyle.color.card,
-                    // 0 1px 2px 0 rgb(0 0 0 / 0.05);
+                // tw`flex items-center justify-center`,
+                tw`px-[15px] py-[10px]`,
+                tw`border rounded-md `,
+                // tw`gap-[20px]`,
 
-                    shadowOpacity: 0.1,
-                    shadowColor: "#000",
-                    shadowOffset: { width: 0, height: 2 },
-                    shadowRadius: 4,
-                    // gap: 100
-                },
+                tw`shadow-opacity-10 shadow-offset-[0px]/[2px] shadow-radius-[4px]`,
+                defaultShadowColor,
+                defaultBorderColor,
+                defaultBackgroundColor,
                 style,
-            ]}
-        >
+            ]}>
             {children}
         </ScrollView>
     );

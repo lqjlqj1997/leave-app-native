@@ -2,7 +2,8 @@ import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { ChevronDown } from "lucide-react-native";
 import { Text, TouchableOpacity, View } from "react-native";
 import { ContainerView } from "../lib/components/ContainerView";
-import { getBaseStyle } from "../lib/style/GlobalStyle";
+import { getBaseStyle, getDefaultColourStyle } from "../lib/style/StyleUtil";
+import { tw } from "../lib/util/Tailwind";
 
 export function MyTabBar({
     state,
@@ -10,28 +11,15 @@ export function MyTabBar({
     navigation,
 }: BottomTabBarProps) {
     const baseStyle = getBaseStyle();
+    const { defaultFontColor, defaultBackgroundColor, defaultBorderColor } =
+        getDefaultColourStyle();
     return (
         <View
-            style={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "center",
-                alignContent: "center",
-                flexDirection: "row",
-
-                paddingHorizontal: baseStyle.space.p4,
-                paddingBottom: baseStyle.space.p4,
-            }}
-        >
-            <ContainerView
-                style={{
-                    flex: 1,
-                    // width: "90%",
-                    // backgroundColor: baseStyle.color.backgroundGlass,
-                    flexDirection: "row",
-                    gap: baseStyle.space.p2,
-                }}
-            >
+            style={[
+                tw`w-full flex flex-row justify-center items-center`,
+                tw`px-4 py-4`,
+            ]}>
+            <ContainerView style={[tw`flex-1 flex-row gap-2`]}>
                 {state.routes.map((route, index) => {
                     const { options } = descriptors[route.key];
                     const customLabel =
@@ -39,9 +27,7 @@ export function MyTabBar({
                         typeof options.tabBarLabel !== "string"
                             ? options.tabBarLabel
                             : undefined;
-                    // const customLabel = () => (
-                    //     <ChevronDown color={baseStyle.color.foreground} />
-                    // );
+
                     const title =
                         options.title !== undefined
                             ? options.title
@@ -90,8 +76,7 @@ export function MyTabBar({
                                 backgroundColor: isFocused
                                     ? baseStyle.color.muted
                                     : baseStyle.color.background,
-                            }}
-                        >
+                            }}>
                             <>
                                 {customLabel ? (
                                     customLabel({
@@ -108,16 +93,19 @@ export function MyTabBar({
                                 )}
                                 {isFocused ? (
                                     <Text
-                                        style={{
-                                            color: isFocused
-                                                ? baseStyle.color.foreground
-                                                : baseStyle.color.foreground,
-                                        }}
-                                    >
+                                        style={[
+                                            defaultFontColor,
+                                            {
+                                                color: isFocused
+                                                    ? baseStyle.color.foreground
+                                                    : baseStyle.color
+                                                          .foreground,
+                                            },
+                                        ]}>
                                         {title}
                                     </Text>
                                 ) : (
-                                    ""
+                                    <></>
                                 )}
                             </>
                         </TouchableOpacity>

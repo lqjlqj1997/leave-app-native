@@ -4,7 +4,7 @@ import { RootStackParamList, RootTabParamList } from "../../router/Router";
 import { Text, TextInput, View } from "react-native";
 import { Layout } from "./Layout";
 import { ContainerView } from "../../lib/components/ContainerView";
-import { getBaseStyle } from "../../lib/style/GlobalStyle";
+import { getBaseStyle } from "../../lib/style/StyleUtil";
 import { ThemeSwitch } from "../../lib/components/ThemeToggle";
 import { useThemeStore } from "../../global-store/ThemeStore";
 import { Button } from "../../lib/components/Button";

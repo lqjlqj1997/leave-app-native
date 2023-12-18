@@ -1,22 +1,36 @@
 import { useQuery } from "@tanstack/react-query";
 import { XCircle } from "lucide-react-native";
-import React, { useState } from "react";
+import React from "react";
 import {
     Modal,
     ModalProps,
     NativeSyntheticEvent,
     Pressable,
-    StyleProp,
     Text,
     View,
-    ViewStyle,
 } from "react-native";
 import {
     ContainerView,
     ScrollContainerView,
 } from "../../../lib/components/ContainerView";
-import { getBaseStyle } from "../../../lib/style/GlobalStyle";
+import {
+    getBaseStyle,
+    getDefaultColourStyle,
+} from "../../../lib/style/StyleUtil";
 import { fetchLeaveBalance } from "../_api/LeaveBalanceApi";
+import { tw, twStyle } from "../../../lib/util/Tailwind";
+
+const LabelContainerView = {
+    Overlay: ContainerView,
+    MainBody: ContainerView,
+    CalenderSection: ContainerView,
+    ButtonSection: ContainerView,
+};
+
+const LabelView = {
+    Header: View,
+    Row: View,
+};
 
 interface LeaveDetailModalProps extends ModalProps {
     modalVisible: boolean;
@@ -30,7 +44,7 @@ export const LeaveBalanceModal = ({
     onDemise,
 }: LeaveDetailModalProps) => {
     const baseStyle = getBaseStyle();
-
+    const { defaultFontColor, defaultBorderColor } = getDefaultColourStyle();
     const query = useQuery({
         queryKey: ["leaveBalance", leaveType],
         queryFn: () => fetchLeaveBalance({ leaveType: leaveType }),
@@ -45,93 +59,58 @@ export const LeaveBalanceModal = ({
             //     setModalVisible(!modalVisible);
             // }}
         >
-            <ContainerView
-                style={{
-                    width: "100%",
-                    height: "100%",
-                    backgroundColor: baseStyle.color.overlay,
-                }}
-            >
+            <LabelContainerView.Overlay
+                style={[
+                    tw`w-full h-full`,
+                    {
+                        backgroundColor: baseStyle.color.overlay,
+                    },
+                ]}>
                 {/* <TouchableWithoutFeedback
                         onPress={() => setModalVisible(false)}
                     > */}
-                <ContainerView
-                    style={{
-                        padding: 0,
-                        paddingTop: baseStyle.space.p4,
-                        width: "100%",
-                        height: "100%",
-                        minWidth: 350,
-                        maxWidth: 800,
-                        minHeight: 200,
-                        maxHeight: 600,
-                    }}
-                >
-                    <View
-                        style={{
-                            width: "100%",
-                            display: "flex",
-                            flexDirection: "row",
-                            maxWidth: "100%",
-                            alignContent: "center",
-                            justifyContent: "center",
-                        }}
-                    >
+                <LabelContainerView.MainBody
+                    style={[
+                        tw`pt-4 w-full h-full`,
+                        tw`min-w-[350px] max-w-[800px] min-h-[200px] max-h-[600px]`,
+                    ]}>
+                    <LabelView.Header
+                        style={[
+                            tw`w-full max-w-full`,
+                            tw`flex flex-row justify-center items-center`,
+                        ]}>
                         <View
-                            style={{
-                                width: "100%",
-                                flex: 9,
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyContent: "center",
-                                alignItems: "center",
-                            }}
-                        >
+                            style={[
+                                tw`w-full flex-9`,
+                                tw`flex flex-row justify-center items-center`,
+                            ]}>
                             <ContainerView>
-                                <Text
-                                    style={{
-                                        color: baseStyle.color.foreground,
-                                    }}
-                                >
+                                <Text style={[defaultFontColor]}>
                                     {leaveType}
                                 </Text>
                             </ContainerView>
                         </View>
                         <View
                             id="CloseButton"
-                            style={{
-                                width: "100%",
-                                position: "absolute",
-                                display: "flex",
-                                flexDirection: "row",
-                                alignItems: "center",
-                                justifyContent: "flex-end",
-                            }}
-                        >
+                            style={[
+                                tw`w-full absolute`,
+                                tw`flex flex-row justify-end items-center`,
+                            ]}>
                             <Pressable
                                 style={({ pressed }) => [
+                                    tw`h-[10px]`,
+                                    tw`justify-center items-center flex-nowrap`,
+                                    tw`rounded-full`,
+                                    tw`aspect-square`,
+                                    tw`text-sm font-medium`,
                                     {
-                                        // flex: 1,
-                                        // display:"inline"
-                                        height: baseStyle.space.p10,
-                                        // width: "100%",
-                                        alignItems: "center",
-                                        justifyContent: "center",
-                                        flexWrap: "nowrap",
-                                        borderRadius: baseStyle.rounded.xl3,
-                                        aspectRatio: "1/1",
-                                        fontSize: baseStyle.fontSize.sm,
-                                        fontWeight: baseStyle.fontWeight.medium,
                                         shadowColor: baseStyle.color.background,
                                         backgroundColor: pressed
                                             ? baseStyle.color.secondary
                                             : baseStyle.color.secondary,
-                                        // paddingHorizontal: baseStyle.space.p1,
-                                        // paddingVertical: baseStyle.space.p1,
                                     },
                                 ]}
-                                onPress={onDemise}
-                            >
+                                onPress={onDemise}>
                                 {({ pressed }) => (
                                     <XCircle
                                         color={
@@ -141,145 +120,81 @@ export const LeaveBalanceModal = ({
                                                 : baseStyle.color
                                                       .secondaryForeground
                                         }
-                                        style={{
-                                            color: pressed
-                                                ? baseStyle.color
-                                                      .secondaryForeground
-                                                : baseStyle.color
-                                                      .secondaryForeground,
-                                            // width: "100%",
-                                            alignItems: "center",
-                                            justifyContent: "center",
-                                            textAlign: "center",
-                                            flexWrap: "nowrap",
-                                            borderRadius: baseStyle.rounded.md,
-                                            fontSize: baseStyle.fontSize.sm,
-                                            fontWeight:
-                                                baseStyle.fontWeight.medium,
-                                            // shadowColor: baseStyle.background,?
-                                            // backgroundColor: pressed
-                                            //     ? baseStyle.primaryHover
-                                            //     : baseStyle.primary,
-                                        }}
+                                        style={twStyle(
+                                            "items-center justify-cente",
+                                            "text-sm font-medium text-center flex-nowrap",
+                                            "rounded-full"
+                                        )}
                                     />
                                 )}
                             </Pressable>
                         </View>
-                    </View>
+                    </LabelView.Header>
 
                     <ScrollContainerView
-                        style={{
-                            padding: 0,
-                            width: "100%",
-                            height: "100%",
-                            borderWidth: 0,
-                            shadowOpacity: 0,
-                        }}
-                    >
+                        style={[
+                            tw`p-0 w-full h-full border-0 shadow-opacity-[0px]`,
+                        ]}>
                         {query.isLoading ? (
                             <ContainerView>
-                                <Text
-                                    style={{
-                                        color: baseStyle.color.foreground,
-                                    }}
-                                >
-                                    Is Loading
-                                </Text>
+                                <Text style={defaultFontColor}>Is Loading</Text>
                             </ContainerView>
                         ) : query.isError ? (
                             <ContainerView>
-                                <Text
-                                    style={{
-                                        color: baseStyle.color.foreground,
-                                    }}
-                                >
-                                    Is Error
-                                </Text>
+                                <Text style={defaultFontColor}>Is Error</Text>
                             </ContainerView>
                         ) : !query.data ? (
                             <ContainerView>
-                                <Text
-                                    style={{
-                                        color: baseStyle.color.foreground,
-                                    }}
-                                >
-                                    Is Error
-                                </Text>
+                                <Text style={defaultFontColor}>Is Error</Text>
                             </ContainerView>
                         ) : query.data.length == 0 ? (
                             <ContainerView>
-                                <Text
-                                    style={{
-                                        color: baseStyle.color.foreground,
-                                    }}
-                                >
-                                    No Data
-                                </Text>
+                                <Text style={defaultFontColor}>No Data</Text>
                             </ContainerView>
                         ) : (
                             query.data.map((leaveBalance, i) => (
-                                <View
+                                <LabelView.Row
                                     id="Row"
                                     key={`row${i}`}
-                                    style={{
-                                        // flex: 1,0
-                                        width: "100%",
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        justifyContent: "space-between",
-                                        alignItems: "center",
-                                        borderColor: baseStyle.color.border,
-                                        borderTopWidth:
-                                            i == 0 ? 0 : baseStyle.borderWidth,
-                                        paddingVertical: baseStyle.space.p4,
-                                    }}
-                                >
-                                    <View style={{ width: "100%" }}>
-                                        <Text
-                                            style={{
-                                                color: baseStyle.color
-                                                    .foreground,
-                                            }}
-                                        >
+                                    style={[
+                                        tw`w-full py-4`,
+                                        tw`flex flex-row justify-between items-center`,
+                                        defaultBorderColor,
+                                        i == 0 ? tw`` : tw`border-t-[0.5px]`,
+                                    ]}>
+                                    <View style={tw`w-full`}>
+                                        <Text style={defaultFontColor}>
                                             {leaveBalance.leaveDescription}
                                         </Text>
 
                                         <View
-                                            style={{
-                                                width: "100%",
-                                                display: "flex",
-                                                flexDirection: "row",
-                                                gap: baseStyle.space.p2,
-                                                // borderWidth: 1,
-                                            }}
-                                        >
+                                            style={[
+                                                tw`w-full flex flex-row gap-2`,
+                                            ]}>
                                             <Text
-                                                style={{
-                                                    flex: 2,
-                                                    color: baseStyle.color
-                                                        .foreground,
-                                                }}
-                                            >
+                                                style={[
+                                                    tw`flex-2`,
+                                                    defaultFontColor,
+                                                ]}>
                                                 {leaveBalance.expiredDate.toDateString()}
                                             </Text>
                                             <Text
-                                                style={{
-                                                    flex: 1,
-                                                    textAlign: "center",
-                                                    color: baseStyle.color
-                                                        .destructive,
-                                                }}
-                                            >
+                                                style={[
+                                                    tw`flex-1 text-center`,
+                                                    defaultFontColor,
+                                                    ,
+                                                    {
+                                                        color: baseStyle.color
+                                                            .destructive,
+                                                    },
+                                                ]}>
                                                 {leaveBalance.status}
                                             </Text>
                                             <Text
-                                                style={{
-                                                    flex: 1,
-                                                    color: baseStyle.color
-                                                        .foreground,
-                                                    textAlign: "center",
-                                                }}
-                                            >
+                                                style={[
+                                                    tw`flex-1 text-center`,
+                                                    defaultFontColor,
+                                                ]}>
                                                 {`${leaveBalance.balance} day${
                                                     leaveBalance.balance > 1
                                                         ? "s"
@@ -288,12 +203,12 @@ export const LeaveBalanceModal = ({
                                             </Text>
                                         </View>
                                     </View>
-                                </View>
+                                </LabelView.Row>
                             ))
                         )}
                     </ScrollContainerView>
-                </ContainerView>
-            </ContainerView>
+                </LabelContainerView.MainBody>
+            </LabelContainerView.Overlay>
         </Modal>
     );
 };
