@@ -9,7 +9,6 @@ import { getBaseStyle, getDefaultColourStyle } from "../../lib/style/StyleUtil";
 import { tw } from "../../lib/util/Tailwind";
 import { fetchLeaveApplication } from "./_api/LeaveApplicationApi";
 import { useState } from "react";
-import { SelectionModal } from "../../lib/components/SelectionModal";
 import { Button } from "../../lib/components/Button";
 
 type LeaveDecision = {
@@ -23,6 +22,7 @@ export function TeamScreen() {
     const [leaveDecisionList, setLeaveDecisionList] = useState<LeaveDecision[]>(
         []
     );
+    const [expandedIdList, setExpandedIdList] = useState<string[]>([]);
     const { defaultFontColor, defaultBorderColor } = getDefaultColourStyle();
     const query = useQuery({
         queryKey: ["leaveApplication"],
@@ -51,6 +51,16 @@ export function TeamScreen() {
             return;
         }
         setLeaveDecisionList([...leaveDecisionList, decision]);
+    };
+
+    const toggleLeaveDetail = (id: string) => {
+        if (expandedIdList.includes(id)) {
+            setExpandedIdList([
+                ...expandedIdList.filter((data) => data !== id),
+            ]);
+        } else {
+            setExpandedIdList([...expandedIdList, id]);
+        }
     };
 
     return (
@@ -108,8 +118,10 @@ export function TeamScreen() {
                                         </Text>
                                     </View>
                                     {dayData.map((LeaveApp, i, list) => {
-                                        const [showDetail, setShowDetail] =
-                                            useState(false);
+                                        const showDetail =
+                                            expandedIdList.includes(
+                                                LeaveApp.id
+                                            );
                                         const isLast = i + 1 === list.length;
                                         const currentLeaveDecision =
                                             leaveDecisionList.findLast(
@@ -128,8 +140,8 @@ export function TeamScreen() {
                                             <View style={tw`w-full pt-2`}>
                                                 <Pressable
                                                     onPress={() =>
-                                                        setShowDetail(
-                                                            !showDetail
+                                                        toggleLeaveDetail(
+                                                            LeaveApp.id
                                                         )
                                                     }>
                                                     <ContainerView
@@ -289,11 +301,21 @@ export function TeamScreen() {
                 </ContainerView>
             </ScrollContainerView>
 
-            <View style={tw`flex px-4 pt-2`}>
+            <View
+                style={tw`flex flex-row justify-center items-center px-4 pt-2 gap-2`}>
                 {leaveDecisionList.length > 0 ? (
-                    <Button
-                        title="Confirm"
-                        onPress={() => console.log("Confirm")}></Button>
+                    <>
+                        <Button
+                            title="Confirm"
+                            style={tw`flex-1`}
+                            onPress={() => console.log("Confirm")}
+                        />
+                        <Button
+                            title="Discard"
+                            style={tw`flex-1`}
+                            onPress={() => setLeaveDecisionList([])}
+                        />
+                    </>
                 ) : (
                     <></>
                 )}
