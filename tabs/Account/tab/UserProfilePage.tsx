@@ -20,8 +20,13 @@ function UserProfilePage() {
     const [role] = useState('Employed');
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <ScrollView
+        <ScrollView
+            style={{
+                // paddingBottom: baseStyle.space.p32,
+                borderWidth: 0,
+                minHeight: "100%",
+            }}>
+            <ContainerView
                 style={{
                     borderWidth: 0,
                 }}
@@ -29,11 +34,14 @@ function UserProfilePage() {
                 <ContainerView style={{
                     width: "100%",
                     borderWidth: 0,
-
                 }}>
-                    <Image source={image} style={{ width: 200, height: 200, borderRadius: 400 / 2 }} />
-                    <Text style={{ fontSize: 30 }}>{name}</Text>
-                    <ContainerView style={{
+                <Image
+                    source={image}
+                    style={{ width: 200, height: 200, borderRadius: 400 / 2 }}
+                />
+                <Text style={{ fontSize: 30 }}>{name}</Text>
+                <ContainerView
+                    style={{
                         width: "100%",
                         maxWidth: 800,
                         alignItems: "flex-start",
@@ -92,21 +100,83 @@ function UserProfilePage() {
                             style={{ alignSelf: "center" }}
                         ></Button>
                     </ContainerView>
-                </ContainerView>
+                    <ContainerView
+                        style={{ flexDirection: "row", width: "100%" }}>
+                        <Mail color={baseStyle.color.primary} />
+                        <Text style={{ flex: 1 }}>{email}</Text>
+                    </ContainerView>
+                    <ContainerView
+                        style={{ flexDirection: "row", width: "100%" }}>
+                        <MapPin color={baseStyle.color.primary} />
+                        {/* <TextInput style={{ flex: 6, width: "100%", }}>Address</TextInput> */}
+                        <TextInput
+                            onChangeText={setAddress}
+                            style={{ flex: 1 }}
+                            value={address}
+                            // placeholder="xyz street"
+                        />
+                    </ContainerView>
 
-                <View style={{
+                    <ContainerView
+                        style={{ flexDirection: "row", width: "100%" }}>
+                        <Cake color={baseStyle.color.primary} />
+                        {/* <Text style={{ flex: 6 }}>BOD</Text> */}
+                        <TextInput
+                            onChangeText={setBOD}
+                            style={{ flex: 1 }}
+                            value={BOD}
+                            // placeholder="xyz street"
+                        />
+                    </ContainerView>
+                    <ContainerView
+                        style={{ flexDirection: "row", width: "100%" }}>
+                        <CheckSquare color={baseStyle.color.primary} />
+                        <Text style={{ flex: 6 }}>{status}</Text>
+                    </ContainerView>
+                    <ContainerView
+                        style={{ flexDirection: "row", width: "100%" }}>
+                        <Phone color={baseStyle.color.primary} />
+                        {/* <TextInput style={{ flex: 6 }}>Phone Number</TextInput> */}
+                        <TextInput
+                            onChangeText={setPhone}
+                            style={{ flex: 1 }}
+                            value={phone}
+                            // placeholder="Fatimah"
+                        />
+                    </ContainerView>
+                    <ContainerView
+                        style={{ flexDirection: "row", width: "100%" }}>
+                        <User color={baseStyle.color.primary} />
+                        <Text style={{ flex: 6 }}>{role}</Text>
+                    </ContainerView>
+
+                    <Button
+                        title="Update Profile"
+                        onPress={() => setModalVisible(true)}
+                        style={{ alignSelf: "center" }}></Button>
+                </ContainerView>
+            </ContainerView>
+
+            <View
+                style={{
                     flex: 1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    justifyContent: "center",
+                    alignItems: "center",
                     marginTop: 22,
-                }}
-                >
-                    <Modal
-                        transparent={true}
-                        visible={modalVisible}
-                        animationType="fade"
-                        onRequestClose={() => {
-                            setModalVisible(!modalVisible);
+                }}>
+                <Modal
+                    transparent={true}
+                    visible={modalVisible}
+                    animationType="fade"
+                    onRequestClose={() => {
+                        setModalVisible(!modalVisible);
+                    }}>
+                    {/* <LeaveBalance /> */}
+                    <ContainerView
+                        style={{
+                            width: "100%",
+                            height: "100%",
+                            backgroundColor: baseStyle.color.overlay,
                         }}>
                         <ContainerView
                             style={{
@@ -161,11 +231,29 @@ function UserProfilePage() {
                                     </ContainerView>
                                 </View>
                             </ContainerView>
+                            <Text>Are you sure to make the above changes?</Text>
+                            <View style={{ flexDirection: "row" }}>
+                                <Button
+                                    title="confirm update"
+                                    onPress={() => {
+                                        //TODO
+                                        setModalVisible(!modalVisible);
+                                    }}
+                                />
+                                <Button
+                                    title="cancel update"
+                                    onPress={() =>
+                                        setModalVisible(!modalVisible)
+                                    }
+                                />
+                                {/* </ScrollContainerView> */}
+                            </View>
                         </ContainerView>
-                    </Modal>
-                </View>
-            </ScrollView>
-        </SafeAreaView>)
+                    </ContainerView>
+                </Modal>
+            </View>
+        </ScrollView>
+    );
 }
 
 export default UserProfilePage;
