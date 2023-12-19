@@ -52,58 +52,59 @@ export const ProfileDatePicker = ({ setDatePickerModalVisible, bodDate, setBodDa
     const [selectedYear, setSelectedYear] = useState(today.getFullYear());
     const dateList = getCalendarList(selectedYear, selectedMonth)
 
-    const onclickChangeMonth=(months:number)=>{
-        const newMonth = new Date( selectedYear,selectedMonth);
-        newMonth.setMonth(newMonth.getMonth()+ months);
+    const onclickChangeMonth = (months: number) => {
+        const newMonth = new Date(selectedYear, selectedMonth);
+        newMonth.setMonth(newMonth.getMonth() + months);
         console.log(newMonth)
         setSelectedYear(newMonth.getFullYear());
         setSelectedMonth(newMonth.getMonth());
     }
 
     return (
-        <ContainerView style={{alignSelf:"center",width:"100%", maxWidth:500}}>
-            <View 
-            style={{
-                borderWidth:0,
-                shadowOpacity:0,
-                alignSelf:"stretch",
-            }}>
+        <ContainerView style={{ alignSelf: "center", width: "100%", maxWidth: 500 }}>
+            <View
+                style={{
+                    borderWidth: 0,
+                    shadowOpacity: 0,
+                    alignSelf: "stretch",
+                }}>
                 <View>
-                    <ContainerView style={{ 
+                    <ContainerView style={{
                         flexDirection: "row",
-                        borderWidth:0,
-                        shadowOpacity:0,
-                        width:"100%",
-                        justifyContent:"space-between",
+                        borderWidth: 0,
+                        shadowOpacity: 0,
+                        width: "100%",
+                        justifyContent: "space-between",
                     }}>
-                        <IconButton 
+                        <IconButton
                             onPress={() => {
                                 onclickChangeMonth(-1);
-                            //Change month
-                        }}
+                            }}
                         >
                             {() => (
-                                <ChevronLeft color={baseStyle.color.muted}/>
+                                <ChevronLeft color={baseStyle.color.muted} />
                             )}
                         </IconButton>
-                        <Text>{`${selectedYear} ${FULL_MONTH[selectedMonth]}`}</Text>
-                        <IconButton style={{alignSelf:"flex-end"}} onPress={() => {
-                                onclickChangeMonth(1);
-                                console.log(bodDate)
-                            //Change month
+                        <Pressable onPress={()=>{
+                            
                         }}>
-                            <ChevronRight  color={baseStyle.color.muted}/>
+                            <Text>{`${selectedYear} ${FULL_MONTH[selectedMonth]}`}</Text>
+                        </Pressable>
+                        <IconButton style={{ alignSelf: "flex-end" }} onPress={() => {
+                            onclickChangeMonth(1);
+                        }}>
+                            <ChevronRight color={baseStyle.color.muted} />
                         </IconButton>
                     </ContainerView>
                 </View>
             </View>
-            
-            <ContainerView style={{width:"100%",alignItems:"stretch"}}>
-                <View style={{ flexDirection: "row",justifyContent:"space-between" }}>
+
+            <ContainerView style={{ width: "100%", alignItems: "stretch" }}>
+                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                     {DAY_LIST.map((day) => {
                         return (
                             <View style={{ flex: 1 }}>
-                                <Text style={{alignSelf:"center",}}>
+                                <Text style={{ alignSelf: "center", }}>
                                     {day}
                                 </Text>
                             </View>
@@ -118,8 +119,29 @@ export const ProfileDatePicker = ({ setDatePickerModalVisible, bodDate, setBodDa
                             {rowDate.map((date) => {
                                 return (
                                     <View style={{ flex: 1 }}>
-                                        <Pressable>
-                                            <Text style={{alignSelf:"center"}}>
+                                        <Pressable
+                                            onPress={() => setBodDate(date.toLocaleDateString("en-GB"))}
+                                            disabled={date.getMonth() != selectedMonth}
+                                            style={{
+                                                backgroundColor: (bodDate == date.toLocaleDateString("en-GB")) ? baseStyle.color.primary : "white",
+                                                height: 20,
+                                            width: 20,
+                                            borderRadius: 20 / 2,
+                                            alignSelf:"center",
+                                                overflow:"hidden"
+                                            }}
+                                        >
+                                            <Text style={{
+                                                alignSelf: "center",
+                                                color: (date.getMonth() != selectedMonth)
+                                                    ? baseStyle.color.mutedForeground
+                                                    : (date.toLocaleDateString("en-GB") == bodDate)
+                                                        ? "white"
+                                                        : baseStyle.color.primary,
+
+                                                fontWeight: date.getMonth() == selectedMonth ? baseStyle.fontWeight.bold : baseStyle.fontWeight.normal
+                                                // fontWeight: bodDate? baseStyle.fontWeight.normal : baseStyle.fontWeight.black 
+                                            }}>
                                                 {date.getDate()}
                                             </Text>
                                         </Pressable>
