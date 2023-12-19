@@ -40,20 +40,19 @@ function UserProfilePage() {
             }}>
                 <Image source={image} style={{ width: 200, height: 200, borderRadius: 400 / 2 }} />
                 <Text style={{ fontSize: 30 }}>{name}</Text>
-                <ContainerView style={{
-                    width: "100%",
-                    maxWidth: 800,
-                    alignItems: "flex-start",
-                    borderWidth: 0,
-                    shadowOpacity: 0
-                }}>
-                    <ContainerView style={{ flexDirection: "row", width: "100%", }}>
-                        <User color={baseStyle.color.primary} />
-                        <TextInput
-                            onChangeText={setName}
-                            style={{ flex: 1 }}
-                            value={name}
-                        />
+                <ContainerView
+                    style={{
+                        width: "100%",
+                        maxWidth: 800,
+                        alignItems: "flex-start",
+                    }}>
+                        <ContainerView style={{ flexDirection: "row", width: "100%", }}>
+                            <User color={baseStyle.color.primary} />
+                            <TextInput
+                                onChangeText={setName}
+                                // style={{ flex: 1 }}
+                                value={name}
+                            />
 
                     </ContainerView>
                     <ContainerView style={{ flexDirection: "row", width: "100%", }}>
