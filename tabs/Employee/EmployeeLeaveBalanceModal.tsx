@@ -6,20 +6,19 @@ import {
     ModalProps,
     NativeSyntheticEvent,
     Pressable,
-    StyleProp,
-    Text,
-    View,
-    ViewStyle,
     StyleSheet,
+    Text,
     TextInput,
-    TouchableOpacity
+    TouchableOpacity,
+    View
 } from "react-native";
+import { SelectList } from "react-native-dropdown-select-list";
 import {
     ContainerView,
     ScrollContainerView,
 } from "../../lib/components/ContainerView";
 import { fetchLeaveBalance } from "../Leave/_api/LeaveBalanceApi";
-import { SelectList } from "react-native-dropdown-select-list";
+import { Button } from "../../lib/components/Button";
 import { getBaseStyle } from "../../lib/style/StyleUtil";
 
 interface LeaveDetailModalProps extends ModalProps {
@@ -46,7 +45,7 @@ export const EmployeeLeaveBalanceModal = ({
     const [leaveType, setLeaveType] = useState("");
 
     const leaveTypeList = [
-        { key: "1", value: "Annual Leave", disabled: true },
+        { key: "1", value: "Annual Leave" },
         { key: "2", value: "Medical Leave" },
         { key: "3", value: "Replacement Leave" },
         { key: "4", value: "Etc Leave", disabled: true },
@@ -216,109 +215,172 @@ export const EmployeeLeaveBalanceModal = ({
                         }}
                     >
                         <View style={{ width: "100%" }}>
-                                <SelectList
-                                    placeholder="Leave Balance"
-                                    boxStyles={{
-                                        width: "100%",
-                                        borderColor: baseStyle.color.border,
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                        padding: 0,
-                                        // paddingRight: baseStyle.space.p8,
-                                    }}
-                                    inputStyles={{
-                                        width: "100%",
-                                        borderColor: baseStyle.color.border,
-                                        padding: 0,
-                                        color:
-                                            leaveType === ""
-                                                ? baseStyle.color
-                                                      .mutedForeground
-                                                : baseStyle.color.foreground,
-                                    }}
-                                    dropdownStyles={{
-                                        width: "100%",
-                                        borderColor: baseStyle.color.border,
-                                    }}
-                                    dropdownItemStyles={{
-                                        width: "100%",
-                                        borderColor: baseStyle.color.border,
-                                    }}
-                                    dropdownTextStyles={{
-                                        width: "100%",
-                                        borderColor: baseStyle.color.border,
-                                        color: baseStyle.color.foreground,
-                                    }}
-                                    disabledItemStyles={{
-                                        width: "100%",
-                                        backgroundColor: baseStyle.color.muted,
-                                        borderColor: baseStyle.color.border,
-                                    }}
-                                    disabledTextStyles={{
-                                        width: "100%",
-                                        borderColor: baseStyle.color.border,
-                                        color: baseStyle.color.mutedForeground,
-                                    }}
-                                    searchicon={
-                                        <Search
-                                            color={baseStyle.color.foreground}
-                                            style={{
-                                                color: baseStyle.color
-                                                    .foreground,
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                textAlign: "center",
-                                                // flexWrap: "nowrap",
-                                                // borderRadius: baseStyle.rounded.md,
-                                                // fontSize: baseStyle.fontSize.sm,
-                                                // paddingRight:
-                                                //     baseStyle.space.p4,
-                                                // fontWeight:
-                                                //     baseStyle.fontWeight.medium,
-                                            }}
-                                        ></Search>
-                                    }
-                                    arrowicon={
-                                        <ChevronDown
-                                            color={baseStyle.color.foreground}
-                                            style={{
-                                                color: baseStyle.color
-                                                    .foreground,
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                textAlign: "center",
-                                                // flexWrap: "nowrap",
-                                                // borderRadius: baseStyle.rounded.md,
-                                                // fontSize: baseStyle.fontSize.sm,
-                                                // paddingRight:
-                                                //     baseStyle.space.p4,
-                                                // fontWeight:
-                                                //     baseStyle.fontWeight.medium,
-                                            }}
-                                        ></ChevronDown>
-                                    }
-                                    closeicon={
-                                        <X
-                                            color={baseStyle.color.foreground}
-                                            style={{
-                                                color: baseStyle.color
-                                                    .foreground,
-                                                alignItems: "center",
-                                                justifyContent: "center",
-                                                textAlign: "center",
-                                            }}
-                                        ></X>
-                                    }
-                                    setSelected={(val: string) =>
-                                        setLeaveType(val)
-                                    }
-                                    data={leaveTypeList}
-                                    save="key"
-                                />
-                            </View>
+                            <SelectList
+                                placeholder="Leave Balance"
+                                boxStyles={{
+                                    width: "100%",
+                                    borderColor: baseStyle.color.border,
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    padding: 0,
+                                    height: baseStyle.space.p12,
+                                    marginBottom: baseStyle.space.p3,
+                                    // maxHeight: baseStyle.space.p10
+                                }}
+                                inputStyles={{
+                                    width: "100%",
+                                    borderColor: baseStyle.color.border,
+                                    // padding: 0,
+                                    paddingHorizontal: baseStyle.space.p3,
+                                    color:
+                                        leaveType === ""
+                                            ? baseStyle.color
+                                                .mutedForeground
+                                            : baseStyle.color.foreground,
+                                    maxHeight: baseStyle.space.p10
+                                    // fontSize: 15
+                                    // height: baseStyle.space.p10,
+                                    // backgroundColor: "green"
+                                }}
+                                dropdownStyles={{
+                                    width: "100%",
+                                    borderColor: baseStyle.color.border,
+                                }}
+                                dropdownItemStyles={{
+                                    width: "100%",
+                                    borderColor: baseStyle.color.border,
+                                }}
+                                dropdownTextStyles={{
+                                    width: "100%",
+                                    borderColor: baseStyle.color.border,
+                                    color: baseStyle.color.foreground,
+                                }}
+                                disabledItemStyles={{
+                                    width: "100%",
+                                    backgroundColor: baseStyle.color.muted,
+                                    borderColor: baseStyle.color.border,
+                                }}
+                                disabledTextStyles={{
+                                    width: "100%",
+                                    borderColor: baseStyle.color.border,
+                                    color: baseStyle.color.mutedForeground,
+                                }}
+                                searchicon={
+                                    <Search
+                                        color={baseStyle.color.foreground}
+                                        style={{
+                                            color: baseStyle.color
+                                                .foreground,
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            textAlign: "center",
+                                            // flexWrap: "nowrap",
+                                            // borderRadius: baseStyle.rounded.md,
+                                            // fontSize: baseStyle.fontSize.sm,
+                                            // paddingRight:
+                                            //     baseStyle.space.p4,
+                                            // fontWeight:
+                                            //     baseStyle.fontWeight.medium,
+                                        }}
+                                    ></Search>
+                                }
+                                arrowicon={
+                                    <ChevronDown
+                                        color={baseStyle.color.foreground}
+                                        style={{
+                                            color: baseStyle.color
+                                                .foreground,
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            textAlign: "center",
+                                            // flexWrap: "nowrap",
+                                            // borderRadius: baseStyle.rounded.md,
+                                            // fontSize: baseStyle.fontSize.sm,
+                                            // paddingRight:
+                                            //     baseStyle.space.p4,
+                                            // fontWeight:
+                                            //     baseStyle.fontWeight.medium,
+                                        }}
+                                    ></ChevronDown>
+                                }
+                                closeicon={
+                                    <X
+                                        color={baseStyle.color.foreground}
+                                        style={{
+                                            color: baseStyle.color
+                                                .foreground,
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            textAlign: "center",
+                                        }}
+                                    ></X>
+                                }
+                                setSelected={(val: string) =>
+                                    setLeaveType(val)
+                                }
+                                data={leaveTypeList}
+                                save="key"
+                                defaultOption={{ key: "1", value: "Annual Leave" }}
+                            />
+                        </View>
+                        <TextInput
+                            style={{
+                                // flex: 1,
+                                display: "flex",
+                                height: baseStyle.space.p12,
+                                width: "100%",
+                                borderWidth: 1,
+                                borderColor: baseStyle.color.input,
+                                borderRadius: baseStyle.rounded.md,
+                                backgroundColor: baseStyle.color.background,
+                                paddingHorizontal: baseStyle.space.p3,
+                                paddingVertical: baseStyle.space.p2,
+                                fontSize: baseStyle.fontSize.base,
+                                shadowColor: baseStyle.color.background,
+                                marginBottom: baseStyle.space.p3,
+                            }}
+                            placeholder="Leave Description"
+                            placeholderTextColor={
+                                baseStyle.color.mutedForeground
+                            }
+                        />
+                        <TextInput
+                            style={{
+                                // flex: 1,
+                                display: "flex",
+                                height: baseStyle.space.p12,
+                                width: "100%",
+                                borderWidth: 1,
+                                borderColor: baseStyle.color.input,
+                                borderRadius: baseStyle.rounded.md,
+                                backgroundColor: baseStyle.color.background,
+                                paddingHorizontal: baseStyle.space.p3,
+                                paddingVertical: baseStyle.space.p2,
+                                fontSize: baseStyle.fontSize.base,
+                                shadowColor: baseStyle.color.background,
+                                marginBottom: baseStyle.space.p3,
+                            }}
+                            placeholder="Employee Name"
+                            placeholderTextColor={
+                                baseStyle.color.mutedForeground
+                            }
+                        />
                         <View style={styles.inputContainer}>
                             <TextInput
-                                style={styles.input}
+                                style={{
+                                    display: "flex",
+                                    height: baseStyle.space.p12,
+                                    width: "100%",
+                                    borderWidth: 1,
+                                    borderColor: baseStyle.color.input,
+                                    borderRadius: baseStyle.rounded.md,
+                                    backgroundColor: baseStyle.color.background,
+                                    paddingHorizontal: baseStyle.space.p3,
+                                    paddingVertical: baseStyle.space.p2,
+                                    fontSize: baseStyle.fontSize.base,
+                                    shadowColor: baseStyle.color.background,
+                                    marginBottom: baseStyle.space.p3,
+                                }}
                                 value={value.toString()}
                                 placeholder="Enter Days"
                                 keyboardType="numeric"
@@ -335,6 +397,23 @@ export const EmployeeLeaveBalanceModal = ({
                             <TouchableOpacity style={styles.button} onPress={handleIncrement}>
                                 <Text style={styles.buttonText}>+</Text>
                             </TouchableOpacity>
+                        </View>
+                        <View
+                            id="buttonView"
+                            style={{
+                                width: "100%",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                            }}
+                        >
+                            <Button
+                                title="Submit"
+                            // onPress={() => {
+                            //     // setSelectedLeaveType("Annual Leave");
+                            //     setOpenLeaveBalanceModal(true);
+                            // }}
+                            ></Button>
                         </View>
                     </ScrollContainerView>
                 </ContainerView>
