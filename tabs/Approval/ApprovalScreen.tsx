@@ -16,7 +16,7 @@ type LeaveDecision = {
     status: "Accept" | "Reject" | "Unselected";
 };
 
-export function TeamScreen() {
+export function ApprovalScreen() {
     const today = new Date();
     const baseStyle = getBaseStyle();
     const [leaveDecisionList, setLeaveDecisionList] = useState<LeaveDecision[]>(
@@ -64,16 +64,20 @@ export function TeamScreen() {
     };
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <View style={tw`flex p-4 gap-2`}>
-                <ContainerView>
+        <SafeAreaView style={[tw`flex-1`]}>
+            <View style={[tw`flex justify-center items-center p-4 gap-2`]}>
+                <ContainerView style={[tw`max-w-[600px]`]}>
                     <Text style={defaultFontColor}>Leave Application</Text>
                 </ContainerView>
             </View>
             <ScrollContainerView
-                style={[tw`w-full border-0 shadow-opacity-0 gap-20`]}>
+                style={[
+                    tw`w-full border-0 shadow-opacity-0 `,
+                    // tw`justify-center items-center`,
+                ]}>
                 <ContainerView
                     style={[
+                        tw`w-full`,
                         tw`p-0 pb-8 border-0 shadow-opacity-0 gap-0`,
                         tw`flex justify-center items-center`,
                     ]}>
@@ -103,6 +107,7 @@ export function TeamScreen() {
                                     <View
                                         style={[
                                             tw`pl-2 pt-2 w-full border-b-[1px]`,
+                                            tw`max-w-[600px]`,
                                             defaultBorderColor,
                                             {
                                                 borderColor:
@@ -137,7 +142,11 @@ export function TeamScreen() {
                                               "Reject"
                                             : false;
                                         return (
-                                            <View style={tw`w-full pt-2`}>
+                                            <View
+                                                style={[
+                                                    tw`w-full pt-2`,
+                                                    tw`max-w-[600px]`,
+                                                ]}>
                                                 <Pressable
                                                     onPress={() =>
                                                         toggleLeaveDetail(
@@ -154,7 +163,7 @@ export function TeamScreen() {
                                                         ]}>
                                                         <View
                                                             style={[
-                                                                tw`flex flex-row justify-center items-center`,
+                                                                tw`w-full flex flex-row justify-around items-center`,
                                                                 tw`gap-4`,
                                                             ]}>
                                                             <View
@@ -280,7 +289,10 @@ export function TeamScreen() {
                                                                     tw`w-full pt-4 border-t-[0.5px]`,
                                                                     defaultBorderColor,
                                                                 ]}>
-                                                                <Text>
+                                                                <Text
+                                                                    style={
+                                                                        defaultFontColor
+                                                                    }>
                                                                     {
                                                                         LeaveApp.reason
                                                                     }
@@ -301,24 +313,29 @@ export function TeamScreen() {
                 </ContainerView>
             </ScrollContainerView>
 
-            <View
-                style={tw`flex flex-row justify-center items-center px-4 pt-2 gap-2`}>
-                {leaveDecisionList.length > 0 ? (
-                    <>
-                        <Button
-                            title="Confirm"
-                            style={tw`flex-1`}
-                            onPress={() => console.log("Confirm")}
-                        />
-                        <Button
-                            title="Discard"
-                            style={tw`flex-1`}
-                            onPress={() => setLeaveDecisionList([])}
-                        />
-                    </>
-                ) : (
-                    <></>
-                )}
+            <View style={[tw`flex flex-row justify-center items-center`]}>
+                <View
+                    style={[
+                        tw`flex flex-row justify-center items-center px-4 pt-2 gap-2`,
+                        tw`max-w-[600px]`,
+                    ]}>
+                    {leaveDecisionList.length > 0 ? (
+                        <>
+                            <Button
+                                title="Confirm"
+                                style={tw`flex-1`}
+                                onPress={() => console.log("Confirm")}
+                            />
+                            <Button
+                                title="Discard"
+                                style={tw`flex-1`}
+                                onPress={() => setLeaveDecisionList([])}
+                            />
+                        </>
+                    ) : (
+                        <></>
+                    )}
+                </View>
             </View>
         </SafeAreaView>
     );

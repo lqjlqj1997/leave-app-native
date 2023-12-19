@@ -5,6 +5,7 @@ import {
     Briefcase,
     CircleUserRound,
     FlaskConical,
+    GalleryVerticalEnd,
     LogOut,
     Tv,
 } from "lucide-react-native";
@@ -40,7 +41,7 @@ import { HomeScreen } from "../tabs/Home";
 import { DashboardScreen } from "../tabs/Leave/Dashboard";
 import { TestScreen } from "../tabs/Test";
 import { MyTabBar } from "./TabBar";
-import { TeamScreen } from "../tabs/Teams/TeamScreen";
+import { ApprovalScreen } from "../tabs/Approval/ApprovalScreen";
 
 export type RootStackParamList = {
     Home: undefined;
@@ -53,6 +54,7 @@ export type RootStackParamList = {
 
 export type RootTabParamList = {
     Test: undefined;
+    Approval : undefined;
     Account: undefined;
     Employee: undefined;
     Dashboard: undefined;
@@ -85,10 +87,19 @@ function MyTab() {
             {/* <Tab.Screen name="Profile" component={EmployeeScreen} /> */}
             <Tab.Screen
                 name="Test"
-                component={TeamScreen}
+                component={ApprovalScreen}
                 options={{
                     tabBarLabel: () => (
                         <FlaskConical color={baseStyle.color.foreground} />
+                    ),
+                }}
+            />
+            <Tab.Screen
+                name="Approval"
+                component={ApprovalScreen}
+                options={{
+                    tabBarLabel: () => (
+                        <GalleryVerticalEnd color={baseStyle.color.foreground} />
                     ),
                 }}
             />
