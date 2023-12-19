@@ -1,3 +1,4 @@
+
 import { SetStateAction, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image, Modal, Pressable, ScrollView, Text, TextInput, View } from "react-native";
@@ -21,7 +22,7 @@ function UserProfilePage() {
     const [BodDate,setBodDate] = useState(new Date().toLocaleDateString('en-GB'));
     const [status] = useState('Employed');
     const [phone, setPhone] = useState('0107867361');
-    const [role] = useState('Employed');
+    const [role] = useState('Employee');
 
     return (
         // <SafeAreaView style={{ flex: 1 }}>
@@ -50,7 +51,7 @@ function UserProfilePage() {
                             <User color={baseStyle.color.primary} />
                             <TextInput
                                 onChangeText={setName}
-                                // style={{ flex: 1 }}
+                                style={{ flex: 1 }}
                                 value={name}
                             />
 
@@ -163,9 +164,9 @@ function UserProfilePage() {
                                     <Pressable
                                         onPress={() => setModalVisible(!modalVisible)}
                                         style={{
-                                            height: 20,
-                                            width: 20,
-                                            borderRadius: 20 / 2,
+                                            height: 25,
+                                            width: 25,
+                                            borderRadius: 25 / 2,
                                             backgroundColor: baseStyle.color.primary,
                                             alignItems: "center",
                                         }}
@@ -177,6 +178,7 @@ function UserProfilePage() {
                         </ContainerView>
                     </ContainerView>
                 </Modal>
+                
                 <Modal
                     transparent={true}
                     visible={datePickerModalVisible}
