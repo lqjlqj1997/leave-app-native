@@ -1,28 +1,10 @@
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { SafeAreaView, Text, Image, TextInput, Modal, Pressable, TouchableOpacity, useWindowDimensions, FlatList } from "react-native";
-import { RootStackParamList } from "../../router/Router";
-import { ScrollContainerView } from "../../lib/components/ContainerView";
-import { getBaseStyle } from "../../lib/style/StyleUtil";
-import { Button } from "../../lib/components/Button";
-import { ContainerView } from "../../lib/components/ContainerView";
-import {
-    AlignCenter,
-    Cake,
-    CheckSquare,
-    Container,
-    Mail,
-    MapPin,
-    User
-} from "lucide-react-native";
-import { ScrollView } from "react-native";
-import { Phone } from "lucide-react-native";
-import { View } from "react-native";
 import React, { useState } from "react";
-import UserProfilePage from "./tab/UserProfilePage"
+import { useWindowDimensions } from "react-native";
 import { SceneMap, TabBar, TabView } from "react-native-tab-view";
-import UserSettingPage from "./tab/UserSettingPage";
+import { getBaseStyle } from "../../lib/style/StyleUtil";
 import LeaveBalancePage from "./tab/LeaveBalancePage";
+import UserProfilePage from "./tab/UserProfilePage";
+import UserSettingPage from "./tab/UserSettingPage";
 
 const UserProfile = () => {
     return (<UserProfilePage />)
@@ -36,21 +18,21 @@ const UserSettings = () => {
     return <UserSettingPage />;
 };
 
+const renderScene = SceneMap({
+    userProfile: UserProfile,
+    leaveBalance: LeaveBalance,
+    userSettings: UserSettings,
+});
+
 export function AccountScreen() {
     const baseStyle = getBaseStyle();
 
-    const renderScene = SceneMap({
-        userProfile: UserProfile,
-        leaveBalance: LeaveBalance,
-        userSettings: UserSettings,
-    });
-
     const [index, setIndex] = useState(0);
-    const [routes] = useState([
+    const routes = [
         { key: 'userProfile', title: 'Profile' },
         { key: 'leaveBalance', title: 'Leave Balance' },
         { key: 'userSettings', title: 'Settings' }
-    ]);
+    ];
     const layout = useWindowDimensions();
 
     return (
@@ -58,7 +40,18 @@ export function AccountScreen() {
             renderTabBar={(props) => (
                 <TabBar
                     {...props}
-                    style={{ backgroundColor: baseStyle.color.primary }}
+                    style={{
+                        
+                        backgroundColor: "#ffffff",
+                        padding: 1.5,
+                        marginBottom: 0
+                    }}
+                    activeColor="black"
+                    inactiveColor={baseStyle.color.mutedForeground}
+                    indicatorStyle={{
+                        backgroundColor: baseStyle.color.primary    
+                    }}
+                    // labelStyle={{fontWeight:"bold"}}
                 />
             )}
             navigationState={{ index, routes }}
