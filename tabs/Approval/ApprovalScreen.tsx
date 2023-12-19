@@ -17,7 +17,6 @@ type LeaveDecision = {
 };
 
 export function ApprovalScreen() {
-    const today = new Date();
     const baseStyle = getBaseStyle();
     const [leaveDecisionList, setLeaveDecisionList] = useState<LeaveDecision[]>(
         []
