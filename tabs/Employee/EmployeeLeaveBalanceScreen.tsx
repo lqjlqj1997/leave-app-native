@@ -56,6 +56,9 @@ export function EmployeeLeaveBalanceScreen({ data }: { data: any }) {
     const [openLeaveBalanceModal, setOpenLeaveBalanceModal] = useState(false);
     const [openLeaveFormModal, setOpenLeaveFormModal] = useState(false);
     const [selectedLeaveType, setSelectedLeaveType] = useState("");
+    const [selectedDate, setSelectedDate] = useState(
+        new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())
+    );
 
     const toggleItem = (itemId: string) => {
         if (expandedIds.includes(itemId)) {
@@ -240,6 +243,7 @@ export function EmployeeLeaveBalanceScreen({ data }: { data: any }) {
             <EmployeeLeaveBalanceModal
                 leaveType={selectedLeaveType}
                 modalVisible={openLeaveBalanceModal}
+                selectedDate={selectedDate}
                 onDemise={() => setOpenLeaveBalanceModal(false)}
             ></EmployeeLeaveBalanceModal>
             <View
