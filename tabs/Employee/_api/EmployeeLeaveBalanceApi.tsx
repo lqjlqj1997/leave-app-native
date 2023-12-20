@@ -8,6 +8,10 @@ export type EmployeeLeaveBalanceDetail = {
     expiryDate: Date;
     email: string;
     isExpanded: boolean;
+    alBalance: number;
+    mcBalance: number;
+    rlBalance: number;
+    otherBalance: number;
 }
 
 const range = (len: number) => {
@@ -31,11 +35,27 @@ const newEmployeeLeaveBalanceDetail = (): EmployeeLeaveBalanceDetail => {
         leaveType: leaveType,
         leaveBalance: faker.number.int({
             min: 0,
-            max: 20
+            max: 50
         }),
         expiryDate: faker.date.anytime(),
         email: faker.internet.email(),
-        isExpanded: false
+        isExpanded: false,
+        alBalance: faker.number.int({
+            min: 0,
+            max: 14
+        }),
+        mcBalance: faker.number.int({
+            min: 0,
+            max: 14
+        }),
+        rlBalance: faker.number.int({
+            min: 0,
+            max: 5.5
+        }),
+        otherBalance: faker.number.int({
+            min: 0,
+            max: 5
+        }),
     };
 };
 
