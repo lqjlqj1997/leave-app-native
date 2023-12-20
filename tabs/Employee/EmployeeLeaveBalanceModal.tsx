@@ -23,6 +23,8 @@ import { IconButton } from "../../lib/components/IconButton";
 import { DatePicker } from "../Leave/_components/DatePicker";
 import { DayModeLegendModal } from "../Leave/_components/DayModeLegendModal";
 import { LeaveDataType } from "../Leave/_components/LeaveFormModal";
+import { LeaveCalender } from "../Leave/_components/LeaveCalender";
+import { ExpiryDatePicker } from "./_component/ExpiryDatePicker";
 
 interface LeaveDetailModalProps extends ModalProps {
     modalVisible: boolean;
@@ -55,37 +57,45 @@ export const EmployeeLeaveBalanceModal = ({
         },
     ]);
 
-    const [value, setValue] = useState('0');
+    
     const [leaveType, setLeaveType] = useState("");
     const [openDatePickerModal, setOpenDatePickerModal] = useState(false);
+    const [datePickerModalVisible, setDatePickerModalVisible] = useState(false);
     const [openDayModeLegendModal, setOpenDayModeLegendModal] = useState(false);
+    const [modal1Visible, setModalVisible] = useState(false);
 
-    const [date, setDate] = useState(new Date(1598051730000));
-    const [mode, setMode] = useState('date');
-    const [show, setShow] = useState(false);
+    const today = new Date();
+    const [selectedYear, setSelectedYear] = useState(today.getFullYear());
+    const [selectedMonth, setSelectedMonth] = useState(today.getMonth());
+    const [selected1Date, setSelectedDate] = useState(
+        new Date(today.getFullYear(), today.getMonth(), today.getDate())
+    );
+
+    const [name, setName] = useState('Alibaba');
+    const [description, setDescription] = useState('No reason lol');
+    const [duration, setDuration] = useState('0');
+    const [expiryDate, setDate] = useState(new Date().toLocaleDateString('en-GB'));
 
     const leaveTypeList = [
         { key: "1", value: "Annual Leave" },
         { key: "2", value: "Medical Leave" },
         { key: "3", value: "Replacement Leave" },
-        { key: "4", value: "Etc Leave", disabled: true },
-        { key: "5", value: "Etc Leave" },
-        { key: "6", value: "Etc Leave" },
-        { key: "7", value: "Etc Leave" },
+        { key: "4", value: "Other Leave" },
+        { key: "5", value: "You'll Never Leave" },
     ];
 
     const handleIncrement = () => {
         // setValue(value + 1);
-        setValue((prevValue) => {
+        setDuration((prevValue) => {
             const floatValue = parseFloat(prevValue);
             return (floatValue + 0.5).toFixed(1);
         });
     };
 
     const handleDecrement = () => {
-        if (parseFloat(value) > 0) {
+        if (parseFloat(duration) > 0) {
             // setValue(value - 1);
-            setValue((prevValue) => {
+            setDuration((prevValue) => {
                 const floatValue = parseFloat(prevValue);
                 return (floatValue - 0.5).toFixed(1);
             });
@@ -100,11 +110,11 @@ export const EmployeeLeaveBalanceModal = ({
         const decimalCount = sanitizedText.split('.').length - 1;
 
         if (text == '') {
-            setValue('0');
+            setDuration('0');
         }
         else {
             if (decimalCount <= 1) {
-                setValue(sanitizedText);
+                setDuration(sanitizedText);
             }
         }
         // if (decimalCount <= 1) {
@@ -112,25 +122,6 @@ export const EmployeeLeaveBalanceModal = ({
         // }
         // setValue(parseFloat(sanitizedText));
         console.log("No. of days: bb" + sanitizedText);
-    };
-
-    const onChange = (event: NativeSyntheticEvent<any>, selectedDate: any) => {
-        const currentDate = selectedDate;
-        setShow(false);
-        setDate(currentDate);
-    };
-
-    const showMode = (currentMode: React.SetStateAction<string>) => {
-        setShow(true);
-        setMode(currentMode);
-    };
-
-    const showDatepicker = () => {
-        showMode('date');
-    };
-
-    const showTimepicker = () => {
-        showMode('time');
     };
 
     const handleSubmit = () => {
@@ -268,7 +259,6 @@ export const EmployeeLeaveBalanceModal = ({
 
                     <ScrollContainerView
                         style={{
-                            padding: 0,
                             width: "100%",
                             height: "100%",
                             borderWidth: 0,
@@ -288,6 +278,7 @@ export const EmployeeLeaveBalanceModal = ({
                                     marginBottom: baseStyle.space.p3,
                                     // maxHeight: baseStyle.space.p10
                                 }}
+                                search= {false}
                                 inputStyles={{
                                     width: "100%",
                                     borderColor: baseStyle.color.border,
@@ -405,6 +396,8 @@ export const EmployeeLeaveBalanceModal = ({
                             placeholderTextColor={
                                 baseStyle.color.mutedForeground
                             }
+                            value={description}
+                            onChangeText={setDescription}
                         />
                         <TextInput
                             style={{
@@ -427,6 +420,8 @@ export const EmployeeLeaveBalanceModal = ({
                             placeholderTextColor={
                                 baseStyle.color.mutedForeground
                             }
+                            value={name}
+                            onChangeText={setName}
                         />
                         {/* <View style={styles.inputContainer}> */}
                         <TextInput
@@ -443,9 +438,9 @@ export const EmployeeLeaveBalanceModal = ({
                                 fontSize: baseStyle.fontSize.base,
                                 shadowColor: baseStyle.color.background,
                                 marginBottom: baseStyle.space.p3,
-                                color: baseStyle.color.primary
+                                color: baseStyle.color.primary,
                             }}
-                            value={value}
+                            value={duration}
                             placeholder="Enter Days"
                             placeholderTextColor={
                                 baseStyle.color.mutedForeground
@@ -485,22 +480,25 @@ export const EmployeeLeaveBalanceModal = ({
                                 alignItems: "center",
                                 flexDirection: "row",
                                 gap: baseStyle.space.p4,
+                                marginBottom: baseStyle.space.p3
                             }}
                         >
-                            {openDatePickerModal ? (
+                            {/* {openDatePickerModal ? (
                                 <DatePicker
                                     modalVisible={openDatePickerModal}
                                     onDemise={() =>
                                         setOpenDatePickerModal(false)
+                                        
                                     }
                                     setDateList={setSelectedDateList}
                                     initialDateList={selectedDateList}
                                 ></DatePicker>
+
                             ) : (
                                 ""
-                            )}
+                            )} */}
                             <IconButton
-                                onPress={() => setOpenDatePickerModal(true)}
+                                onPress={() => setDatePickerModalVisible(true)}
                                 style={{
                                     // flex: 1,
                                     // borderRadius: baseStyle.rounded.xl3,
@@ -535,7 +533,7 @@ export const EmployeeLeaveBalanceModal = ({
                                                         "center",
                                                 }}
                                             >
-                                                Choose Expiry Date
+                                                {expiryDate}
                                             </Text>
                                         </View>
                                         <CalendarDays
@@ -572,6 +570,32 @@ export const EmployeeLeaveBalanceModal = ({
                                 }
                             ></DayModeLegendModal>
                         </View>
+                        {/* <LeaveCalender
+                            selectedYear={selectedYear}
+                            selectedMonth={selectedMonth}
+                            selectedDate={selectedDate}
+                            setSelectedDate={setSelectedDate}
+                        /> */}
+                        <Modal
+                            transparent={true}
+                            visible={datePickerModalVisible}
+                            animationType="fade"
+                            onRequestClose={() => {
+                                setModalVisible(!modalVisible);
+                            }}>
+                            <ContainerView
+                                style={{
+                                    width: "100%",
+                                    height: "100%",
+                                    backgroundColor: baseStyle.color.overlay,
+                                }}>
+                                <ExpiryDatePicker
+                                    setDatePickerModalVisible={setDatePickerModalVisible}
+                                    expiryDate={expiryDate}
+                                    setDate={setDate} />
+
+                            </ContainerView>
+                        </Modal>
                         <View
                             id="submitButtonView"
                             style={{
@@ -583,6 +607,7 @@ export const EmployeeLeaveBalanceModal = ({
                         >
                             <Button
                                 title="Submit"
+                                //TODO Submit Btn
                                 onPress={onDemise}
                             ></Button>
                         </View>
