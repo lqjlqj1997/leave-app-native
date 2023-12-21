@@ -46,7 +46,6 @@ export const NewEmployeeModal = ({
             animationType="fade"
             transparent={true}
             visible={modalVisible}>
-            <Text>New Employee Screen</Text>
             <ContainerView
                 style={{
                     width: "100%",
