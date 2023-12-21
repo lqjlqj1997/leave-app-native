@@ -9,87 +9,8 @@ import { ContainerView } from "../../lib/components/ContainerView";
 import { getBaseStyle } from "../../lib/style/StyleUtil";
 import { RootStackParamList } from "../../router/Router";
 import { fetchEmployeeData } from "../Employee/_api/EmployeeApi";
-
-
-// const DATA = [
-//     {
-//         id: '1',
-//         name: 'Ali',
-//         email: 'ali8888@hotmail.com',
-//         role: 'Admin',
-//         // secondRole: 'Manager'
-//     },
-//     {
-//         id: '2',
-//         name: 'Ben',
-//         email: 'Ben3688@gmail.com',
-//         role: 'Employee',
-//         // secondRole: ''
-//     },
-//     {
-//         id: '3',
-//         name: 'Cat',
-//         email: 'Cat9335@yyahoo.com',
-//         role: 'Employee',
-//         // secondRole: 'Manager'
-//     },
-//     {
-//         id: '4',
-//         name: 'Dannish',
-//         email: 'Dannnn@yandex.com',
-//         role: 'Employee',
-//         // secondRole: 'Manager'
-//     },
-//     {
-//         id: '5',
-//         name: 'Elia',
-//         email: 'Eli8888@hotmail.com',
-//         role: 'Employee',
-//         // secondRole: 'Manager'
-//     },
-//     {
-//         id: '6',
-//         name: 'Frankie',
-//         email: 'Fran8888@hotmail.com',
-//         role: 'Manager',
-//         // secondRole: 'Manager'
-//     },
-//     {
-//         id: '7',
-//         name: 'Gene',
-//         email: 'Gene8888@hotmail.com',
-//         role: 'Employee',
-//         // secondRole: 'Manager'
-//     },
-//     {
-//         id: '8',
-//         name: 'Helio',
-//         email: 'Helio8888@hotmail.com',
-//         role: 'Employee',
-//         // secondRole: 'Manager'
-//     },
-//     {
-//         id: '9',
-//         name: 'Ivan',
-//         email: 'Ivan8888@hotmail.com',
-//         role: 'Manager',
-//         // secondRole: ''
-//     },
-//     {
-//         id: '10',
-//         name: 'Jane',
-//         email: 'Jane8888@hotmail.com',
-//         role: 'Employee',
-//         // secondRole: ''
-//     },
-// ];
-// const isDark = useThemeStore((state) => state.isDark);
-// const baseStyle = getBaseStyle(isDark);
-;
-const getItem = (item: { id: number, name: string, email: string, phoneNumber: string, dateOfBirth: Date }) => {
-    //Function for click on an item
-    alert('PhoneNumber: ' + item.phoneNumber + ' Name: ' + item.name + ' DOB: ' + item.dateOfBirth);
-};
+import { EmployeeDetailModal } from "./EmployeeDetailModal";
+import { NewEmployeeModal } from "./NewEmployeeModal";
 
 const ItemSeparatorView = () => {
     return (
@@ -117,6 +38,10 @@ export function EmployeeScreen() {
     });
     const list = query.isError || query.isLoading || !query.data ? [] : query.data;
 
+    const [openEmployeeDetailModal, setOpenEmployeeDetailModal] = useState(false);
+
+    const [openNewEmployeeModal, setOpenNewEmployeeModal] = useState(false);
+
     const ItemView = ({ item }: {
         item: {
             id: number,
@@ -128,7 +53,7 @@ export function EmployeeScreen() {
             // FlatList Item
             <TouchableOpacity
                 style={{ width: '100%' }}
-                onPress={() => getItem(item)}>
+                onPress={() => setOpenEmployeeDetailModal(true)}>
                 <View style={{ flexDirection: "row" }}>
                     {query.isLoading ? (
                         <ContainerView>
@@ -149,11 +74,21 @@ export function EmployeeScreen() {
                     ) : (
                         <><View style={{ flex: 1 }}>
                             <Text
-                                style={styles.name}>
+                                style={{
+                                    flex: 1,
+                                    paddingHorizontal: 20,
+                                    paddingVertical: 10,
+                                    color: baseStyle.color.primary
+                                }}>
                                 {item.name}
                             </Text>
                             <Text
-                                style={styles.email}
+                                style={{
+                                    flex: 1,
+                                    paddingHorizontal: 20,
+                                    paddingBottom: 5,
+                                    color: baseStyle.color.primary
+                                }}
                             >
                                 {item.email}
                             </Text>
@@ -185,6 +120,16 @@ export function EmployeeScreen() {
         <SafeAreaView
             style={[{ flex: 1 }]}
         >
+            <EmployeeDetailModal
+                modalVisible={openEmployeeDetailModal}
+                onDemise={() => setOpenEmployeeDetailModal(false)}>
+            </EmployeeDetailModal>
+
+            <NewEmployeeModal 
+                modalVisible={openNewEmployeeModal}
+                onDemise={() => setOpenNewEmployeeModal(false)}>
+
+            </NewEmployeeModal>
             <View
                 style={
                     {
@@ -202,6 +147,7 @@ export function EmployeeScreen() {
             >
                 <Text style={{
                     textAlign: "center",
+                    color: baseStyle.color.primary
                 }}>Employee Screen</Text>
                 <View style={{
                     width: "100%",
@@ -222,7 +168,12 @@ export function EmployeeScreen() {
                                 style={{ textAlign: "center", color: "white" }}
                             > Add new user</Text>
                         </TouchableOpacity> */}
-                        <Button title="Add New User"></Button>
+                        <Button
+                            title="Add New User"
+                            onPress={() => setOpenNewEmployeeModal(true)}
+                        >
+
+                        </Button>
                     </View>
                 </View>
                 <FlatList
@@ -233,7 +184,7 @@ export function EmployeeScreen() {
                     data={list}
                     renderItem={ItemView}
                     ItemSeparatorComponent={ItemSeparatorView}
-                    keyExtractor={(item: {id:any}) => item.id}
+                    keyExtractor={(item: { id: any }) => item.id}
                 // extraData={selectedId}
                 />
             </View>
@@ -250,9 +201,6 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: 20,
         paddingVertical: 10,
-        // width: '80%',
-        // marginVertical: 8,
-        // marginHorizontal: 16,
     },
     email: {
         flex: 1,
