@@ -74,7 +74,8 @@ export function EmployeeLeaveBalanceScreen({ data }: { data: any }) {
         item: {
             id: number,
             name: string, leaveType: string, leaveBalance: number, expiryDate: Date,
-            email: string, isExpanded: boolean
+            email: string, isExpanded: boolean, alBalance: number, mcBalance: number,
+            rlBalance: number, otherBalance: number
         }
     }) => {
         const isExpanded = expandedIds.includes(item.id.toString());
@@ -209,28 +210,25 @@ export function EmployeeLeaveBalanceScreen({ data }: { data: any }) {
 
                 {/* <ExpandableView expanded={!item.isExpanded} /> */}
                 {isExpanded ? (
-                    <ScrollView style={{
-                        flex: 1,
-                        paddingLeft: 20,
-                        // height: 200,
-                        maxHeight: 200,
-                        overflow: "hidden",
+                    <View style={{
+                        width: "100%",
+                        paddingHorizontal: 20,
                         paddingBottom: 20
                     }}>
                         <Text
                             style={{ color: baseStyle.color.primary }}>
-                            Additional content for {item.email}</Text>
+                            Annual Leave: {item.alBalance} {item.alBalance < 1 ? " day" : "days"}</Text>
                         <Text
                             style={{ color: baseStyle.color.primary }}>
-                            Additional content for {item.leaveType}</Text>
+                            Medical Leave: {item.mcBalance} {item.mcBalance < 1 ? " day" : "days"}</Text>
                         <Text style={{ color: baseStyle.color.primary }}>
-                            Additional content for {item.leaveBalance}</Text>
+                            Replacement Leave: {item.rlBalance} {item.rlBalance < 1 ? " day" : "days"}</Text>
                         <Text style={{ color: baseStyle.color.primary }}>
-                            Additional content for {item.name}</Text>
+                            Replacement Leave: {item.otherBalance} {item.otherBalance < 1 ? " day" : "days"}</Text>
                         <Text style={{ color: baseStyle.color.primary }}>
-                            Additional content for {item.id}</Text>
-                    </ScrollView>
-                ) : null}
+                            You'll Never Leave: {item.alBalance} {item.alBalance < 1 ? " day" : "days"}</Text>
+                    </View>
+                ) : <></>}
 
             </TouchableOpacity>
         );
