@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React from "react";
+import React, { useState } from "react";
 import { Text, TextInput } from "react-native";
 import { RootStackParamList, RootTabParamList } from "../../router/Router";
 import { useThemeStore } from "../../global-store/ThemeStore";
@@ -9,7 +9,9 @@ import { ContainerView } from "../../lib/components/ContainerView";
 import { ThemeSwitch } from "../../lib/components/ThemeToggle";
 import { getBaseStyle } from "../../lib/style/StyleUtil";
 import { Layout } from "./Layout";
-// import axios from "axios";
+import axios from "axios";
+import { LOGIN_URL } from "@env";
+
 
 export function LoginScreen() {
     const navigation =
@@ -22,28 +24,30 @@ export function LoginScreen() {
     const isDark = useThemeStore((state) => state.isDark);
     const baseStyle = getBaseStyle(isDark);
 
-    // const [loginEmail, setLoginEmail] = useState<string>("");
-    // const [password, setPassword] = useState<string>("");
+    
+    const [loginEmail, setLoginEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
 
-    // const handleSubmit = (loginEmail: string, password: string) => {
-    //     console.log(loginEmail);
-    //     console.log(password)
-    //     try {
-    //         axios.post("http://localhost:8080/employee/login", {
-    //             loginEmail,
-    //             password,
-    //         }).then(function (response) {
-    //             const { token, roleList } = response.data;
-    //             localStorage.setItem("token", token);
-    //             localStorage.setItem("role", JSON.stringify(roleList));
-    //             navigation.navigate("Test");
-    //             console.log("success");
-    //         }
-    //         );
-    //     } catch (error) {
-    //         console.log("error");
-    //     }
-    // }
+    const handleSubmit = (loginEmail: string, password: string) => {
+        // console.log(LOGIN_URL);
+        // console.log("loginEmail:" + loginEmail);
+        // console.log(password)
+        try {
+            axios.post(LOGIN_URL, {
+                loginEmail,
+                password,
+            }).then(function (response) {
+                const { token, role  } = response.data;
+                localStorage.setItem("token", token);
+                localStorage.setItem("role", role);
+                navigation.navigate("App");
+                console.log("success");
+            }
+            );
+        } catch (error) {
+            console.log("error");
+        }
+    }
 
     return (
         <Layout>
@@ -88,7 +92,7 @@ export function LoginScreen() {
                     placeholder="Email"
                     placeholderTextColor={baseStyle.color.mutedForeground}
                     keyboardType="email-address"
-                    // onChangeText={setLoginEmail}
+                    onChangeText={setLoginEmail}
                 />
 
                 <TextInput
@@ -109,11 +113,12 @@ export function LoginScreen() {
                     }}
                     placeholder="Password"
                     placeholderTextColor={baseStyle.color.mutedForeground}
+                    onChangeText={setPassword}
                 />
                 <Button
                     title="Login"
-                    onPress={() => navigation.navigate("App")}
-                    // onPress={() => handleSubmit(loginEmail, password)}
+                    // onPress={() => navigation.navigate("App")}
+                    onPress={() => handleSubmit(loginEmail, password)}
                 ></Button>
                 <Button
                     title="Home"
@@ -122,6 +127,7 @@ export function LoginScreen() {
                 ></Button>
                 <ThemeSwitch />
             </ContainerView>
+            
         </Layout>
     );
 }
