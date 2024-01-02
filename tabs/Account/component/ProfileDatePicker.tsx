@@ -1,12 +1,12 @@
-import { ModalProps, Pressable, Text, View } from "react-native";
-import { ContainerView } from "../../../lib/components/ContainerView";
-import { getBaseStyle, getDefaultColourStyle } from "../../../lib/style/StyleUtil"
-import { IconButton } from "../../../lib/components/IconButton";
-import { ChevronLeft, ChevronRight, StretchHorizontal } from "lucide-react-native";
-import { DAY_LIST, FULL_MONTH } from "../../../lib/util/DateConstant";
-import UserProfilePage from "../tab/UserProfilePage";
-import { Button } from "../../../lib/components/Button";
+import { ChevronDown, ChevronLeft, ChevronRight, Search } from "lucide-react-native";
 import { SetStateAction, useState } from "react";
+import { Modal, ModalProps, Pressable, Text, TextInput, View } from "react-native";
+import { SelectList } from "react-native-dropdown-select-list";
+import { Button } from "../../../lib/components/Button";
+import { ContainerView } from "../../../lib/components/ContainerView";
+import { IconButton } from "../../../lib/components/IconButton";
+import { getBaseStyle } from "../../../lib/style/StyleUtil";
+import { DAY_LIST, FULL_MONTH } from "../../../lib/util/DateConstant";
 
 //??
 const getCalendarList = (year: number, month: number) => {
@@ -47,10 +47,50 @@ export const ProfileDatePicker = ({ setDatePickerModalVisible, bodDate, setBodDa
 
     const baseStyle = getBaseStyle();
     const today = new Date();
-    // const [selectedDate, setSelectedDate] = useState();
     const [selectedMonth, setSelectedMonth] = useState(today.getMonth());
+    // const [selectedDate, setSelectedDate] = useState();
     const [selectedYear, setSelectedYear] = useState(today.getFullYear());
-    const dateList = getCalendarList(selectedYear, selectedMonth)
+    const dateList = getCalendarList(selectedYear, selectedMonth);
+    const [dropDownMonth, setDropDownMonth] = useState(FULL_MONTH[selectedMonth]);
+    const [MonthModalVisible, setMonthModalVisible] = useState(false);
+    const [tYear, setTYear] = useState(selectedYear);
+
+    const MonthDropDown = () => {
+        return (
+            <SelectList
+                searchicon={<Search />
+                }
+                arrowicon={
+                    <ChevronDown color={baseStyle.color.foreground} />
+                }
+                setSelected={(val: number) => {
+                    setSelectedMonth(val);
+                    console.log(val)
+                }}
+                dropdownStyles={{
+                    backgroundColor: "white",
+                    position: "absolute",
+                    width: "100%",
+                    maxHeight: 450,
+                    top: 40
+                }}
+                boxStyles={{
+                    width: "100%",
+                    borderColor: baseStyle.color.border,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: 0,
+                    height: baseStyle.space.p12,
+                    // marginBottom: baseStyle.space.p3,
+                    // maxHeight: baseStyle.space.p10
+                }}
+                data={FULL_MONTH.map((month, i) => ({ key: i, value: month }))}
+                save="key"
+                defaultOption={{ key: selectedMonth, value: FULL_MONTH[selectedMonth] }}
+            />
+        )
+    }
+
 
     const onclickChangeMonth = (months: number) => {
         const newMonth = new Date(selectedYear, selectedMonth);
@@ -67,6 +107,7 @@ export const ProfileDatePicker = ({ setDatePickerModalVisible, bodDate, setBodDa
                     borderWidth: 0,
                     shadowOpacity: 0,
                     alignSelf: "stretch",
+
                 }}>
                 <View>
                     <ContainerView style={{
@@ -74,7 +115,7 @@ export const ProfileDatePicker = ({ setDatePickerModalVisible, bodDate, setBodDa
                         borderWidth: 0,
                         shadowOpacity: 0,
                         width: "100%",
-                        justifyContent: "space-between",
+                        justifyContent: "space-between"
                     }}>
                         <IconButton
                             onPress={() => {
@@ -85,12 +126,11 @@ export const ProfileDatePicker = ({ setDatePickerModalVisible, bodDate, setBodDa
                                 <ChevronLeft color={baseStyle.color.muted} />
                             )}
                         </IconButton>
-                        <Pressable onPress={()=>{
-                            
-                        }}>
+                        <Pressable onPress={() => setMonthModalVisible(true)}>
                             <Text>{`${selectedYear} ${FULL_MONTH[selectedMonth]}`}</Text>
+
                         </Pressable>
-                        <IconButton style={{ alignSelf: "flex-end" }} onPress={() => {
+                        <IconButton onPress={() => {
                             onclickChangeMonth(1);
                         }}>
                             <ChevronRight color={baseStyle.color.muted} />
@@ -98,7 +138,6 @@ export const ProfileDatePicker = ({ setDatePickerModalVisible, bodDate, setBodDa
                     </ContainerView>
                 </View>
             </View>
-
             <ContainerView style={{ width: "100%", alignItems: "stretch" }}>
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                     {DAY_LIST.map((day) => {
@@ -125,10 +164,10 @@ export const ProfileDatePicker = ({ setDatePickerModalVisible, bodDate, setBodDa
                                             style={{
                                                 backgroundColor: (bodDate == date.toLocaleDateString("en-GB")) ? baseStyle.color.primary : "white",
                                                 height: 20,
-                                            width: 20,
-                                            borderRadius: 20 / 2,
-                                            alignSelf:"center",
-                                                overflow:"hidden"
+                                                width: 20,
+                                                borderRadius: 20 / 2,
+                                                alignSelf: "center",
+                                                overflow: "hidden"
                                             }}
                                         >
                                             <Text style={{
@@ -155,6 +194,59 @@ export const ProfileDatePicker = ({ setDatePickerModalVisible, bodDate, setBodDa
             <Button title="closeModal" onPress={() => {
                 setDatePickerModalVisible(false)
             }} />
+
+            <Modal
+                transparent={true}
+                visible={MonthModalVisible}
+                animationType="fade"
+                onRequestClose={() => {
+                    setMonthModalVisible(!MonthModalVisible);
+                }}
+            >
+                <ContainerView
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        backgroundColor: baseStyle.color.overlay,
+                        justifyContent: "flex-start"
+                    }}>
+                    <ContainerView
+                        style={{
+                            // alignSelf: "center",
+                            width: "100%",
+                            maxWidth: 500,
+                            flexDirection: "row",
+                            // height:"100%",
+                            // maxHeight: 200,
+                        }}>
+
+                        <MonthDropDown />
+                        <TextInput
+                            placeholder={selectedYear.toString()}
+                            onChangeText={(val) => {
+                                setTYear(parseInt(val))
+                            }} />
+                    </ContainerView>
+                        <ContainerView
+                            style={{
+                                justifyContent: "center",
+                                alignSelf:"flex-end",
+                                backgroundColor:baseStyle.color.foreground
+                            }}>
+
+                            <Pressable onPress={() => {
+                                setSelectedYear(tYear);
+                                setMonthModalVisible(false);
+                            }}>
+                                <Text style={{
+                                    color:"white"
+                                }}>Update</Text>
+                            </Pressable>
+                        </ContainerView>
+                </ContainerView>
+            </Modal>
+
+
         </ContainerView>
     )
 }	

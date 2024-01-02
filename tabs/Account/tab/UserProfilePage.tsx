@@ -1,9 +1,8 @@
-
 import { SetStateAction, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image, Modal, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { ContainerView } from "../../../lib/components/ContainerView";
-import { Cake, Check, CheckSquare, Mail, MapPin, Phone, User, X } from "lucide-react-native";
+import { Cake, Check, CheckSquare, Mail, MapPin, Phone, User, UserRoundCog, X } from "lucide-react-native";
 import { Button } from "../../../lib/components/Button";
 import { getBaseStyle } from "../../../lib/style/StyleUtil";
 import { ProfileDatePicker } from "../component/ProfileDatePicker";
@@ -19,10 +18,24 @@ function UserProfilePage() {
     const [address, setAddress] = useState('xyz street');
     // const today = new Date();
     // const BOD = new Date().toLocaleDateString('en-GB');
-    const [BodDate,setBodDate] = useState(new Date().toLocaleDateString('en-GB'));
+    const [BodDate, setBodDate] = useState(new Date().toLocaleDateString('en-GB'));
     const [status] = useState('Employed');
     const [phone, setPhone] = useState('0107867361');
     const [role] = useState('Employee');
+    const [manager] = useState('Ken');
+
+    const ItemSeparatorView = () => {
+        return (
+            <View
+                style={{
+                    height: 0.5,
+                    width: '100%',
+                    backgroundColor: '#C8C8C8',
+                    // backgroundColor:baseStyle.color.foreground
+                }}
+            />
+        );
+    };
 
     return (
         // <SafeAreaView style={{ flex: 1 }}>
@@ -37,31 +50,62 @@ function UserProfilePage() {
                 width: "100%",
                 borderWidth: 0,
                 shadowOpacity: 0
-
             }}>
                 <Image source={image} style={{ width: 200, height: 200, borderRadius: 400 / 2 }} />
                 <Text style={{ fontSize: 30 }}>{name}</Text>
+
                 <ContainerView
                     style={{
                         width: "100%",
                         maxWidth: 800,
                         alignItems: "flex-start",
-                    }}>
-                        <ContainerView style={{ flexDirection: "row", width: "100%", }}>
-                            <User color={baseStyle.color.primary} />
-                            <TextInput
-                                onChangeText={setName}
-                                style={{ flex: 1 }}
-                                value={name}
-                            />
+                        gap:10
+                }}>
+                    <ContainerView
+                        style={{
+                            flexDirection: "row",
+                            width: "100%",
+                            // flex:1, 
+                            paddingTop: 0,
+                            paddingBottom: 0,
+                            borderWidth: 0,
+                            shadowOpacity: 0
+                        }}
+                    >
+                        <User color={baseStyle.color.primary} />
+                        <TextInput
+                            onChangeText={setName}
+                            style={{ flex: 1, height: "100%", padding: 0 }}
+                            value={name}
+                        />
 
                     </ContainerView>
-                    <ContainerView style={{ flexDirection: "row", width: "100%", }}>
+                    <ItemSeparatorView />
+
+                    <ContainerView style={{
+                        flexDirection: "row",
+                        width: "100%",
+                        // flex:1, 
+                        paddingTop: 0,
+                        paddingBottom: 0,
+                        borderWidth: 0,
+                        shadowOpacity: 0
+                    }}>
                         <Mail color={baseStyle.color.primary} />
                         <Text style={{ flex: 1, color: baseStyle.color.mutedForeground }}>{email}</Text>
 
                     </ContainerView>
-                    <ContainerView style={{ flexDirection: "row", width: "100%", }}>
+                    <ItemSeparatorView />
+
+                    <ContainerView style={{
+                        flexDirection: "row",
+                        width: "100%",
+                        // flex:1, 
+                        paddingTop: 0,
+                        paddingBottom: 0,
+                        borderWidth: 0,
+                        shadowOpacity: 0
+                    }}>
                         <MapPin color={baseStyle.color.primary} />
                         <TextInput
                             onChangeText={setAddress}
@@ -69,7 +113,18 @@ function UserProfilePage() {
                             value={address}
                         />
                     </ContainerView>
-                    <ContainerView style={{ flexDirection: "row", width: "100%" }}>
+                    <ItemSeparatorView />
+
+                    <ContainerView style={{
+                        flexDirection: "row",
+                        width: "100%",
+                        // flex:1, 
+                        paddingTop: 0,
+                        paddingBottom: 0,
+                        borderWidth: 0,
+                        shadowOpacity: 0,
+                        // borderBottomColor:"black"
+                    }}>
                         <Cake color={baseStyle.color.primary} />
                         <Text style={{ flex: 6, color: baseStyle.color.primary }}>
                             <Pressable
@@ -84,12 +139,32 @@ function UserProfilePage() {
                             </Pressable>
                         </Text>
                     </ContainerView>
-                    <ContainerView style={{ flexDirection: "row", width: "100%" }}>
+                    <ItemSeparatorView />
+
+                    <ContainerView style={{
+                        flexDirection: "row",
+                        width: "100%",
+                        // flex:1, 
+                        paddingTop: 0,
+                        paddingBottom: 0,
+                        borderWidth: 0,
+                        shadowOpacity: 0
+                    }}>
                         <CheckSquare color={baseStyle.color.primary} />
                         <Text style={{ flex: 6, color: baseStyle.color.mutedForeground }}>{status}</Text>
 
                     </ContainerView>
-                    <ContainerView style={{ flexDirection: "row", width: "100%" }}>
+                    <ItemSeparatorView />
+
+                    <ContainerView style={{
+                        flexDirection: "row",
+                        width: "100%",
+                        // flex:1, 
+                        paddingTop: 0,
+                        paddingBottom: 0,
+                        borderWidth: 0,
+                        shadowOpacity: 0
+                    }}>
                         <Phone color={baseStyle.color.primary} />
                         <TextInput
                             onChangeText={setPhone}
@@ -97,10 +172,35 @@ function UserProfilePage() {
                             value={phone}
                         />
                     </ContainerView>
-                    <ContainerView style={{ flexDirection: "row", width: "100%" }}>
+                    <ItemSeparatorView />
+
+                    <ContainerView style={{
+                        flexDirection: "row",
+                        width: "100%",
+                        // flex:1, 
+                        paddingTop: 0,
+                        paddingBottom: 0,
+                        borderWidth: 0,
+                        shadowOpacity: 0
+                    }}>
                         <User color={baseStyle.color.primary} />
                         <Text style={{ flex: 6, color: baseStyle.color.mutedForeground }}>{role}</Text>
                     </ContainerView>
+                    <ItemSeparatorView />
+
+                    <ContainerView style={{
+                        flexDirection: "row",
+                        width: "100%",
+                        // flex:1, 
+                        paddingTop: 0,
+                        paddingBottom: 0,
+                        borderWidth: 0,
+                        shadowOpacity: 0
+                    }}>
+                        <UserRoundCog color={baseStyle.color.primary} />
+                        <Text style={{ flex: 6, color: baseStyle.color.mutedForeground }}>{manager}</Text>
+                    </ContainerView>
+                    <ItemSeparatorView />
 
                     <Button title="Update Profile"
                         onPress={() => setModalVisible(true)}
@@ -178,7 +278,7 @@ function UserProfilePage() {
                         </ContainerView>
                     </ContainerView>
                 </Modal>
-                
+
                 <Modal
                     transparent={true}
                     visible={datePickerModalVisible}
