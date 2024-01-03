@@ -1,4 +1,4 @@
-import { Cake, XCircle } from "lucide-react-native";
+import { Cake, CheckSquare, Mail, MapPin, Phone, User, XCircle } from "lucide-react-native";
 import React, { useState } from "react";
 import {
     Modal,
@@ -65,7 +65,7 @@ export const NewEmployeeModal = ({
                         minWidth: 350,
                         maxWidth: 800,
                         minHeight: 200,
-                        maxHeight: 600,
+                        maxHeight: 650,
                     }}
                 >
                     <View
@@ -174,7 +174,38 @@ export const NewEmployeeModal = ({
                             shadowOpacity: 0,
                         }}
                     >
-                        <TextInput
+                        <ContainerView style={{
+                            flexDirection: "row",
+                            width: "100%",
+                            marginBottom: baseStyle.space.p3
+                        }}>
+                            <User color={baseStyle.color.primary} />
+                            <TextInput
+                                style={{
+                                    // display: "flex",
+                                    height: baseStyle.space.p10,
+                                    width: "100%",
+                                    // borderWidth: 1,
+                                    // borderColor: baseStyle.color.input,
+                                    // borderRadius: baseStyle.rounded.md,
+                                    backgroundColor: baseStyle.color.background,
+                                    // paddingHorizontal: baseStyle.space.p3,
+                                    paddingVertical: baseStyle.space.p2,
+                                    fontSize: baseStyle.fontSize.base,
+                                    // shadowColor: baseStyle.color.background,
+                                    // marginBottom: baseStyle.space.p3,
+                                    flex: 6,
+                                    color: baseStyle.color.primary
+                                }}
+                                placeholder="Name"
+                                placeholderTextColor={
+                                    baseStyle.color.mutedForeground
+                                }
+                                value={name}
+                                onChangeText={setName}
+                            />
+                        </ContainerView>
+                        {/* <TextInput
                             style={{
                                 // flex: 1,
                                 display: "flex",
@@ -197,8 +228,39 @@ export const NewEmployeeModal = ({
                             }
                             value={name}
                             onChangeText={setName}
-                        />
-                        <TextInput
+                        /> */}
+                        <ContainerView style={{
+                            flexDirection: "row",
+                            width: "100%",
+                            marginBottom: baseStyle.space.p3
+                        }}>
+                            <Mail color={baseStyle.color.primary} />
+                            <TextInput
+                                style={{
+                                    // display: "flex",
+                                    height: baseStyle.space.p10,
+                                    width: "100%",
+                                    // borderWidth: 1,
+                                    // borderColor: baseStyle.color.input,
+                                    // borderRadius: baseStyle.rounded.md,
+                                    backgroundColor: baseStyle.color.background,
+                                    // paddingHorizontal: baseStyle.space.p3,
+                                    paddingVertical: baseStyle.space.p2,
+                                    fontSize: baseStyle.fontSize.base,
+                                    // shadowColor: baseStyle.color.background,
+                                    // marginBottom: baseStyle.space.p3,
+                                    flex: 6,
+                                    color: baseStyle.color.primary
+                                }}
+                                placeholder="Email"
+                                placeholderTextColor={
+                                    baseStyle.color.mutedForeground
+                                }
+                                value={email}
+                                onChangeText={setEmail}
+                            />
+                        </ContainerView>
+                        {/* <TextInput
                             style={{
                                 // flex: 1,
                                 display: "flex",
@@ -221,9 +283,41 @@ export const NewEmployeeModal = ({
                             }
                             value={email}
                             onChangeText={setEmail}
-                        />
+                        /> */}
                         {/* <View style={styles.inputContainer}> */}
-                        <TextInput
+                        <ContainerView style={{
+                            flexDirection: "row",
+                            width: "100%",
+                            marginBottom: baseStyle.space.p3
+                        }}>
+                            <MapPin color={baseStyle.color.primary} />
+                            <TextInput
+                                style={{
+                                    // display: "flex",
+                                    height: baseStyle.space.p10,
+                                    width: "100%",
+                                    // borderWidth: 1,
+                                    // borderColor: baseStyle.color.input,
+                                    // borderRadius: baseStyle.rounded.md,
+                                    backgroundColor: baseStyle.color.background,
+                                    // paddingHorizontal: baseStyle.space.p3,
+                                    paddingVertical: baseStyle.space.p2,
+                                    fontSize: baseStyle.fontSize.base,
+                                    // shadowColor: baseStyle.color.background,
+                                    // marginBottom: baseStyle.space.p3,
+                                    flex: 6,
+                                    color: baseStyle.color.primary
+                                }}
+                                value={address}
+                                placeholder="Address"
+                                placeholderTextColor={
+                                    baseStyle.color.mutedForeground
+                                }
+                                keyboardType="default"
+                                onChangeText={setAddress}
+                            />
+                        </ContainerView>
+                        {/* <TextInput
                             style={{
                                 display: "flex",
                                 height: baseStyle.space.p12,
@@ -246,14 +340,22 @@ export const NewEmployeeModal = ({
                             }
                             keyboardType="numeric"
                             onChangeText={setAddress}
-                        />
+                        /> */}
                         <ContainerView style={{
                             flexDirection: "row",
                             width: "100%",
                             marginBottom: baseStyle.space.p3
                         }}>
                             <Cake color={baseStyle.color.primary} />
-                            <Text style={{ flex: 6, color: baseStyle.color.primary }}>
+                            <Text style={{
+                                flex: 6,
+                                color: baseStyle.color.primary,
+                                height: baseStyle.space.p10,
+                                width: "100%",
+                                // backgroundColor: baseStyle.color.background,
+                                paddingVertical: baseStyle.space.p2,
+                                fontSize: baseStyle.fontSize.base,
+                            }}>
                                 <Pressable
                                     style={{
                                         width: "100%"
@@ -262,11 +364,47 @@ export const NewEmployeeModal = ({
                                         setDatePickerModalVisible(true);
                                     }}
                                 >
-                                    <Text>{BodDate}</Text>
+                                    <Text
+                                        style={{
+                                            color: baseStyle.color.primary,
+                                        }}
+                                    >{BodDate}</Text>
                                 </Pressable>
                             </Text>
                         </ContainerView>
-                        <TextInput
+                        <ContainerView style={{
+                            flexDirection: "row",
+                            width: "100%",
+                            marginBottom: baseStyle.space.p3
+                        }}>
+                            <CheckSquare color={baseStyle.color.primary} />
+                            <TextInput
+                                style={{
+                                    // display: "flex",
+                                    height: baseStyle.space.p10,
+                                    width: "100%",
+                                    // borderWidth: 1,
+                                    // borderColor: baseStyle.color.input,
+                                    // borderRadius: baseStyle.rounded.md,
+                                    backgroundColor: baseStyle.color.background,
+                                    // paddingHorizontal: baseStyle.space.p3,
+                                    paddingVertical: baseStyle.space.p2,
+                                    fontSize: baseStyle.fontSize.base,
+                                    // shadowColor: baseStyle.color.background,
+                                    // marginBottom: baseStyle.space.p3,
+                                    flex: 6,
+                                    color: baseStyle.color.primary
+                                }}
+                                value={status}
+                                placeholder="Status"
+                                placeholderTextColor={
+                                    baseStyle.color.mutedForeground
+                                }
+                                keyboardType="default"
+                                onChangeText={setStatus}
+                            />
+                        </ContainerView>
+                        {/* <TextInput
                             style={{
                                 display: "flex",
                                 height: baseStyle.space.p12,
@@ -290,8 +428,40 @@ export const NewEmployeeModal = ({
                             keyboardType="numeric"
                             maxLength={3}
                             onChangeText={setStatus}
-                        />
-                        <TextInput
+                        /> */}
+                        <ContainerView style={{
+                            flexDirection: "row",
+                            width: "100%",
+                            marginBottom: baseStyle.space.p3
+                        }}>
+                            <Phone color={baseStyle.color.primary} />
+                            <TextInput
+                                style={{
+                                    // display: "flex",
+                                    height: baseStyle.space.p10,
+                                    width: "100%",
+                                    // borderWidth: 1,
+                                    // borderColor: baseStyle.color.input,
+                                    // borderRadius: baseStyle.rounded.md,
+                                    backgroundColor: baseStyle.color.background,
+                                    // paddingHorizontal: baseStyle.space.p3,
+                                    paddingVertical: baseStyle.space.p2,
+                                    fontSize: baseStyle.fontSize.base,
+                                    // shadowColor: baseStyle.color.background,
+                                    // marginBottom: baseStyle.space.p3,
+                                    flex: 6,
+                                    color: baseStyle.color.primary
+                                }}
+                                value={phone}
+                                placeholder="Phone number"
+                                placeholderTextColor={
+                                    baseStyle.color.mutedForeground
+                                }
+                                keyboardType="numeric"
+                                onChangeText={setPhone}
+                            />
+                        </ContainerView>
+                        {/* <TextInput
                             style={{
                                 display: "flex",
                                 height: baseStyle.space.p12,
@@ -314,8 +484,40 @@ export const NewEmployeeModal = ({
                             }
                             keyboardType="numeric"
                             onChangeText={setPhone}
-                        />
-                        <TextInput
+                        /> */}
+                        <ContainerView style={{
+                            flexDirection: "row",
+                            width: "100%",
+                            marginBottom: baseStyle.space.p3
+                        }}>
+                            <User color={baseStyle.color.primary} />
+                            <TextInput
+                                style={{
+                                    // display: "flex",
+                                    height: baseStyle.space.p10,
+                                    width: "100%",
+                                    // borderWidth: 1,
+                                    // borderColor: baseStyle.color.input,
+                                    // borderRadius: baseStyle.rounded.md,
+                                    backgroundColor: baseStyle.color.background,
+                                    // paddingHorizontal: baseStyle.space.p3,
+                                    paddingVertical: baseStyle.space.p2,
+                                    fontSize: baseStyle.fontSize.base,
+                                    // shadowColor: baseStyle.color.background,
+                                    // marginBottom: baseStyle.space.p3,
+                                    flex: 6,
+                                    color: baseStyle.color.primary
+                                }}
+                                value={role}
+                                placeholder="Role"
+                                placeholderTextColor={
+                                    baseStyle.color.mutedForeground
+                                }
+                                keyboardType="default"
+                                onChangeText={setRole}
+                            />
+                        </ContainerView>
+                        {/* <TextInput
                             style={{
                                 display: "flex",
                                 height: baseStyle.space.p12,
@@ -338,7 +540,7 @@ export const NewEmployeeModal = ({
                             }
                             keyboardType="numeric"
                             onChangeText={setRole}
-                        />
+                        /> */}
                         {/* </View> */}
                         {/* <View
                             id="incDecButtonView"
@@ -410,6 +612,7 @@ export const NewEmployeeModal = ({
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
+                                marginBottom: baseStyle.space.p3
                             }}
                         >
                             <Button
