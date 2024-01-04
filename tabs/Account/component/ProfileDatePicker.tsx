@@ -159,10 +159,10 @@ export const ProfileDatePicker = ({ setDatePickerModalVisible, bodDate, setBodDa
                                 return (
                                     <View style={{ flex: 1 }}>
                                         <Pressable
-                                            onPress={() => setBodDate(date.toLocaleDateString("en-GB"))}
+                                            onPress={() => setBodDate(date.toLocaleDateString("en-ZA"))}
                                             disabled={date.getMonth() != selectedMonth}
                                             style={{
-                                                backgroundColor: (bodDate == date.toLocaleDateString("en-GB")) ? baseStyle.color.primary : "white",
+                                                backgroundColor: (bodDate == date.toLocaleDateString("en-ZA")) ? baseStyle.color.primary : "white",
                                                 height: 20,
                                                 width: 20,
                                                 borderRadius: 20 / 2,
@@ -174,7 +174,7 @@ export const ProfileDatePicker = ({ setDatePickerModalVisible, bodDate, setBodDa
                                                 alignSelf: "center",
                                                 color: (date.getMonth() != selectedMonth)
                                                     ? baseStyle.color.mutedForeground
-                                                    : (date.toLocaleDateString("en-GB") == bodDate)
+                                                    : (date.toLocaleDateString("en-ZA") == bodDate)
                                                         ? "white"
                                                         : baseStyle.color.primary,
 
@@ -227,22 +227,22 @@ export const ProfileDatePicker = ({ setDatePickerModalVisible, bodDate, setBodDa
                                 setTYear(parseInt(val))
                             }} />
                     </ContainerView>
-                        <ContainerView
-                            style={{
-                                justifyContent: "center",
-                                alignSelf:"flex-end",
-                                backgroundColor:baseStyle.color.foreground
-                            }}>
+                    <ContainerView
+                        style={{
+                            justifyContent: "center",
+                            alignSelf: "flex-end",
+                            backgroundColor: baseStyle.color.foreground
+                        }}>
 
-                            <Pressable onPress={() => {
-                                setSelectedYear(tYear);
-                                setMonthModalVisible(false);
-                            }}>
-                                <Text style={{
-                                    color:"white"
-                                }}>Update</Text>
-                            </Pressable>
-                        </ContainerView>
+                        <Pressable onPress={() => {
+                            setSelectedYear(tYear);
+                            setMonthModalVisible(false);
+                        }}>
+                            <Text style={{
+                                color: "white"
+                            }}>Update</Text>
+                        </Pressable>
+                    </ContainerView>
                 </ContainerView>
             </Modal>
 

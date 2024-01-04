@@ -1,4 +1,4 @@
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useCallback, useEffect, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image, Modal, Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { ContainerView } from "../../../lib/components/ContainerView";
@@ -6,23 +6,100 @@ import { Cake, Check, CheckSquare, Mail, MapPin, Phone, User, UserRoundCog, X } 
 import { Button } from "../../../lib/components/Button";
 import { getBaseStyle } from "../../../lib/style/StyleUtil";
 import { ProfileDatePicker } from "../component/ProfileDatePicker";
+import axios from "axios";
+import { UPDATE_PROFILE, USER_PROFILE } from "@env";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { infer, z } from "zod";
+
+
+// const userDataSchema = z.object({
+//     name: z.string(),
+//     email: z.string(),
+//     address: z.string(),
+//     bod: z.string(),
+//     status: z.string(),
+//     phone: z.string(),
+//     role: z.string(),
+//     manager: z.string(),
+// })
+// type UserData = z.infer<typeof userDataSchema>
 
 function UserProfilePage() {
-    const [modalVisible, setModalVisible] = useState(false);
     const baseStyle = getBaseStyle();
+    const [modalVisible, setModalVisible] = useState(false);
     const [datePickerModalVisible, setDatePickerModalVisible] = useState(false);
 
     const image = require("../assets/profile.jpg");
-    const [name, setName] = useState('Fatimah');
-    const [email] = useState('fatimah@gmail.com');
-    const [address, setAddress] = useState('xyz street');
-    // const today = new Date();
-    // const BOD = new Date().toLocaleDateString('en-GB');
-    const [BodDate, setBodDate] = useState(new Date().toLocaleDateString('en-GB'));
-    const [status] = useState('Employed');
-    const [phone, setPhone] = useState('0107867361');
-    const [role] = useState('Employee');
-    const [manager] = useState('Ken');
+    const [token] = useState(localStorage.getItem("token"));
+    const [userData, setUserData] = useState({
+        name: "",
+        email: "",
+        address: "",
+        bod: "",
+        status: "",
+        phone: "",
+        role: "",
+        manager: "",
+    });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.post(USER_PROFILE, { token });
+                setUserData(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchData();
+    }, [token]);
+
+
+    // const query = useQuery({
+    //     queryKey: ["userData"],
+    //     queryFn: () =>
+    //         axios.post(USER_PROFILE, { token }).then((response) =>
+    //             userDataSchema.parse(response.data)
+    //         ),
+    // })
+
+    // const mutation = useMutation({
+    //     mutationFn: (newTodo: userDataType) => {
+    //         return axios.post('/todos', newTodo)
+    //     },
+    // })
+    // const updateProfile = async (updatedUserData: UserData) => {
+    //     const response = await axios.post(UPDATE_PROFILE, { ...updatedUserData, token });
+    //     return response.data;
+    // };
+    const handleInputChange = (key: any, value: any) => {
+        setUserData((prevUserData) => ({
+            ...prevUserData,
+            [key]: value,
+        }));
+    };
+
+    const handleUpdateProfile = async () => {
+        console.log("success")
+        try {
+            const response = await axios.post(UPDATE_PROFILE, {
+                ...userData,
+                token,
+            });
+            // Handle success, update state, or show a success message
+            console.log("Update success:", response.data);
+            setModalVisible(false);
+        } catch (error) {
+            // Handle error, show an error message, or log the error
+            console.error("Update failed:", error);
+        }
+    };
+
+
+    if (!userData.email || Object.keys(userData.email).length === 0) {
+        return <Text>Loading...</Text>;
+    }
 
     const ItemSeparatorView = () => {
         return (
@@ -46,21 +123,47 @@ function UserProfilePage() {
                 shadowOpacity: 0
             }}
         >
-            <ContainerView style={{
+            {/* {mutation.isPending ? (
+                'Adding todo...'
+            ) : (
+                <>
+                    {mutation.isError ? (
+                        <div>An error occurred: {mutation.error.message}</div>
+                    ) : null}
+
+                    {mutation.isSuccess ? <div>Todo added!</div> : null}
+
+                    <button
+                        onClick={() => {
+                            mutation.mutate({ BodDate: new Date().toISOString(), title: 'Do Laundry' })
+                        }}
+                    >
+                        Create Todo
+                    </button>
+                </>
+            )} */}
+
+            <ContainerView 
+            style={{
                 width: "100%",
                 borderWidth: 0,
                 shadowOpacity: 0
             }}>
-                <Image source={image} style={{ width: 200, height: 200, borderRadius: 400 / 2 }} />
-                <Text style={{ fontSize: 30 }}>{name}</Text>
+                <Image
+                    source={image}
+                    style={{ width: 200, height: 200, borderRadius: 400 / 2 }}
+                />
+                <Text style={{ fontSize: 30 }}>
+                    {userData.name}
+                </Text>
 
                 <ContainerView
                     style={{
                         width: "100%",
                         maxWidth: 800,
                         alignItems: "flex-start",
-                        gap:10
-                }}>
+                        gap: 10
+                    }}>
                     <ContainerView
                         style={{
                             flexDirection: "row",
@@ -74,57 +177,63 @@ function UserProfilePage() {
                     >
                         <User color={baseStyle.color.primary} />
                         <TextInput
-                            onChangeText={setName}
+                            onChangeText={(value) => handleInputChange("name", value)}
                             style={{ flex: 1, height: "100%", padding: 0 }}
-                            value={name}
+                            value={userData.name}
                         />
 
                     </ContainerView>
                     <ItemSeparatorView />
 
-                    <ContainerView style={{
-                        flexDirection: "row",
-                        width: "100%",
-                        // flex:1, 
-                        paddingTop: 0,
-                        paddingBottom: 0,
-                        borderWidth: 0,
-                        shadowOpacity: 0
-                    }}>
+                    <ContainerView
+                        style={{
+                            flexDirection: "row",
+                            width: "100%",
+                            // flex:1, 
+                            paddingTop: 0,
+                            paddingBottom: 0,
+                            borderWidth: 0,
+                            shadowOpacity: 0
+                        }}>
                         <Mail color={baseStyle.color.primary} />
-                        <Text style={{ flex: 1, color: baseStyle.color.mutedForeground }}>{email}</Text>
-
+                        <Text style={{ flex: 1, color: baseStyle.color.mutedForeground }}>
+                            {userData.email}
+                        </Text>
                     </ContainerView>
+
                     <ItemSeparatorView />
 
-                    <ContainerView style={{
-                        flexDirection: "row",
-                        width: "100%",
-                        // flex:1, 
-                        paddingTop: 0,
-                        paddingBottom: 0,
-                        borderWidth: 0,
-                        shadowOpacity: 0
-                    }}>
+                    <ContainerView
+                        style={{
+                            flexDirection: "row",
+                            width: "100%",
+                            // flex:1, 
+                            paddingTop: 0,
+                            paddingBottom: 0,
+                            borderWidth: 0,
+                            shadowOpacity: 0
+                        }}>
                         <MapPin color={baseStyle.color.primary} />
                         <TextInput
-                            onChangeText={setAddress}
+                            onChangeText={(value) => handleInputChange("address", value)}
                             style={{ flex: 1 }}
-                            value={address}
+                            value={userData.address}
                         />
                     </ContainerView>
+
                     <ItemSeparatorView />
 
-                    <ContainerView style={{
-                        flexDirection: "row",
-                        width: "100%",
-                        // flex:1, 
-                        paddingTop: 0,
-                        paddingBottom: 0,
-                        borderWidth: 0,
-                        shadowOpacity: 0,
-                        // borderBottomColor:"black"
-                    }}>
+                    <ContainerView
+                        style={{
+                            flexDirection: "row",
+                            width: "100%",
+                            // flex:1, 
+                            paddingTop: 0,
+                            paddingBottom: 0,
+                            borderWidth: 0,
+                            shadowOpacity: 0,
+                            // borderBottomColor:"black"
+                        }}>
                         <Cake color={baseStyle.color.primary} />
                         <Text style={{ flex: 6, color: baseStyle.color.primary }}>
                             <Pressable
@@ -135,74 +244,85 @@ function UserProfilePage() {
                                     setDatePickerModalVisible(true);
                                 }}
                             >
-                                <Text>{BodDate}</Text>
+                                <Text>{userData.bod}</Text>
                             </Pressable>
                         </Text>
                     </ContainerView>
                     <ItemSeparatorView />
 
-                    <ContainerView style={{
-                        flexDirection: "row",
-                        width: "100%",
-                        // flex:1, 
-                        paddingTop: 0,
-                        paddingBottom: 0,
-                        borderWidth: 0,
-                        shadowOpacity: 0
-                    }}>
+                    <ContainerView
+                        style={{
+                            flexDirection: "row",
+                            width: "100%",
+                            // flex:1, 
+                            paddingTop: 0,
+                            paddingBottom: 0,
+                            borderWidth: 0,
+                            shadowOpacity: 0
+                        }}>
                         <CheckSquare color={baseStyle.color.primary} />
-                        <Text style={{ flex: 6, color: baseStyle.color.mutedForeground }}>{status}</Text>
+                        <Text style={{ flex: 6, color: baseStyle.color.mutedForeground }}>
+                            {userData.status}
+                        </Text>
 
                     </ContainerView>
                     <ItemSeparatorView />
 
-                    <ContainerView style={{
-                        flexDirection: "row",
-                        width: "100%",
-                        // flex:1, 
-                        paddingTop: 0,
-                        paddingBottom: 0,
-                        borderWidth: 0,
-                        shadowOpacity: 0
-                    }}>
+                    <ContainerView
+                        style={{
+                            flexDirection: "row",
+                            width: "100%",
+                            // flex:1, 
+                            paddingTop: 0,
+                            paddingBottom: 0,
+                            borderWidth: 0,
+                            shadowOpacity: 0
+                        }}>
                         <Phone color={baseStyle.color.primary} />
                         <TextInput
-                            onChangeText={setPhone}
+                            onChangeText={(value) => handleInputChange("phone", value)}
                             style={{ flex: 1 }}
-                            value={phone}
+                            value={userData.phone}
                         />
                     </ContainerView>
                     <ItemSeparatorView />
 
-                    <ContainerView style={{
-                        flexDirection: "row",
-                        width: "100%",
-                        // flex:1, 
-                        paddingTop: 0,
-                        paddingBottom: 0,
-                        borderWidth: 0,
-                        shadowOpacity: 0
-                    }}>
+                    <ContainerView
+                        style={{
+                            flexDirection: "row",
+                            width: "100%",
+                            // flex:1, 
+                            paddingTop: 0,
+                            paddingBottom: 0,
+                            borderWidth: 0,
+                            shadowOpacity: 0
+                        }}>
                         <User color={baseStyle.color.primary} />
-                        <Text style={{ flex: 6, color: baseStyle.color.mutedForeground }}>{role}</Text>
+                        <Text style={{ flex: 6, color: baseStyle.color.mutedForeground }}>
+                            {userData.role}
+                        </Text>
                     </ContainerView>
                     <ItemSeparatorView />
 
-                    <ContainerView style={{
-                        flexDirection: "row",
-                        width: "100%",
-                        // flex:1, 
-                        paddingTop: 0,
-                        paddingBottom: 0,
-                        borderWidth: 0,
-                        shadowOpacity: 0
-                    }}>
+                    <ContainerView
+                        style={{
+                            flexDirection: "row",
+                            width: "100%",
+                            // flex:1, 
+                            paddingTop: 0,
+                            paddingBottom: 0,
+                            borderWidth: 0,
+                            shadowOpacity: 0
+                        }}>
                         <UserRoundCog color={baseStyle.color.primary} />
-                        <Text style={{ flex: 6, color: baseStyle.color.mutedForeground }}>{manager}</Text>
+                        <Text style={{ flex: 6, color: baseStyle.color.mutedForeground }}>
+                            {userData.manager}
+                        </Text>
                     </ContainerView>
                     <ItemSeparatorView />
 
-                    <Button title="Update Profile"
+                    <Button
+                        title="Update Profile"
                         onPress={() => setModalVisible(true)}
                         style={{ alignSelf: "center" }}
                     ></Button>
@@ -233,12 +353,12 @@ function UserProfilePage() {
 
                         <ContainerView >
                             <ContainerView>
-                                <Text>User name: {name}</Text>
-                                <Text>User Email: {email}</Text>
-                                <Text>User Date of Birth: {BodDate}</Text>
-                                <Text>User Phone Number: {phone}</Text>
-                                <Text>User Address: {address}</Text>
-                                <Text>Employment Status: {status}</Text>
+                                <Text>User name: {userData.name}</Text>
+                                <Text>User Email: {userData.email}</Text>
+                                <Text>User Date of Birth: {userData.bod}</Text>
+                                <Text>User Phone Number: {userData.phone}</Text>
+                                <Text>User Address: {userData.address}</Text>
+                                <Text>Employment Status: {userData.status}</Text>
                             </ContainerView>
                             <Text >
                                 Are you sure to make the above changes?
@@ -248,8 +368,7 @@ function UserProfilePage() {
 
                                     <Pressable
                                         onPress={() => {
-                                            //TODO button function when confirm
-                                            setModalVisible(!modalVisible)
+                                            { handleUpdateProfile() }
                                         }}
                                         style={{
                                             height: 25,
@@ -294,8 +413,8 @@ function UserProfilePage() {
                         }}>
                         <ProfileDatePicker
                             setDatePickerModalVisible={setDatePickerModalVisible}
-                            bodDate={BodDate}
-                            setBodDate={setBodDate} />
+                            bodDate={userData.bod}
+                            setBodDate={(value) => handleInputChange("bod", value)} />
 
                     </ContainerView>
                 </Modal>
