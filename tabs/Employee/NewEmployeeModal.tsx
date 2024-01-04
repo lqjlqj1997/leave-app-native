@@ -17,6 +17,13 @@ import {
 import { getBaseStyle } from "../../lib/style/StyleUtil";
 import { ProfileDatePicker } from "../Account/component/ProfileDatePicker";
 
+const LabelContainerView = {
+    Overlay: ContainerView,
+    Header: ContainerView,
+    MainBody: ContainerView,
+    SubmitButton: View
+};
+
 interface NewEmployeeModalProps extends ModalProps {
     modalVisible: boolean;
     // leaveType: string;
@@ -46,7 +53,7 @@ export const NewEmployeeModal = ({
             animationType="fade"
             transparent={true}
             visible={modalVisible}>
-            <ContainerView
+            <LabelContainerView.Overlay
                 style={{
                     width: "100%",
                     height: "100%",
@@ -56,7 +63,7 @@ export const NewEmployeeModal = ({
                 {/* <TouchableWithoutFeedback
                         onPress={() => setModalVisible(false)}
                     > */}
-                <ContainerView
+                <LabelContainerView.Header
                     style={{
                         padding: 0,
                         paddingTop: baseStyle.space.p4,
@@ -174,11 +181,12 @@ export const NewEmployeeModal = ({
                             shadowOpacity: 0,
                         }}
                     >
-                        <ContainerView style={{
-                            flexDirection: "row",
-                            width: "100%",
-                            marginBottom: baseStyle.space.p3
-                        }}>
+                        <LabelContainerView.MainBody
+                            style={{
+                                flexDirection: "row",
+                                width: "100%",
+                                marginBottom: baseStyle.space.p3
+                            }}>
                             <User color={baseStyle.color.primary} />
                             <TextInput
                                 style={{
@@ -204,7 +212,7 @@ export const NewEmployeeModal = ({
                                 value={name}
                                 onChangeText={setName}
                             />
-                        </ContainerView>
+                        </LabelContainerView.MainBody>
                         {/* <TextInput
                             style={{
                                 // flex: 1,
@@ -542,49 +550,6 @@ export const NewEmployeeModal = ({
                             onChangeText={setRole}
                         /> */}
                         {/* </View> */}
-                        {/* <View
-                            id="incDecButtonView"
-                            style={{
-                                flexDirection: "row",
-                                marginBottom: baseStyle.space.p3
-                            }}>
-                            <Button
-                                title="-"
-                                onPress={handleDecrement}>
-                            </Button>
-                            <Button
-                                style={styles.button}
-                                title="+"
-                                onPress={handleIncrement}>
-                            </Button>
-                        </View> */}
-                        <View
-                            style={{
-                                width: "100%",
-                                display: "flex",
-                                justifyContent: "flex-start",
-                                alignItems: "center",
-                                flexDirection: "row",
-                                gap: baseStyle.space.p4,
-                                marginBottom: baseStyle.space.p3
-                            }}
-                        >
-                            {/* {openDatePickerModal ? (
-                                <DatePicker
-                                    modalVisible={openDatePickerModal}
-                                    onDemise={() =>
-                                        setOpenDatePickerModal(false)
-                                        
-                                    }
-                                    setDateList={setSelectedDateList}
-                                    initialDateList={selectedDateList}
-                                ></DatePicker>
-
-                            ) : (
-                                ""
-                            )} */}
-
-                        </View>
                         <Modal
                             transparent={true}
                             visible={datePickerModalVisible}
@@ -592,7 +557,7 @@ export const NewEmployeeModal = ({
                             onRequestClose={() => {
                                 setModalVisible(!modalVisible);
                             }}>
-                            <ContainerView
+                            <LabelContainerView.Overlay
                                 style={{
                                     width: "100%",
                                     height: "100%",
@@ -603,9 +568,9 @@ export const NewEmployeeModal = ({
                                     bodDate={BodDate}
                                     setBodDate={setBodDate} />
 
-                            </ContainerView>
+                            </LabelContainerView.Overlay>
                         </Modal>
-                        <View
+                        <LabelContainerView.SubmitButton
                             id="submitButtonView"
                             style={{
                                 width: "100%",
@@ -620,10 +585,10 @@ export const NewEmployeeModal = ({
                                 //TODO Submit Btn
                                 onPress={onDemise}
                             ></Button>
-                        </View>
+                        </LabelContainerView.SubmitButton>
                     </ScrollContainerView>
-                </ContainerView>
-            </ContainerView>
+                </LabelContainerView.Header>
+            </LabelContainerView.Overlay>
         </Modal>
     )
 };

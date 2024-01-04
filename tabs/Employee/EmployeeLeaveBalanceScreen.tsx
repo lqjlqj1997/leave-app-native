@@ -1,14 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import { Bike, CalendarCheck, Cross, HelpCircle } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
-import { Animated, FlatList, Platform, Pressable, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Animated, FlatList, Platform, Pressable, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Button } from "../../lib/components/Button";
 import { ContainerView } from "../../lib/components/ContainerView";
+import { getBaseStyle } from "../../lib/style/StyleUtil";
 import { fetchEmployeeLeaveBalanceData } from "../Employee/_api/EmployeeLeaveBalanceApi";
 import { EmployeeLeaveBalanceModal } from "./EmployeeLeaveBalanceModal";
-import { getBaseStyle } from "../../lib/style/StyleUtil";
 
-// const baseStyle = getBaseStyle();
+const LabelContainerView = {
+    Header: View,
+    MainBody: View,
+    ExpandedView: View
+};
 
 const ItemSeparatorView = () => {
     return (
@@ -86,7 +90,7 @@ export function EmployeeLeaveBalanceScreen({ data }: { data: any }) {
                 style={{ width: '100%', height: "auto" }}
                 onPress={() => toggleItem(item.id.toString())}
             >
-                <View style={{ flexDirection: "row" }}>
+                <LabelContainerView.MainBody style={{ flexDirection: "row" }}>
                     {query.isLoading ? (
                         <ContainerView>
                             <Text>Is Loading</Text>
@@ -195,10 +199,10 @@ export function EmployeeLeaveBalanceScreen({ data }: { data: any }) {
 
                                 </View>
                                 <Text
-                                style={{
-                                    color: baseStyle.color.primary,
-                                    paddingTop: 10
-                                }}
+                                    style={{
+                                        color: baseStyle.color.primary,
+                                        paddingTop: 10
+                                    }}
                                 >
                                     {item.expiryDate != null ? item.expiryDate.toDateString() : "No Date"}
                                 </Text>
@@ -206,15 +210,16 @@ export function EmployeeLeaveBalanceScreen({ data }: { data: any }) {
                             </View></>
                     )
                     }
-                </View>
+                </LabelContainerView.MainBody>
 
                 {/* <ExpandableView expanded={!item.isExpanded} /> */}
                 {isExpanded ? (
-                    <View style={{
-                        width: "100%",
-                        paddingHorizontal: 20,
-                        paddingBottom: 20
-                    }}>
+                    <LabelContainerView.ExpandedView
+                        style={{
+                            width: "100%",
+                            paddingHorizontal: 20,
+                            paddingBottom: 20
+                        }}>
                         <Text
                             style={{ color: baseStyle.color.primary }}>
                             Annual Leave: {item.alBalance} {item.alBalance < 1 ? " day" : "days"}</Text>
@@ -227,7 +232,7 @@ export function EmployeeLeaveBalanceScreen({ data }: { data: any }) {
                             Replacement Leave: {item.otherBalance} {item.otherBalance < 1 ? " day" : "days"}</Text>
                         <Text style={{ color: baseStyle.color.primary }}>
                             You'll Never Leave: {item.alBalance} {item.alBalance < 1 ? " day" : "days"}</Text>
-                    </View>
+                    </LabelContainerView.ExpandedView>
                 ) : <></>}
 
             </TouchableOpacity>
@@ -244,7 +249,7 @@ export function EmployeeLeaveBalanceScreen({ data }: { data: any }) {
                 selectedDate={selectedDate}
                 onDemise={() => setOpenLeaveBalanceModal(false)}
             ></EmployeeLeaveBalanceModal>
-            <View
+            <LabelContainerView.Header
                 style={
                     {
                         flex: 1,
@@ -262,7 +267,7 @@ export function EmployeeLeaveBalanceScreen({ data }: { data: any }) {
                 <Text style={{
                     textAlign: "center",
                     color: baseStyle.color.primary
-                    
+
                 }}>Leave Balance Screen</Text>
                 <View style={{
                     width: "100%",
@@ -285,13 +290,13 @@ export function EmployeeLeaveBalanceScreen({ data }: { data: any }) {
                                 style={{ textAlign: "center", color: "white" }}
                             > Add new Leave</Text>
                         </TouchableOpacity> */}
-                        <Button 
+                        <Button
                             title="New Leave"
                             onPress={() => {
                                 // setSelectedLeaveType("Annual Leave");
                                 setOpenLeaveBalanceModal(true);
                             }}
-                            ></Button>
+                        ></Button>
                     </View>
                 </View>
                 <FlatList
@@ -307,7 +312,7 @@ export function EmployeeLeaveBalanceScreen({ data }: { data: any }) {
                     renderItem={ItemView}
                     ItemSeparatorComponent={ItemSeparatorView}
                 />
-            </View>
+            </LabelContainerView.Header>
         </SafeAreaView>
     );
 }
