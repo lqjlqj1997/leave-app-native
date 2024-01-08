@@ -1,9 +1,10 @@
-import { Cake, CheckSquare, Mail, MapPin, Phone, User, XCircle } from "lucide-react-native";
+import { Cake, CheckSquare, ChevronDown, Mail, MapPin, Phone, Search, User, UserRoundCog, X, XCircle } from "lucide-react-native";
 import React, { useState } from "react";
 import {
     Modal,
     ModalProps,
     NativeSyntheticEvent,
+    Platform,
     Pressable,
     Text,
     TextInput,
@@ -16,6 +17,14 @@ import {
 } from "../../lib/components/ContainerView";
 import { getBaseStyle } from "../../lib/style/StyleUtil";
 import { ProfileDatePicker } from "../Account/component/ProfileDatePicker";
+import { SelectList } from "react-native-dropdown-select-list";
+
+const LabelContainerView = {
+    Overlay: ContainerView,
+    Header: ContainerView,
+    MainBody: ContainerView,
+    SubmitButton: View
+};
 
 interface NewEmployeeModalProps extends ModalProps {
     modalVisible: boolean;
@@ -40,13 +49,32 @@ export const NewEmployeeModal = ({
     const [status, setStatus] = useState('Employed');
     const [phone, setPhone] = useState('0107867361');
     const [role, setRole] = useState('Employee');
+    const [manager, setManager] = useState('Alimama');
+    const managerList = [
+        { key: "1", value: "Alimama" },
+        { key: "2", value: "Kenny" },
+        { key: "3", value: "Pay money to unlock" },
+        { key: "4", value: "???" },
+        { key: "5", value: "Random" },
+    ];
+
+    const statusList = [
+        { key: "1", value: "Employed" },
+        { key: "2", value: "Unemployed" },
+    ];
+
+    const roleList = [
+        { key: "1", value: "Employee" },
+        { key: "2", value: "Manager" },
+        { key: "3", value: "Admin" },
+    ];
 
     return (
         <Modal
             animationType="fade"
             transparent={true}
             visible={modalVisible}>
-            <ContainerView
+            <LabelContainerView.Overlay
                 style={{
                     width: "100%",
                     height: "100%",
@@ -56,7 +84,7 @@ export const NewEmployeeModal = ({
                 {/* <TouchableWithoutFeedback
                         onPress={() => setModalVisible(false)}
                     > */}
-                <ContainerView
+                <LabelContainerView.Header
                     style={{
                         padding: 0,
                         paddingTop: baseStyle.space.p4,
@@ -174,11 +202,12 @@ export const NewEmployeeModal = ({
                             shadowOpacity: 0,
                         }}
                     >
-                        <ContainerView style={{
-                            flexDirection: "row",
-                            width: "100%",
-                            marginBottom: baseStyle.space.p3
-                        }}>
+                        <LabelContainerView.MainBody
+                            style={{
+                                flexDirection: "row",
+                                width: "100%",
+                                marginBottom: baseStyle.space.p3
+                            }}>
                             <User color={baseStyle.color.primary} />
                             <TextInput
                                 style={{
@@ -204,7 +233,7 @@ export const NewEmployeeModal = ({
                                 value={name}
                                 onChangeText={setName}
                             />
-                        </ContainerView>
+                        </LabelContainerView.MainBody>
                         {/* <TextInput
                             style={{
                                 // flex: 1,
@@ -375,34 +404,120 @@ export const NewEmployeeModal = ({
                         <ContainerView style={{
                             flexDirection: "row",
                             width: "100%",
-                            marginBottom: baseStyle.space.p3
+                            marginBottom: baseStyle.space.p3,
+                            justifyContent: "flex-start"
                         }}>
                             <CheckSquare color={baseStyle.color.primary} />
-                            <TextInput
-                                style={{
-                                    // display: "flex",
-                                    height: baseStyle.space.p10,
-                                    width: "100%",
-                                    // borderWidth: 1,
-                                    // borderColor: baseStyle.color.input,
-                                    // borderRadius: baseStyle.rounded.md,
-                                    backgroundColor: baseStyle.color.background,
-                                    // paddingHorizontal: baseStyle.space.p3,
-                                    paddingVertical: baseStyle.space.p2,
-                                    fontSize: baseStyle.fontSize.base,
-                                    // shadowColor: baseStyle.color.background,
-                                    // marginBottom: baseStyle.space.p3,
-                                    flex: 6,
-                                    color: baseStyle.color.primary
-                                }}
-                                value={status}
-                                placeholder="Status"
-                                placeholderTextColor={
-                                    baseStyle.color.mutedForeground
-                                }
-                                keyboardType="default"
-                                onChangeText={setStatus}
-                            />
+                            <View>
+                                <SelectList
+                                    placeholder="Status"
+                                    boxStyles={{
+                                        width: Platform.OS === "web" ? "100%" : "90%",
+                                        borderColor: baseStyle.color.border,
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        padding: 0,
+                                        height: baseStyle.space.p12,
+                                        marginBottom: baseStyle.space.p3,
+                                        // maxHeight: baseStyle.space.p10
+                                    }}
+                                    search={false}
+                                    inputStyles={{
+                                        width: "100%",
+                                        borderColor: baseStyle.color.border,
+                                        // padding: 0,
+                                        paddingHorizontal: baseStyle.space.p3,
+                                        color:
+                                            manager === ""
+                                                ? baseStyle.color
+                                                    .mutedForeground
+                                                : baseStyle.color.foreground,
+                                        maxHeight: baseStyle.space.p10
+                                        // fontSize: 15
+                                        // height: baseStyle.space.p10,
+                                        // backgroundColor: "green"
+                                    }}
+                                    dropdownStyles={{
+                                        width: Platform.OS === "web" ? "100%" : "90%",
+                                        borderColor: baseStyle.color.border,
+                                    }}
+                                    dropdownItemStyles={{
+                                        width: "100%",
+                                        borderColor: baseStyle.color.border,
+                                    }}
+                                    dropdownTextStyles={{
+                                        width: "100%",
+                                        borderColor: baseStyle.color.border,
+                                        color: baseStyle.color.foreground,
+                                    }}
+                                    disabledItemStyles={{
+                                        width: "100%",
+                                        backgroundColor: baseStyle.color.muted,
+                                        borderColor: baseStyle.color.border,
+                                    }}
+                                    disabledTextStyles={{
+                                        width: "100%",
+                                        borderColor: baseStyle.color.border,
+                                        color: baseStyle.color.mutedForeground,
+                                    }}
+                                    searchicon={
+                                        <Search
+                                            color={baseStyle.color.foreground}
+                                            style={{
+                                                color: baseStyle.color
+                                                    .foreground,
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                textAlign: "center",
+                                                // flexWrap: "nowrap",
+                                                // borderRadius: baseStyle.rounded.md,
+                                                // fontSize: baseStyle.fontSize.sm,
+                                                // paddingRight:
+                                                //     baseStyle.space.p4,
+                                                // fontWeight:
+                                                //     baseStyle.fontWeight.medium,
+                                            }}
+                                        ></Search>
+                                    }
+                                    arrowicon={
+                                        <ChevronDown
+                                            color={baseStyle.color.foreground}
+                                            style={{
+                                                color: baseStyle.color
+                                                    .foreground,
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                textAlign: "center",
+                                                // flexWrap: "nowrap",
+                                                // borderRadius: baseStyle.rounded.md,
+                                                // fontSize: baseStyle.fontSize.sm,
+                                                // paddingRight:
+                                                //     baseStyle.space.p4,
+                                                // fontWeight:
+                                                //     baseStyle.fontWeight.medium,
+                                            }}
+                                        ></ChevronDown>
+                                    }
+                                    closeicon={
+                                        <X
+                                            color={baseStyle.color.foreground}
+                                            style={{
+                                                color: baseStyle.color
+                                                    .foreground,
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                textAlign: "center",
+                                            }}
+                                        ></X>
+                                    }
+                                    setSelected={(val: string) =>
+                                        setStatus(val)
+                                    }
+                                    data={statusList}
+                                    save="key"
+                                    defaultOption={{ key: "1", value: "Employed" }}
+                                />
+                            </View>
                         </ContainerView>
                         {/* <TextInput
                             style={{
@@ -488,34 +603,120 @@ export const NewEmployeeModal = ({
                         <ContainerView style={{
                             flexDirection: "row",
                             width: "100%",
-                            marginBottom: baseStyle.space.p3
+                            marginBottom: baseStyle.space.p3,
+                            justifyContent: "flex-start"
                         }}>
                             <User color={baseStyle.color.primary} />
-                            <TextInput
-                                style={{
-                                    // display: "flex",
-                                    height: baseStyle.space.p10,
-                                    width: "100%",
-                                    // borderWidth: 1,
-                                    // borderColor: baseStyle.color.input,
-                                    // borderRadius: baseStyle.rounded.md,
-                                    backgroundColor: baseStyle.color.background,
-                                    // paddingHorizontal: baseStyle.space.p3,
-                                    paddingVertical: baseStyle.space.p2,
-                                    fontSize: baseStyle.fontSize.base,
-                                    // shadowColor: baseStyle.color.background,
-                                    // marginBottom: baseStyle.space.p3,
-                                    flex: 6,
-                                    color: baseStyle.color.primary
-                                }}
-                                value={role}
-                                placeholder="Role"
-                                placeholderTextColor={
-                                    baseStyle.color.mutedForeground
-                                }
-                                keyboardType="default"
-                                onChangeText={setRole}
-                            />
+                            <View>
+                                <SelectList
+                                    placeholder="Role"
+                                    boxStyles={{
+                                        width: Platform.OS === "web" ? "100%" : "90%",
+                                        borderColor: baseStyle.color.border,
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        padding: 0,
+                                        height: baseStyle.space.p12,
+                                        marginBottom: baseStyle.space.p3,
+                                        // maxHeight: baseStyle.space.p10
+                                    }}
+                                    search={false}
+                                    inputStyles={{
+                                        width: "100%",
+                                        borderColor: baseStyle.color.border,
+                                        // padding: 0,
+                                        paddingHorizontal: baseStyle.space.p3,
+                                        color:
+                                            manager === ""
+                                                ? baseStyle.color
+                                                    .mutedForeground
+                                                : baseStyle.color.foreground,
+                                        maxHeight: baseStyle.space.p10
+                                        // fontSize: 15
+                                        // height: baseStyle.space.p10,
+                                        // backgroundColor: "green"
+                                    }}
+                                    dropdownStyles={{
+                                        width: Platform.OS === "web" ? "100%" : "90%",
+                                        borderColor: baseStyle.color.border,
+                                    }}
+                                    dropdownItemStyles={{
+                                        width: "100%",
+                                        borderColor: baseStyle.color.border,
+                                    }}
+                                    dropdownTextStyles={{
+                                        width: "100%",
+                                        borderColor: baseStyle.color.border,
+                                        color: baseStyle.color.foreground,
+                                    }}
+                                    disabledItemStyles={{
+                                        width: "100%",
+                                        backgroundColor: baseStyle.color.muted,
+                                        borderColor: baseStyle.color.border,
+                                    }}
+                                    disabledTextStyles={{
+                                        width: "100%",
+                                        borderColor: baseStyle.color.border,
+                                        color: baseStyle.color.mutedForeground,
+                                    }}
+                                    searchicon={
+                                        <Search
+                                            color={baseStyle.color.foreground}
+                                            style={{
+                                                color: baseStyle.color
+                                                    .foreground,
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                textAlign: "center",
+                                                // flexWrap: "nowrap",
+                                                // borderRadius: baseStyle.rounded.md,
+                                                // fontSize: baseStyle.fontSize.sm,
+                                                // paddingRight:
+                                                //     baseStyle.space.p4,
+                                                // fontWeight:
+                                                //     baseStyle.fontWeight.medium,
+                                            }}
+                                        ></Search>
+                                    }
+                                    arrowicon={
+                                        <ChevronDown
+                                            color={baseStyle.color.foreground}
+                                            style={{
+                                                color: baseStyle.color
+                                                    .foreground,
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                textAlign: "center",
+                                                // flexWrap: "nowrap",
+                                                // borderRadius: baseStyle.rounded.md,
+                                                // fontSize: baseStyle.fontSize.sm,
+                                                // paddingRight:
+                                                //     baseStyle.space.p4,
+                                                // fontWeight:
+                                                //     baseStyle.fontWeight.medium,
+                                            }}
+                                        ></ChevronDown>
+                                    }
+                                    closeicon={
+                                        <X
+                                            color={baseStyle.color.foreground}
+                                            style={{
+                                                color: baseStyle.color
+                                                    .foreground,
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                textAlign: "center",
+                                            }}
+                                        ></X>
+                                    }
+                                    setSelected={(val: string) =>
+                                        setRole(val)
+                                    }
+                                    data={roleList}
+                                    save="key"
+                                    defaultOption={{ key: "1", value: "Employee" }}
+                                />
+                            </View>
                         </ContainerView>
                         {/* <TextInput
                             style={{
@@ -541,50 +742,125 @@ export const NewEmployeeModal = ({
                             keyboardType="numeric"
                             onChangeText={setRole}
                         /> */}
-                        {/* </View> */}
-                        {/* <View
-                            id="incDecButtonView"
-                            style={{
-                                flexDirection: "row",
-                                marginBottom: baseStyle.space.p3
-                            }}>
-                            <Button
-                                title="-"
-                                onPress={handleDecrement}>
-                            </Button>
-                            <Button
-                                style={styles.button}
-                                title="+"
-                                onPress={handleIncrement}>
-                            </Button>
-                        </View> */}
-                        <View
-                            style={{
-                                width: "100%",
-                                display: "flex",
-                                justifyContent: "flex-start",
-                                alignItems: "center",
-                                flexDirection: "row",
-                                gap: baseStyle.space.p4,
-                                marginBottom: baseStyle.space.p3
-                            }}
-                        >
-                            {/* {openDatePickerModal ? (
-                                <DatePicker
-                                    modalVisible={openDatePickerModal}
-                                    onDemise={() =>
-                                        setOpenDatePickerModal(false)
-                                        
+                        <ContainerView style={{
+                            flexDirection: "row",
+                            width: "100%",
+                            justifyContent: "flex-start",
+                            marginBottom: baseStyle.space.p3
+                        }}>
+                            <UserRoundCog color={baseStyle.color.primary} />
+                            <View>
+                                <SelectList
+                                    placeholder="Manager"
+                                    boxStyles={{
+                                        width: Platform.OS === "web" ? "100%" : "90%",
+                                        borderColor: baseStyle.color.border,
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        padding: 0,
+                                        height: baseStyle.space.p12,
+                                        marginBottom: baseStyle.space.p3,
+                                        // maxHeight: baseStyle.space.p10
+                                    }}
+                                    search={false}
+                                    inputStyles={{
+                                        width: "100%",
+                                        borderColor: baseStyle.color.border,
+                                        // padding: 0,
+                                        paddingHorizontal: baseStyle.space.p3,
+                                        color:
+                                            manager === ""
+                                                ? baseStyle.color
+                                                    .mutedForeground
+                                                : baseStyle.color.foreground,
+                                        maxHeight: baseStyle.space.p10
+                                        // fontSize: 15
+                                        // height: baseStyle.space.p10,
+                                        // backgroundColor: "green"
+                                    }}
+                                    dropdownStyles={{
+                                        width: Platform.OS === "web" ? "100%" : "90%",
+                                        borderColor: baseStyle.color.border,
+                                    }}
+                                    dropdownItemStyles={{
+                                        width: "100%",
+                                        borderColor: baseStyle.color.border,
+                                    }}
+                                    dropdownTextStyles={{
+                                        width: "100%",
+                                        borderColor: baseStyle.color.border,
+                                        color: baseStyle.color.foreground,
+                                    }}
+                                    disabledItemStyles={{
+                                        width: "100%",
+                                        backgroundColor: baseStyle.color.muted,
+                                        borderColor: baseStyle.color.border,
+                                    }}
+                                    disabledTextStyles={{
+                                        width: "100%",
+                                        borderColor: baseStyle.color.border,
+                                        color: baseStyle.color.mutedForeground,
+                                    }}
+                                    searchicon={
+                                        <Search
+                                            color={baseStyle.color.foreground}
+                                            style={{
+                                                color: baseStyle.color
+                                                    .foreground,
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                textAlign: "center",
+                                                // flexWrap: "nowrap",
+                                                // borderRadius: baseStyle.rounded.md,
+                                                // fontSize: baseStyle.fontSize.sm,
+                                                // paddingRight:
+                                                //     baseStyle.space.p4,
+                                                // fontWeight:
+                                                //     baseStyle.fontWeight.medium,
+                                            }}
+                                        ></Search>
                                     }
-                                    setDateList={setSelectedDateList}
-                                    initialDateList={selectedDateList}
-                                ></DatePicker>
-
-                            ) : (
-                                ""
-                            )} */}
-
-                        </View>
+                                    arrowicon={
+                                        <ChevronDown
+                                            color={baseStyle.color.foreground}
+                                            style={{
+                                                color: baseStyle.color
+                                                    .foreground,
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                textAlign: "center",
+                                                // flexWrap: "nowrap",
+                                                // borderRadius: baseStyle.rounded.md,
+                                                // fontSize: baseStyle.fontSize.sm,
+                                                // paddingRight:
+                                                //     baseStyle.space.p4,
+                                                // fontWeight:
+                                                //     baseStyle.fontWeight.medium,
+                                            }}
+                                        ></ChevronDown>
+                                    }
+                                    closeicon={
+                                        <X
+                                            color={baseStyle.color.foreground}
+                                            style={{
+                                                color: baseStyle.color
+                                                    .foreground,
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                textAlign: "center",
+                                            }}
+                                        ></X>
+                                    }
+                                    setSelected={(val: string) =>
+                                        setManager(val)
+                                    }
+                                    data={managerList}
+                                    save="key"
+                                    defaultOption={{ key: "2", value: "Kenny" }}
+                                />
+                            </View>
+                        </ContainerView>
+                        {/* </View> */}
                         <Modal
                             transparent={true}
                             visible={datePickerModalVisible}
@@ -592,7 +868,7 @@ export const NewEmployeeModal = ({
                             onRequestClose={() => {
                                 setModalVisible(!modalVisible);
                             }}>
-                            <ContainerView
+                            <LabelContainerView.Overlay
                                 style={{
                                     width: "100%",
                                     height: "100%",
@@ -603,9 +879,9 @@ export const NewEmployeeModal = ({
                                     bodDate={BodDate}
                                     setBodDate={setBodDate} />
 
-                            </ContainerView>
+                            </LabelContainerView.Overlay>
                         </Modal>
-                        <View
+                        <LabelContainerView.SubmitButton
                             id="submitButtonView"
                             style={{
                                 width: "100%",
@@ -620,10 +896,10 @@ export const NewEmployeeModal = ({
                                 //TODO Submit Btn
                                 onPress={onDemise}
                             ></Button>
-                        </View>
+                        </LabelContainerView.SubmitButton>
                     </ScrollContainerView>
-                </ContainerView>
-            </ContainerView>
+                </LabelContainerView.Header>
+            </LabelContainerView.Overlay>
         </Modal>
     )
 };

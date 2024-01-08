@@ -18,6 +18,13 @@ import {
 import { getBaseStyle } from "../../lib/style/StyleUtil";
 import { ProfileDatePicker } from "../Account/component/ProfileDatePicker";
 
+const LabelContainerView = {
+    Overlay: ContainerView,
+    Header: ContainerView,
+    MainBody: ContainerView,
+    ConfirmModal: View
+};
+
 interface EmployeeDetailModalProps extends ModalProps {
     modalVisible: boolean;
     // leaveType: string;
@@ -50,14 +57,14 @@ export const EmployeeDetailModal = ({
             transparent={true}
             visible={modalVisible}>
             {/*This is overlay view*/}
-            <ContainerView
+            <LabelContainerView.Overlay
                 style={{
                     width: "100%",
                     height: "100%",
                     backgroundColor: baseStyle.color.overlay,
                 }}
             >
-                <ContainerView
+                <LabelContainerView.Header
                     style={{
                         padding: 0,
                         paddingTop: baseStyle.space.p4,
@@ -167,185 +174,186 @@ export const EmployeeDetailModal = ({
                         </View>
                     </View>
                     <ScrollView
-                    style={{
-                        borderWidth: 0,
-                        minHeight: "90%",
-                        shadowOpacity: 0,
-                    }}
-                    contentContainerStyle={{
-                        justifyContent: "space-between",
-                    }}
-                >
-                    <ContainerView style={{
-                        width: "100%",
-                        borderWidth: 0,
-                        shadowOpacity: 0
-
-                    }}>
-                        <Image source={image} style={{ width: 200, height: 200, borderRadius: 400 / 2 }} />
-                        <Text style={{ fontSize: 30 }}>{name}</Text>
-                        <ContainerView
-                            style={{
-                                width: "100%",
-                                maxWidth: 500,
-                                alignItems: "flex-start",
-                            }}>
-                            <ContainerView style={{ flexDirection: "row", width: "100%", }}>
-                                <User color={baseStyle.color.primary} />
-                                <TextInput
-                                    onChangeText={setName}
-                                    style={{ flex: 1 }}
-                                    value={name}
-                                />
-
-                            </ContainerView>
-                            <ContainerView style={{ flexDirection: "row", width: "100%", }}>
-                                <Mail color={baseStyle.color.primary} />
-                                <Text style={{ flex: 1, color: baseStyle.color.mutedForeground }}>{email}</Text>
-
-                            </ContainerView>
-                            <ContainerView style={{ flexDirection: "row", width: "100%", }}>
-                                <MapPin color={baseStyle.color.primary} />
-                                <TextInput
-                                    onChangeText={setAddress}
-                                    style={{ flex: 1 }}
-                                    value={address}
-                                />
-                            </ContainerView>
-                            <ContainerView style={{ flexDirection: "row", width: "100%" }}>
-                                <Cake color={baseStyle.color.primary} />
-                                <Text style={{ flex: 6, color: baseStyle.color.primary }}>
-                                    <Pressable
-                                        style={{
-                                            width: "100%"
-                                        }}
-                                        onPress={() => {
-                                            setDatePickerModalVisible(true);
-                                        }}
-                                    >
-                                        <Text>{BodDate}</Text>
-                                    </Pressable>
-                                </Text>
-                            </ContainerView>
-                            <ContainerView style={{ flexDirection: "row", width: "100%" }}>
-                                <CheckSquare color={baseStyle.color.primary} />
-                                <Text style={{ flex: 6, color: baseStyle.color.mutedForeground }}>{status}</Text>
-
-                            </ContainerView>
-                            <ContainerView style={{ flexDirection: "row", width: "100%" }}>
-                                <Phone color={baseStyle.color.primary} />
-                                <TextInput
-                                    onChangeText={setPhone}
-                                    style={{ flex: 1 }}
-                                    value={phone}
-                                />
-                            </ContainerView>
-                            <ContainerView style={{ flexDirection: "row", width: "100%" }}>
-                                <User color={baseStyle.color.primary} />
-                                <Text style={{ flex: 6, color: baseStyle.color.mutedForeground }}>{role}</Text>
-                            </ContainerView>
-
-                            <Button title="Update Profile"
-                                onPress={() => setModalConfirmVisible(true)}
-                                style={{ alignSelf: "center" }}
-                            ></Button>
-                        </ContainerView>
-                    </ContainerView>
-
-                    <View style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginTop: 22,
-            }}
-            >
-                <Modal
-                    transparent={true}
-                    visible={modalConfirmVisible}
-                    animationType="fade"
-                    onRequestClose={() => {
-                        setModalConfirmVisible(!modalConfirmVisible);
-                    }}>
-                    <ContainerView
                         style={{
+                            borderWidth: 0,
+                            minHeight: "90%",
+                            shadowOpacity: 0,
                             width: "100%",
-                            height: "100%",
-                            backgroundColor: baseStyle.color.overlay,
+                        }}
+                        contentContainerStyle={{
+                            justifyContent: "space-between",
                         }}
                     >
+                        <LabelContainerView.MainBody
+                            style={{
+                                width: "100%",
+                                borderWidth: 0,
+                                shadowOpacity: 0,
+                            }}>
+                            <Image source={image} style={{ width: 200, height: 200, borderRadius: 400 / 2 }} />
+                            <Text style={{ fontSize: 30 }}>{name}</Text>
+                            <ContainerView
+                                style={{
+                                    width: "100%",
+                                    maxWidth: 500,
+                                    alignItems: "flex-start",
+                                }}>
+                                <ContainerView style={{ flexDirection: "row", width: "100%", }}>
+                                    <User color={baseStyle.color.primary} />
+                                    <TextInput
+                                        onChangeText={setName}
+                                        style={{ flex: 1 }}
+                                        value={name}
+                                    />
 
-                        <ContainerView >
-                            <ContainerView>
-                                <Text>User name: {name}</Text>
-                                <Text>User Email: {email}</Text>
-                                <Text>User Date of Birth: {BodDate}</Text>
-                                <Text>User Phone Number: {phone}</Text>
-                                <Text>User Address: {address}</Text>
-                                <Text>Employment Status: {status}</Text>
-                            </ContainerView>
-                            <Text >
-                                Are you sure to make the above changes?
-                            </Text>
-                            <View style={{ flexDirection: "row" }}>
-                                <ContainerView style={{ flex: 1, flexDirection: "row", width: "100%", borderWidth: 0, shadowOpacity: 0 }}>
-
-                                    <Pressable
-                                        onPress={() => {
-                                            //TODO button function when confirm
-                                            setModalConfirmVisible(!modalConfirmVisible)
-                                        }}
-                                        style={{
-                                            height: 25,
-                                            width: 25,
-                                            borderRadius: 25 / 2,
-                                            backgroundColor: baseStyle.color.primary,
-                                            alignItems: "center",
-                                        }}
-                                    >
-                                        <Check color="white" />
-                                    </Pressable>
-                                    <Pressable
-                                        onPress={() => setModalConfirmVisible(!modalConfirmVisible)}
-                                        style={{
-                                            height: 25,
-                                            width: 25,
-                                            borderRadius: 25 / 2,
-                                            backgroundColor: baseStyle.color.primary,
-                                            alignItems: "center",
-                                        }}
-                                    >
-                                        <X color="white" />
-                                    </Pressable>
                                 </ContainerView>
-                            </View>
-                        </ContainerView>
-                    </ContainerView>
-                </Modal>
+                                <ContainerView style={{ flexDirection: "row", width: "100%", }}>
+                                    <Mail color={baseStyle.color.primary} />
+                                    <Text style={{ flex: 1, color: baseStyle.color.mutedForeground }}>{email}</Text>
 
-                    <Modal
-                    transparent={true}
-                    visible={datePickerModalVisible}
-                    animationType="fade"
-                    onRequestClose={() => {
-                        setModalConfirmVisible(!modalConfirmVisible);
-                    }}>
-                    <ContainerView
-                        style={{
-                            width: "100%",
-                            height: "100%",
-                            backgroundColor: baseStyle.color.overlay,
-                        }}>
-                        <ProfileDatePicker
-                            setDatePickerModalVisible={setDatePickerModalVisible}
-                            bodDate={BodDate}
-                            setBodDate={setBodDate} />
+                                </ContainerView>
+                                <ContainerView style={{ flexDirection: "row", width: "100%", }}>
+                                    <MapPin color={baseStyle.color.primary} />
+                                    <TextInput
+                                        onChangeText={setAddress}
+                                        style={{ flex: 1 }}
+                                        value={address}
+                                    />
+                                </ContainerView>
+                                <ContainerView style={{ flexDirection: "row", width: "100%" }}>
+                                    <Cake color={baseStyle.color.primary} />
+                                    <Text style={{ flex: 6, color: baseStyle.color.primary }}>
+                                        <Pressable
+                                            style={{
+                                                width: "100%"
+                                            }}
+                                            onPress={() => {
+                                                setDatePickerModalVisible(true);
+                                            }}
+                                        >
+                                            <Text>{BodDate}</Text>
+                                        </Pressable>
+                                    </Text>
+                                </ContainerView>
+                                <ContainerView style={{ flexDirection: "row", width: "100%" }}>
+                                    <CheckSquare color={baseStyle.color.primary} />
+                                    <Text style={{ flex: 6, color: baseStyle.color.mutedForeground }}>{status}</Text>
 
-                    </ContainerView>
-                </Modal>
-                    </View>
-                </ScrollView>
-                </ContainerView>
-            </ContainerView>
+                                </ContainerView>
+                                <ContainerView style={{ flexDirection: "row", width: "100%" }}>
+                                    <Phone color={baseStyle.color.primary} />
+                                    <TextInput
+                                        onChangeText={setPhone}
+                                        style={{ flex: 1 }}
+                                        value={phone}
+                                    />
+                                </ContainerView>
+                                <ContainerView style={{ flexDirection: "row", width: "100%" }}>
+                                    <User color={baseStyle.color.primary} />
+                                    <Text style={{ flex: 6, color: baseStyle.color.mutedForeground }}>{role}</Text>
+                                </ContainerView>
+
+                                <Button title="Update Profile"
+                                    onPress={() => setModalConfirmVisible(true)}
+                                    style={{ alignSelf: "center" }}
+                                ></Button>
+                            </ContainerView>
+                        </LabelContainerView.MainBody>
+
+                        <LabelContainerView.ConfirmModal style={{
+                            flex: 1,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            marginTop: 22,
+                        }}
+                        >
+                            <Modal
+                                transparent={true}
+                                visible={modalConfirmVisible}
+                                animationType="fade"
+                                onRequestClose={() => {
+                                    setModalConfirmVisible(!modalConfirmVisible);
+                                }}>
+                                <LabelContainerView.Overlay
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        backgroundColor: baseStyle.color.overlay,
+                                    }}
+                                >
+
+                                    <ContainerView >
+                                        <ContainerView>
+                                            <Text>User name: {name}</Text>
+                                            <Text>User Email: {email}</Text>
+                                            <Text>User Date of Birth: {BodDate}</Text>
+                                            <Text>User Phone Number: {phone}</Text>
+                                            <Text>User Address: {address}</Text>
+                                            <Text>Employment Status: {status}</Text>
+                                        </ContainerView>
+                                        <Text >
+                                            Are you sure to make the above changes?
+                                        </Text>
+                                        <View style={{ flexDirection: "row" }}>
+                                            <ContainerView style={{ flex: 1, flexDirection: "row", width: "100%", borderWidth: 0, shadowOpacity: 0 }}>
+
+                                                <Pressable
+                                                    onPress={() => {
+                                                        //TODO button function when confirm
+                                                        setModalConfirmVisible(!modalConfirmVisible)
+                                                    }}
+                                                    style={{
+                                                        height: 25,
+                                                        width: 25,
+                                                        borderRadius: 25 / 2,
+                                                        backgroundColor: baseStyle.color.primary,
+                                                        alignItems: "center",
+                                                    }}
+                                                >
+                                                    <Check color="white" />
+                                                </Pressable>
+                                                <Pressable
+                                                    onPress={() => setModalConfirmVisible(!modalConfirmVisible)}
+                                                    style={{
+                                                        height: 25,
+                                                        width: 25,
+                                                        borderRadius: 25 / 2,
+                                                        backgroundColor: baseStyle.color.primary,
+                                                        alignItems: "center",
+                                                    }}
+                                                >
+                                                    <X color="white" />
+                                                </Pressable>
+                                            </ContainerView>
+                                        </View>
+                                    </ContainerView>
+                                </LabelContainerView.Overlay>
+                            </Modal>
+
+                            <Modal
+                                transparent={true}
+                                visible={datePickerModalVisible}
+                                animationType="fade"
+                                onRequestClose={() => {
+                                    setModalConfirmVisible(!modalConfirmVisible);
+                                }}>
+                                <LabelContainerView.Overlay
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        backgroundColor: baseStyle.color.overlay,
+                                    }}>
+                                    <ProfileDatePicker
+                                        setDatePickerModalVisible={setDatePickerModalVisible}
+                                        bodDate={BodDate}
+                                        setBodDate={setBodDate} />
+
+                                </LabelContainerView.Overlay>
+                            </Modal>
+                        </LabelContainerView.ConfirmModal>
+                    </ScrollView>
+                </LabelContainerView.Header>
+            </LabelContainerView.Overlay>
         </Modal>
     );
 };

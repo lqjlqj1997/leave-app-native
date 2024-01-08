@@ -17,14 +17,19 @@ import {
     ContainerView,
     ScrollContainerView,
 } from "../../lib/components/ContainerView";
-import { fetchLeaveBalance } from "../Leave/_api/LeaveBalanceApi";
-import { getBaseStyle } from "../../lib/style/StyleUtil";
 import { IconButton } from "../../lib/components/IconButton";
-import { DatePicker } from "../Leave/_components/DatePicker";
+import { getBaseStyle } from "../../lib/style/StyleUtil";
+import { fetchLeaveBalance } from "../Leave/_api/LeaveBalanceApi";
 import { DayModeLegendModal } from "../Leave/_components/DayModeLegendModal";
 import { LeaveDataType } from "../Leave/_components/LeaveFormModal";
-import { LeaveCalender } from "../Leave/_components/LeaveCalender";
 import { ExpiryDatePicker } from "./_component/ExpiryDatePicker";
+
+const LabelContainerView = {
+    Overlay: ContainerView,
+    Header: ContainerView,
+    MainBody: ScrollContainerView,
+    SubmitButton: View
+};
 
 interface LeaveDetailModalProps extends ModalProps {
     modalVisible: boolean;
@@ -137,7 +142,7 @@ export const EmployeeLeaveBalanceModal = ({
         //     setModalVisible(!modalVisible);
         // }}
         >
-            <ContainerView
+            <LabelContainerView.Overlay
                 style={{
                     width: "100%",
                     height: "100%",
@@ -147,7 +152,7 @@ export const EmployeeLeaveBalanceModal = ({
                 {/* <TouchableWithoutFeedback
                         onPress={() => setModalVisible(false)}
                     > */}
-                <ContainerView
+                <LabelContainerView.Header
                     style={{
                         padding: 0,
                         paddingTop: baseStyle.space.p4,
@@ -257,7 +262,7 @@ export const EmployeeLeaveBalanceModal = ({
                         </View>
                     </View>
 
-                    <ScrollContainerView
+                    <LabelContainerView.MainBody
                         style={{
                             width: "100%",
                             height: "100%",
@@ -611,9 +616,9 @@ export const EmployeeLeaveBalanceModal = ({
                                 onPress={onDemise}
                             ></Button>
                         </View>
-                    </ScrollContainerView>
-                </ContainerView>
-            </ContainerView>
+                    </LabelContainerView.MainBody>
+                </LabelContainerView.Header>
+            </LabelContainerView.Overlay>
 
         </Modal>
     );
