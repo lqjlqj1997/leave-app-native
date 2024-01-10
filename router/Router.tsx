@@ -158,7 +158,6 @@ const FourthRoute = () => (
 const renderScene = SceneMap({
     first: EmployeeScreen,
     second: EmployeeLeaveBalanceScreen,
-    third: ThirdRoute,
     fourth: FourthRoute,
 });
 
@@ -170,7 +169,6 @@ function EmployeeTab() {
     const [routes] = React.useState([
         { key: "first", title: "User" },
         { key: "second", title: "Leave Balance" },
-        { key: "third", title: "Leave Type" },
         { key: "fourth", title: "Leave Request" },
     ]);
     // const renderLabel = ({ route } : { route: { title: string }}) => (
