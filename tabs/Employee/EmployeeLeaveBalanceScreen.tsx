@@ -160,7 +160,7 @@ export function EmployeeLeaveBalanceScreen({ data }: { data: any }) {
                                     //     setOpenLeaveBalanceModal(true);
                                     // }}
                                     >
-                                        {item.leaveType === "Annual Leave" ? (<CalendarCheck
+                                        {/* {item.leaveType === "Annual Leave" ? (<CalendarCheck
                                             style={{
                                                 marginRight: Platform.OS === "web" ? 20 : 0
                                             }}
@@ -183,7 +183,7 @@ export function EmployeeLeaveBalanceScreen({ data }: { data: any }) {
                                                         marginRight: Platform.OS === "web" ? 20 : 0
                                                     }}
                                                 ></HelpCircle>
-                                            ) : null}
+                                            ) : null} */}
 
                                         <Text
                                             style={{
