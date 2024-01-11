@@ -77,7 +77,7 @@ export const EmployeeLeaveBalanceModal = ({
     );
 
     const [name, setName] = useState('Alibaba');
-    const [description, setDescription] = useState('No reason lol');
+    const [leaveName, setLeaveName] = useState('No reason lol');
     const [duration, setDuration] = useState('0');
     const [expiryDate, setDate] = useState(new Date().toLocaleDateString('en-GB'));
 
@@ -397,12 +397,12 @@ export const EmployeeLeaveBalanceModal = ({
                                 marginBottom: baseStyle.space.p3,
                                 color: baseStyle.color.primary
                             }}
-                            placeholder="Leave Description"
+                            placeholder="Leave Name"
                             placeholderTextColor={
                                 baseStyle.color.mutedForeground
                             }
-                            value={description}
-                            onChangeText={setDescription}
+                            value={leaveName}
+                            onChangeText={setLeaveName}
                         />
                         <TextInput
                             style={{

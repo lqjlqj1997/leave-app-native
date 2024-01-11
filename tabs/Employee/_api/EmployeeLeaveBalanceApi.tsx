@@ -12,6 +12,10 @@ export type EmployeeLeaveBalanceDetail = {
     mcBalance: number;
     rlBalance: number;
     otherBalance: number;
+    alExpiryDate: Date;
+    mcExpiryDate: Date;
+    rlExpiryDate: Date;
+    otherExpiryDate: Date;
 }
 
 const range = (len: number) => {
@@ -56,6 +60,10 @@ const newEmployeeLeaveBalanceDetail = (): EmployeeLeaveBalanceDetail => {
             min: 0,
             max: 5
         }),
+        alExpiryDate: faker.date.anytime(),
+        mcExpiryDate: faker.date.anytime(),
+        rlExpiryDate: faker.date.anytime(),
+        otherExpiryDate: faker.date.anytime(),
     };
 };
 
