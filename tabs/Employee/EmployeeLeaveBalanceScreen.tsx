@@ -79,7 +79,8 @@ export function EmployeeLeaveBalanceScreen({ data }: { data: any }) {
             id: number,
             name: string, leaveType: string, leaveBalance: number, expiryDate: Date,
             email: string, isExpanded: boolean, alBalance: number, mcBalance: number,
-            rlBalance: number, otherBalance: number
+            rlBalance: number, otherBalance: number, alExpiryDate: Date,
+            mcExpiryDate: Date, rlExpiryDate: Date, otherExpiryDate: Date,
         }
     }) => {
         const isExpanded = expandedIds.includes(item.id.toString());
@@ -198,14 +199,14 @@ export function EmployeeLeaveBalanceScreen({ data }: { data: any }) {
                                     </Pressable>
 
                                 </View>
-                                <Text
+                                {/* <Text
                                     style={{
                                         color: baseStyle.color.primary,
                                         paddingTop: 10
                                     }}
                                 >
                                     {item.expiryDate != null ? item.expiryDate.toDateString() : "No Date"}
-                                </Text>
+                                </Text> */}
 
                             </View></>
                     )
@@ -214,25 +215,151 @@ export function EmployeeLeaveBalanceScreen({ data }: { data: any }) {
 
                 {/* <ExpandableView expanded={!item.isExpanded} /> */}
                 {isExpanded ? (
-                    <LabelContainerView.ExpandedView
-                        style={{
-                            width: "100%",
-                            paddingHorizontal: 20,
-                            paddingBottom: 20
-                        }}>
-                        <Text
-                            style={{ color: baseStyle.color.primary }}>
-                            Annual Leave: {item.alBalance} {item.alBalance < 1 ? " day" : "days"}</Text>
-                        <Text
-                            style={{ color: baseStyle.color.primary }}>
-                            Medical Leave: {item.mcBalance} {item.mcBalance < 1 ? " day" : "days"}</Text>
-                        <Text style={{ color: baseStyle.color.primary }}>
-                            Replacement Leave: {item.rlBalance} {item.rlBalance < 1 ? " day" : "days"}</Text>
-                        <Text style={{ color: baseStyle.color.primary }}>
-                            Replacement Leave: {item.otherBalance} {item.otherBalance < 1 ? " day" : "days"}</Text>
-                        <Text style={{ color: baseStyle.color.primary }}>
-                            You'll Never Leave: {item.alBalance} {item.alBalance < 1 ? " day" : "days"}</Text>
-                    </LabelContainerView.ExpandedView>
+                    <View>
+                        <View
+                            style={{
+                                flexDirection: "row",
+                                // flex: 1
+                            }}>
+                            <LabelContainerView.ExpandedView
+                                style={{
+                                    flex: 1,
+                                    paddingLeft: 20,
+                                    paddingBottom: 20
+                                }}>
+                                <View
+                                    style={{
+                                        flex: 1,
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        justifyContent: "space-evenly",
+                                        alignItems: "center",
+                                    }}>
+                                    <CalendarCheck
+                                        style={{
+                                            marginTop: baseStyle.space.p3,
+                                            marginRight: baseStyle.space.p5
+                                        }}
+                                        color={baseStyle.color.primary}
+                                    ></CalendarCheck>
+                                    <Text
+                                        style={{
+                                            flex: 1,
+                                            color: baseStyle.color.primary,
+                                            fontWeight: baseStyle.fontWeight.bold,
+                                            marginTop: baseStyle.space.p3,
+                                        }}>
+                                        {item.alBalance}</Text>
+                                    <Text
+                                        style={{
+                                            flex: 1,
+                                            color: baseStyle.color.primary,
+                                            width: "100%",
+                                            marginHorizontal: 20,
+                                            textAlign: "right",
+                                            marginTop: baseStyle.space.p3,
+                                        }}>
+                                        {item.alExpiryDate != null ? item.alExpiryDate.toDateString() : "No Date"}</Text>
+                                </View>
+                                <View
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        justifyContent: "space-evenly",
+                                        alignItems: "center",
+                                    }}>
+                                    <Cross
+                                        style={{
+                                            marginTop: baseStyle.space.p3,
+                                            marginRight: baseStyle.space.p5
+                                        }}
+                                        color={baseStyle.color.primary}></Cross>
+                                    <Text
+                                        style={{
+                                            flex: 1,
+                                            color: baseStyle.color.primary,
+                                            fontWeight: baseStyle.fontWeight.bold,
+                                            marginTop: baseStyle.space.p3,
+                                        }}>
+                                        {item.mcBalance}</Text>
+                                    <Text
+                                        style={{
+                                            flex: 1,
+                                            color: baseStyle.color.primary,
+                                            width: "100%",
+                                            marginHorizontal: baseStyle.space.p5,
+                                            textAlign: "right",
+                                            marginTop: baseStyle.space.p3,
+                                        }}>
+                                        {item.mcExpiryDate != null ? item.mcExpiryDate.toDateString() : "No Date"}</Text>
+                                </View>
+                                <View
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        justifyContent: "space-evenly",
+                                        alignItems: "center",
+                                    }}>
+                                    <Bike
+                                        style={{
+                                            marginTop: baseStyle.space.p3,
+                                            marginRight: baseStyle.space.p5
+                                        }}
+                                        color={baseStyle.color.primary}></Bike>
+                                    <Text style={{
+                                        flex: 1,
+                                        color: baseStyle.color.primary,
+                                        fontWeight: baseStyle.fontWeight.bold,
+                                        marginTop: baseStyle.space.p3,
+                                    }}>
+                                        {item.rlBalance}</Text>
+                                    <Text
+                                        style={{
+                                            flex: 1,
+                                            color: baseStyle.color.primary,
+                                            width: "100%",
+                                            marginHorizontal: baseStyle.space.p5,
+                                            textAlign: "right",
+                                            marginTop: baseStyle.space.p3,
+                                        }}>
+                                        {item.rlExpiryDate != null ? item.rlExpiryDate.toDateString() : "No Date"}</Text>
+                                </View>
+                                <View
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        justifyContent: "space-evenly",
+                                        alignItems: "center",
+                                    }}>
+                                    <HelpCircle
+                                        style={{
+                                            marginTop: baseStyle.space.p3,
+                                            marginRight: baseStyle.space.p5
+                                        }}
+                                        color={
+                                            baseStyle.color.primary
+                                        }></HelpCircle>
+                                    <Text style={{
+                                        flex: 1,
+                                        color: baseStyle.color.primary,
+                                        fontWeight: baseStyle.fontWeight.bold,
+                                        marginTop: baseStyle.space.p3,
+                                    }}>
+                                        {item.otherBalance}</Text>
+                                    <Text
+                                        style={{
+                                            flex: 1,
+                                            color: baseStyle.color.primary,
+                                            width: "100%",
+                                            marginHorizontal: baseStyle.space.p5,
+                                            textAlign: "right",
+                                            marginTop: baseStyle.space.p3,
+                                        }}>
+                                        {item.otherExpiryDate != null ? item.otherExpiryDate.toDateString() : "No Date"}</Text>
+                                </View>
+                            </LabelContainerView.ExpandedView>
+                        </View>
+                    </View>
                 ) : <></>}
 
             </TouchableOpacity>
