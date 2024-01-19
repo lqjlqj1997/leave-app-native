@@ -48,7 +48,7 @@ export const EmployeeDetailModal = ({
     const [email] = useState('fatimah@gmail.com');
     const [address, setAddress] = useState('xyz street');
     const [BodDate, setBodDate] = useState(new Date().toLocaleDateString('en-GB'));
-    const [status] = useState('Employed');
+    const [status] = useState('Hired');
     const [phone, setPhone] = useState('0107867361');
     const [role] = useState('Employee');
     return (

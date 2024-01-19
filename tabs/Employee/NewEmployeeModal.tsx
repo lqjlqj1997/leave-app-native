@@ -46,7 +46,7 @@ export const NewEmployeeModal = ({
     const [email, setEmail] = useState('fatimah@gmail.com');
     const [address, setAddress] = useState('xyz street');
     const [BodDate, setBodDate] = useState(new Date().toLocaleDateString('en-GB'));
-    const [status, setStatus] = useState('Employed');
+    const [status, setStatus] = useState('Hired');
     const [phone, setPhone] = useState('0107867361');
     const [role, setRole] = useState('Employee');
     const [manager, setManager] = useState('Alimama');
@@ -59,8 +59,8 @@ export const NewEmployeeModal = ({
     ];
 
     const statusList = [
-        { key: "1", value: "Employed" },
-        { key: "2", value: "Unemployed" },
+        { key: "1", value: "Hired" },
+        { key: "2", value: "Not hired" },
     ];
 
     const roleList = [
@@ -515,7 +515,7 @@ export const NewEmployeeModal = ({
                                     }
                                     data={statusList}
                                     save="key"
-                                    defaultOption={{ key: "1", value: "Employed" }}
+                                    defaultOption={{ key: "1", value: "Hired" }}
                                 />
                             </View>
                         </ContainerView>
