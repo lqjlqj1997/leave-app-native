@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { DarkStyle, LightStyle } from "../lib/style/GlobalStyle";
+import { DarkStyle, LightStyle } from "@/lib/style/GlobalStyle";
 
 interface themeState {
     isDark: boolean;
