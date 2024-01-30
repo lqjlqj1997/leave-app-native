@@ -1,8 +1,12 @@
+import { RETRIEVE_LEAVE_BALANCE } from "@env";
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { Bike, CalendarCheck, Cross, HelpCircle } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
-import { Animated,  FlatList, Platform, Pressable, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-
+import { Animated, FlatList, Platform, Pressable, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Button } from "../../lib/components/Button";
+import { ContainerView } from "../../lib/components/ContainerView";
+import { getBaseStyle } from "../../lib/style/StyleUtil";
 import { EmployeeLeaveBalanceModal } from "./EmployeeLeaveBalanceModal";
 import { getBaseStyle } from "@/lib/style/StyleUtil";
 import { fetchEmployeeLeaveBalanceData } from "./_api/EmployeeLeaveBalanceApi";
@@ -46,14 +50,40 @@ const ExpandableView = ({ expanded = false }) => {
     );
 };
 
-export function EmployeeLeaveBalanceScreen({ data }: { data: any }) {
+export function EmployeeLeaveBalanceScreen() {
     const baseStyle = getBaseStyle();
     const [leaveType, setLeaveType] = useState("Annual Leave");
+    const [token] = useState(localStorage.getItem("token"));
+    const [employeeData, setEmployeeData] = useState({
+        leaveBalanceList: [],
+        totalLeave: "",
+    });
+
+    // useEffect(() => {
+    //     const fetchEmployeeLeaveBalance = async () => {
+    //         try {
+    //             const response = await axios.post(RETRIEVE_LEAVE_BALANCE, { token });
+    //             // setUserData(response.data);
+    //         } catch (error) {
+    //             console.error(error);
+    //         }
+    //     };
+    //     // fetchEmployeeLeaveBalance();
+    // }, [token]);
     const query = useQuery({
         queryKey: ["leaveBalance", leaveType],
-        queryFn: () => fetchEmployeeLeaveBalanceData(),
+        queryFn: async () => {
+            // axios.post(RETRIEVE_LEAVE_BALANCE, {token}).then(response => console.log('Data arrived: ', response.data))
+            
+            const response = await axios.post(RETRIEVE_LEAVE_BALANCE, { token });
+            // setEmployeeData(response.data);
+            console.log('Data arrived: ', response.data);
+            return response.data;
+            
+        },
     });
     const list = query.isError || query.isLoading || !query.data ? [] : query.data;
+    console.log("Query data: ", query.data);
     // const [isExpanded, setIsExpanded] = useState(query.data ? query.data.map((data) => data.isExpanded) : false);
     // const [isExpanded, setIsExpanded] = useState(false);
     const [expandedIds, setExpandedIds] = useState<string[]>([]);
@@ -77,20 +107,19 @@ export function EmployeeLeaveBalanceScreen({ data }: { data: any }) {
 
     const ItemView = ({ item }: {
         item: {
-            id: number,
-            name: string, leaveType: string, leaveBalance: number, expiryDate: Date,
-            email: string, isExpanded: boolean, alBalance: number, mcBalance: number,
+            leaveBalanceId: number,
+            empName: string, leaveType: string, totalLeave: number, expiryDate: Date,
+            empEmail: string, isExpanded: boolean, alBalance: number, mcBalance: number,
             rlBalance: number, otherBalance: number, alExpiryDate: Date,
             mcExpiryDate: Date, rlExpiryDate: Date, otherExpiryDate: Date,
         }
     }) => {
-        const isExpanded = expandedIds.includes(item.id.toString());
-        // baseStyle = getBaseStyle();
+        const isExpanded = expandedIds.includes(item.leaveBalanceId.toString());
         return (
             // FlatList Item
             <TouchableOpacity
                 style={{ width: '100%', height: "auto" }}
-                onPress={() => toggleItem(item.id.toString())}
+                onPress={() => toggleItem(item.leaveBalanceId.toString())}
             >
                 <LabelContainerView.MainBody style={{ flexDirection: "row" }}>
                     {query.isLoading ? (
@@ -124,7 +153,7 @@ export function EmployeeLeaveBalanceScreen({ data }: { data: any }) {
                                     maxWidth: 300,
                                     color: baseStyle.color.primary
                                 }}>
-                                {item.name}
+                                {item.empName}
                             </Text>
                             <Text
                                 style={{
@@ -134,7 +163,7 @@ export function EmployeeLeaveBalanceScreen({ data }: { data: any }) {
                                     color: baseStyle.color.primary
                                 }}
                             >
-                                {item.email}
+                                {item.empEmail}
                             </Text>
                         </View><View
                             style={[styles.role]}
@@ -195,7 +224,7 @@ export function EmployeeLeaveBalanceScreen({ data }: { data: any }) {
                                                 color: baseStyle.color.primary,
                                             }}
                                         >
-                                            {item.leaveBalance}
+                                            {query.data.totalLeave}
                                         </Text>
                                     </Pressable>
 
@@ -367,6 +396,13 @@ export function EmployeeLeaveBalanceScreen({ data }: { data: any }) {
         );
     };
 
+    if (query.isError){
+        return <Text>ERROR</Text>
+    }
+    if (query.isLoading){
+        return <Text>Loading ... </Text>
+    }
+
     return (
         <SafeAreaView
             style={[{ flex: 1 }]}
@@ -436,7 +472,7 @@ export function EmployeeLeaveBalanceScreen({ data }: { data: any }) {
                     //     alignItems: "center"
                     // }}
                     id="empLeaveBalanceFlatlist"
-                    data={list}
+                    data={query.data.leaveBalanceList}
                     renderItem={ItemView}
                     ItemSeparatorComponent={ItemSeparatorView}
                 />
