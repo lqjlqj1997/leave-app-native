@@ -19,6 +19,11 @@ import { fetchLeaveBalance } from "../leave/_api/LeaveBalanceApi";
 import { LeaveDataType } from "../Leave/_components/LeaveFormModal";
 import { Button } from "@/lib/components/Button";
 import { IconButton } from "@/lib/components/IconButton";
+import axios from "axios";
+import { CREATE_LEAVE_BALANCE } from "@env";
+import { z } from "zod";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const LabelContainerView = {
     Overlay: ContainerView,
@@ -31,8 +36,21 @@ interface LeaveDetailModalProps extends ModalProps {
     modalVisible: boolean;
     leaveType: string;
     selectedDate: Date;
-    onDemise: ((event: NativeSyntheticEvent<any>) => void) | undefined;
+    onDemise: () => void;
 }
+
+const leaveSchema = z.object({
+    leaveName: z.string(),
+    leaveBalance: z.string(),
+    expiryDate: z.string(),
+    empEmail: z.string(),
+    leaveType: z.string()
+});
+type leaveSchmeType = z.infer<typeof leaveSchema>;
+
+const leaveTypeSchema = z.object({
+    leaveType: z.string()
+});
 
 export const EmployeeLeaveBalanceModal = ({
     modalVisible,
@@ -58,7 +76,7 @@ export const EmployeeLeaveBalanceModal = ({
         },
     ]);
 
-    
+
     const [leaveType, setLeaveType] = useState("");
     const [openDatePickerModal, setOpenDatePickerModal] = useState(false);
     const [datePickerModalVisible, setDatePickerModalVisible] = useState(false);
@@ -72,10 +90,12 @@ export const EmployeeLeaveBalanceModal = ({
         new Date(today.getFullYear(), today.getMonth(), today.getDate())
     );
 
-    const [name, setName] = useState('Alibaba');
+    const [empEmail, setEmpEmail] = useState('emp01@g.com');
     const [leaveName, setLeaveName] = useState('No reason lol');
-    const [duration, setDuration] = useState('0');
+    const [leaveBalance, setLeaveBalance] = useState('0');
     const [expiryDate, setDate] = useState(new Date().toLocaleDateString('en-GB'));
+    const [token] = useState(localStorage.getItem("token"));
+    const [isFormValid, setIsFormValid] = useState(false);
 
     const leaveTypeList = [
         { key: "1", value: "Annual Leave" },
@@ -87,16 +107,16 @@ export const EmployeeLeaveBalanceModal = ({
 
     const handleIncrement = () => {
         // setValue(value + 1);
-        setDuration((prevValue) => {
+        setLeaveBalance((prevValue) => {
             const floatValue = parseFloat(prevValue);
             return (floatValue + 0.5).toFixed(1);
         });
     };
 
     const handleDecrement = () => {
-        if (parseFloat(duration) > 0) {
+        if (parseFloat(leaveBalance) > 0) {
             // setValue(value - 1);
-            setDuration((prevValue) => {
+            setLeaveBalance((prevValue) => {
                 const floatValue = parseFloat(prevValue);
                 return (floatValue - 0.5).toFixed(1);
             });
@@ -111,11 +131,11 @@ export const EmployeeLeaveBalanceModal = ({
         const decimalCount = sanitizedText.split('.').length - 1;
 
         if (text == '') {
-            setDuration('0');
+            setLeaveBalance('0');
         }
         else {
             if (decimalCount <= 1) {
-                setDuration(sanitizedText);
+                setLeaveBalance(sanitizedText);
             }
         }
         // if (decimalCount <= 1) {
@@ -125,8 +145,43 @@ export const EmployeeLeaveBalanceModal = ({
         console.log("No. of days: bb" + sanitizedText);
     };
 
-    const handleSubmit = () => {
-        onDemise
+    const {
+        control,
+        formState: { isLoading, isSubmitted, errors },
+        handleSubmit,
+        setError
+    } = useForm<leaveSchmeType>({
+        resolver: zodResolver(leaveSchema)
+    });
+
+    const onSubmit = async (leaveName: string, leaveBalance: string, expiryDate: string, empEmail: string, leaveType: string) => {
+        if (!leaveName || !leaveBalance || leaveBalance == "0" || leaveBalance == "0.0" || !empEmail) {
+            console.log("There is missing field in the form");
+        } else {
+            const response = await axios.post(CREATE_LEAVE_BALANCE, {
+                "leaveBalanceName": leaveName,
+                "leaveType": leaveType,
+                "balance": leaveBalance,
+                "expiryDate": expiryDate,
+                "empEmail": empEmail,
+                token
+            }).catch((error) => {
+                let message = error.message;
+                try {
+                    message = error.response.data.message;
+                } catch (e) {
+                    message = error.message;
+                }
+                setError("root", { type: "API", message: message });
+            }).catch((error) => {
+                console.log(error);
+                setError("root", { type: "API", message: error.message });
+            });
+
+            if (!response) return;
+            console.log("Response create new leave", response.data);
+            onDemise();
+        }
     }
 
     return (
@@ -279,7 +334,7 @@ export const EmployeeLeaveBalanceModal = ({
                                     marginBottom: baseStyle.space.p3,
                                     // maxHeight: baseStyle.space.p10
                                 }}
-                                search= {false}
+                                search={false}
                                 inputStyles={{
                                     width: "100%",
                                     borderColor: baseStyle.color.border,
@@ -376,30 +431,34 @@ export const EmployeeLeaveBalanceModal = ({
                                 defaultOption={{ key: "1", value: "Annual Leave" }}
                             />
                         </View>
-                        <TextInput
-                            style={{
-                                // flex: 1,
-                                display: "flex",
-                                height: baseStyle.space.p12,
-                                width: "100%",
-                                borderWidth: 1,
-                                borderColor: baseStyle.color.input,
-                                borderRadius: baseStyle.rounded.md,
-                                backgroundColor: baseStyle.color.background,
-                                paddingHorizontal: baseStyle.space.p3,
-                                paddingVertical: baseStyle.space.p2,
-                                fontSize: baseStyle.fontSize.base,
-                                shadowColor: baseStyle.color.background,
-                                marginBottom: baseStyle.space.p3,
-                                color: baseStyle.color.primary
-                            }}
-                            placeholder="Leave Name"
-                            placeholderTextColor={
-                                baseStyle.color.mutedForeground
-                            }
-                            value={leaveName}
-                            onChangeText={setLeaveName}
-                        />
+                        <View style={{
+                            width: "100%",
+                        }} >
+                            <TextInput
+                                style={{
+                                    // flex: 1,
+                                    display: "flex",
+                                    height: baseStyle.space.p12,
+                                    width: "100%",
+                                    borderWidth: 1,
+                                    borderColor: baseStyle.color.input,
+                                    borderRadius: baseStyle.rounded.md,
+                                    backgroundColor: baseStyle.color.background,
+                                    paddingHorizontal: baseStyle.space.p3,
+                                    paddingVertical: baseStyle.space.p2,
+                                    fontSize: baseStyle.fontSize.base,
+                                    shadowColor: baseStyle.color.background,
+                                    marginBottom: baseStyle.space.p3,
+                                    color: baseStyle.color.primary
+                                }}
+                                placeholder="Leave Name"
+                                placeholderTextColor={
+                                    baseStyle.color.mutedForeground
+                                }
+                                value={leaveName}
+                                onChangeText={setLeaveName}
+                            />
+                        </View>
                         <TextInput
                             style={{
                                 // flex: 1,
@@ -421,8 +480,8 @@ export const EmployeeLeaveBalanceModal = ({
                             placeholderTextColor={
                                 baseStyle.color.mutedForeground
                             }
-                            value={name}
-                            onChangeText={setName}
+                            value={empEmail}
+                            onChangeText={setEmpEmail}
                         />
                         {/* <View style={styles.inputContainer}> */}
                         <TextInput
@@ -441,7 +500,7 @@ export const EmployeeLeaveBalanceModal = ({
                                 marginBottom: baseStyle.space.p3,
                                 color: baseStyle.color.primary,
                             }}
-                            value={duration}
+                            value={leaveBalance}
                             placeholder="Enter Days"
                             placeholderTextColor={
                                 baseStyle.color.mutedForeground
@@ -609,7 +668,8 @@ export const EmployeeLeaveBalanceModal = ({
                             <Button
                                 title="Submit"
                                 //TODO Submit Btn
-                                onPress={onDemise}
+                                onPress={handleSubmit((i) =>
+                                    onSubmit(i.leaveName, i.leaveBalance, i.expiryDate, i.empEmail, i.leaveType))}
                             ></Button>
                         </View>
                     </LabelContainerView.MainBody>

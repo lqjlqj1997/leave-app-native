@@ -59,17 +59,6 @@ export function EmployeeLeaveBalanceScreen() {
         totalLeave: "",
     });
 
-    // useEffect(() => {
-    //     const fetchEmployeeLeaveBalance = async () => {
-    //         try {
-    //             const response = await axios.post(RETRIEVE_LEAVE_BALANCE, { token });
-    //             // setUserData(response.data);
-    //         } catch (error) {
-    //             console.error(error);
-    //         }
-    //     };
-    //     // fetchEmployeeLeaveBalance();
-    // }, [token]);
     const query = useQuery({
         queryKey: ["leaveBalance", leaveType],
         queryFn: async () => {
@@ -84,6 +73,8 @@ export function EmployeeLeaveBalanceScreen() {
     });
     const list = query.isError || query.isLoading || !query.data ? [] : query.data;
     console.log("Query data: ", query.data);
+    // const uniqueArray = query.data.filter(( id: any , i: any , _arr: any) => _arr.findIndex((elem: any) => elem.id === id ) === i);
+    // console.log(uniqueArray);
     // const [isExpanded, setIsExpanded] = useState(query.data ? query.data.map((data) => data.isExpanded) : false);
     // const [isExpanded, setIsExpanded] = useState(false);
     const [expandedIds, setExpandedIds] = useState<string[]>([]);
@@ -108,13 +99,14 @@ export function EmployeeLeaveBalanceScreen() {
     const ItemView = ({ item }: {
         item: {
             leaveBalanceId: number,
-            empName: string, leaveType: string, totalLeave: number, expiryDate: Date,
-            empEmail: string, isExpanded: boolean, alBalance: number, mcBalance: number,
+            empName: string, leaveType: string, totalLeave: number, expiryDate: string,
+            empEmail: string, balance: number, mcBalance: number,
             rlBalance: number, otherBalance: number, alExpiryDate: Date,
             mcExpiryDate: Date, rlExpiryDate: Date, otherExpiryDate: Date,
         }
     }) => {
         const isExpanded = expandedIds.includes(item.leaveBalanceId.toString());
+        
         return (
             // FlatList Item
             <TouchableOpacity
@@ -122,23 +114,7 @@ export function EmployeeLeaveBalanceScreen() {
                 onPress={() => toggleItem(item.leaveBalanceId.toString())}
             >
                 <LabelContainerView.MainBody style={{ flexDirection: "row" }}>
-                    {query.isLoading ? (
-                        <ContainerView>
-                            <Text>Is Loading</Text>
-                        </ContainerView>
-                    ) : query.isError ? (
-                        <ContainerView>
-                            <Text>Is Error</Text>
-                        </ContainerView>
-                    ) : !query.data ? (
-                        <ContainerView>
-                            <Text>Is Error</Text>
-                        </ContainerView>
-                    ) : query.data.length == 0 ? (
-                        <ContainerView>
-                            <Text>No Data</Text>
-                        </ContainerView>
-                    ) : (
+                    {
                         <><View style={{
                             flex: 1,
                             // backgroundColor: "green",
@@ -170,9 +146,9 @@ export function EmployeeLeaveBalanceScreen() {
                         >
                                 <View style={{ flexDirection: "row", flex: 1 }}>
                                     {/* {item.role === 'Employee' ? <UserRound
-                                        color={baseStyle.primary} /> : (item.role === 'Manager' ? <UserRoundCog
-                                            color={baseStyle.primary} /> : <ShieldCheck
-                                            color={baseStyle.primary} />)} */}
+        color={baseStyle.primary} /> : (item.role === 'Manager' ? <UserRoundCog
+            color={baseStyle.primary} /> : <ShieldCheck
+            color={baseStyle.primary} />)} */}
                                     <Pressable
                                         id="Header"
                                         style={{
@@ -186,35 +162,31 @@ export function EmployeeLeaveBalanceScreen() {
                                             borderColor: baseStyle.color.border,
                                         }}
                                         disabled={true}
-                                    // onPress={() => {
-                                    //     setSelectedLeaveType("Annual Leave");
-                                    //     setOpenLeaveBalanceModal(true);
-                                    // }}
                                     >
                                         {/* {item.leaveType === "Annual Leave" ? (<CalendarCheck
-                                            style={{
-                                                marginRight: Platform.OS === "web" ? 20 : 0
-                                            }}
-                                            color={baseStyle.color.primary}
-                                        ></CalendarCheck>) :
-                                            item.leaveType === "Medical Leave" ? (
-                                                <Cross color={baseStyle.color.primary}
-                                                    style={{
-                                                        marginRight: Platform.OS === "web" ? 20 : 0
-                                                    }}></Cross>
-                                            ) : item.leaveType === "Replacement Leave" ? (
-                                                <Bike color={baseStyle.color.primary}
-                                                    style={{
-                                                        marginRight: Platform.OS === "web" ? 20 : 0
-                                                    }}></Bike>
-                                            ) : item.leaveType === "Other Leave" ? (
-                                                <HelpCircle
-                                                    color={baseStyle.color.primary}
-                                                    style={{
-                                                        marginRight: Platform.OS === "web" ? 20 : 0
-                                                    }}
-                                                ></HelpCircle>
-                                            ) : null} */}
+        style={{
+            marginRight: Platform.OS === "web" ? 20 : 0
+        }}
+        color={baseStyle.color.primary}
+    ></CalendarCheck>) :
+        item.leaveType === "Medical Leave" ? (
+            <Cross color={baseStyle.color.primary}
+                style={{
+                    marginRight: Platform.OS === "web" ? 20 : 0
+                }}></Cross>
+        ) : item.leaveType === "Replacement Leave" ? (
+            <Bike color={baseStyle.color.primary}
+                style={{
+                    marginRight: Platform.OS === "web" ? 20 : 0
+                }}></Bike>
+        ) : item.leaveType === "Other Leave" ? (
+            <HelpCircle
+                color={baseStyle.color.primary}
+                style={{
+                    marginRight: Platform.OS === "web" ? 20 : 0
+                }}
+            ></HelpCircle>
+        ) : null} */}
 
                                         <Text
                                             style={{
@@ -230,20 +202,18 @@ export function EmployeeLeaveBalanceScreen() {
 
                                 </View>
                                 {/* <Text
-                                    style={{
-                                        color: baseStyle.color.primary,
-                                        paddingTop: 10
-                                    }}
-                                >
-                                    {item.expiryDate != null ? item.expiryDate.toDateString() : "No Date"}
-                                </Text> */}
+        style={{
+            color: baseStyle.color.primary,
+            paddingTop: 10
+        }}
+    >
+        {item.expiryDate != null ? item.expiryDate.toDateString() : "No Date"}
+    </Text> */}
 
                             </View></>
-                    )
                     }
                 </LabelContainerView.MainBody>
 
-                {/* <ExpandableView expanded={!item.isExpanded} /> */}
                 {isExpanded ? (
                     <View>
                         <View
@@ -279,7 +249,7 @@ export function EmployeeLeaveBalanceScreen() {
                                             fontWeight: baseStyle.fontWeight.bold,
                                             marginTop: baseStyle.space.p3,
                                         }}>
-                                        {item.alBalance}</Text>
+                                        {item.leaveType === "Annual Leave" ? item.balance : ""}</Text>
                                     <Text
                                         style={{
                                             flex: 1,
@@ -289,7 +259,7 @@ export function EmployeeLeaveBalanceScreen() {
                                             textAlign: "right",
                                             marginTop: baseStyle.space.p3,
                                         }}>
-                                        {item.alExpiryDate != null ? item.alExpiryDate.toDateString() : "No Date"}</Text>
+                                        {item.leaveType === "Annual Leave" ? item.expiryDate : "No date"}</Text>
                                 </View>
                                 <View
                                     style={{
@@ -311,7 +281,7 @@ export function EmployeeLeaveBalanceScreen() {
                                             fontWeight: baseStyle.fontWeight.bold,
                                             marginTop: baseStyle.space.p3,
                                         }}>
-                                        {item.mcBalance}</Text>
+                                        {item.leaveType === "Medical Leave" ? item.balance : ""}</Text>
                                     <Text
                                         style={{
                                             flex: 1,
@@ -321,7 +291,7 @@ export function EmployeeLeaveBalanceScreen() {
                                             textAlign: "right",
                                             marginTop: baseStyle.space.p3,
                                         }}>
-                                        {item.mcExpiryDate != null ? item.mcExpiryDate.toDateString() : "No Date"}</Text>
+                                        {item.leaveType === "Medical Leave" ? item.expiryDate : "No date"}</Text>
                                 </View>
                                 <View
                                     style={{
@@ -342,7 +312,7 @@ export function EmployeeLeaveBalanceScreen() {
                                         fontWeight: baseStyle.fontWeight.bold,
                                         marginTop: baseStyle.space.p3,
                                     }}>
-                                        {item.rlBalance}</Text>
+                                        {item.leaveType === "Replacement Leave" ? item.balance : ""}</Text>
                                     <Text
                                         style={{
                                             flex: 1,
@@ -352,7 +322,7 @@ export function EmployeeLeaveBalanceScreen() {
                                             textAlign: "right",
                                             marginTop: baseStyle.space.p3,
                                         }}>
-                                        {item.rlExpiryDate != null ? item.rlExpiryDate.toDateString() : "No Date"}</Text>
+                                        {item.leaveType === "Replacement Leave" ? item.expiryDate : "No date"}</Text>
                                 </View>
                                 <View
                                     style={{
@@ -375,7 +345,7 @@ export function EmployeeLeaveBalanceScreen() {
                                         fontWeight: baseStyle.fontWeight.bold,
                                         marginTop: baseStyle.space.p3,
                                     }}>
-                                        {item.otherBalance}</Text>
+                                        {item.leaveType === "Other Leave" ? item.balance : ""}</Text>
                                     <Text
                                         style={{
                                             flex: 1,
@@ -385,7 +355,7 @@ export function EmployeeLeaveBalanceScreen() {
                                             textAlign: "right",
                                             marginTop: baseStyle.space.p3,
                                         }}>
-                                        {item.otherExpiryDate != null ? item.otherExpiryDate.toDateString() : "No Date"}</Text>
+                                            {item.leaveType === "Other Leave" ? item.expiryDate : "No date"}</Text>
                                 </View>
                             </LabelContainerView.ExpandedView>
                         </View>
@@ -471,6 +441,7 @@ export function EmployeeLeaveBalanceScreen() {
                     //     justifyContent: "center",
                     //     alignItems: "center"
                     // }}
+                    keyExtractor={(item, index) => item.empEmail}
                     id="empLeaveBalanceFlatlist"
                     data={query.data.leaveBalanceList}
                     renderItem={ItemView}
