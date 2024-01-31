@@ -13,6 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
+import { useTokenStore } from "@/global-store/TokenStore";
 
 const loginSchema = z.object({
     loginEmail: z.string().email("This is Not Email"),
@@ -21,6 +22,7 @@ const loginSchema = z.object({
 type loginSchemaType = z.infer<typeof loginSchema>;
 
 export default function LoginScreen() {
+    const {token, setToken} = useTokenStore() 
     const isDark = useThemeStore((state) => state.isDark);
     const baseStyle = getBaseStyle(isDark);
 
@@ -30,7 +32,7 @@ export default function LoginScreen() {
         control,
         formState: { isLoading, isSubmitted, errors },
         handleSubmit,
-        setError,
+                setError,
     } = useForm<loginSchemaType>({ resolver: zodResolver(loginSchema) });
 
     console.log(errors);
@@ -63,8 +65,8 @@ export default function LoginScreen() {
         if (!response) return;
 
         const { token, role } = response.data;
-        localStorage.setItem("token", token);
-        localStorage.setItem("role", role);
+        setToken(token)
+        // await AsyncStorage.setItem("role", role);
         router.navigate("/app/leave");
         console.log("success");
     };

@@ -11,6 +11,7 @@ import { infer, z } from "zod";
 import { getBaseStyle } from "@/lib/style/StyleUtil";
 import { ContainerView } from "@/lib/components/ContainerView";
 import { Button } from "@/lib/components/Button";
+import { useTokenStore } from "@/global-store/TokenStore";
 
 
 // const userDataSchema = z.object({
@@ -31,7 +32,7 @@ function UserProfilePage() {
     const [datePickerModalVisible, setDatePickerModalVisible] = useState(false);
 
     const image = require("../assets/profile.jpg");
-    const [token] = useState(localStorage.getItem("token"));
+    const { token } = useTokenStore()
     const [userData, setUserData] = useState({
         name: "",
         email: "",
@@ -44,6 +45,7 @@ function UserProfilePage() {
     });
 
     useEffect(() => {
+        
         const fetchData = async () => {
             try {
                 const response = await axios.post(USER_PROFILE, { token });

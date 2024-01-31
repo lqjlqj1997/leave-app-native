@@ -2,18 +2,12 @@ import { Dimensions, ImageBackground, Text, View } from "react-native";
 
 import { router } from "expo-router";
 import { Button } from "@/lib/components/Button";
+import { useTokenStore } from "@/global-store/TokenStore";
+import { useEffect } from "react";
 
 const image = { uri: "https://legacy.reactjs.org/logo-og.png" };
 
 export default function AppScreen() {
-    // const windowWidth = Dimensions.get("window").width;
-    // const windowHeight = Dimensions.get("window").height;
-
-    // const sm = windowWidth > 640;
-    // const md = windowWidth > 768;
-    // const lg = windowWidth > 1024;
-    // const xl = windowWidth > 1280;
-    // const doubleXl = windowWidth > 1536;
 
     return (
         <View
