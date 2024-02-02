@@ -16,7 +16,7 @@ import { ExpiryDatePicker } from "./_component/ExpiryDatePicker";
 import { ContainerView, ScrollContainerView } from "@/lib/components/ContainerView";
 import { getBaseStyle } from "@/lib/style/StyleUtil";
 import { fetchLeaveBalance } from "../leave/_api/LeaveBalanceApi";
-import { LeaveDataType } from "../Leave/_components/LeaveFormModal";
+import { LeaveDataType } from "../leave/_components/LeaveFormModal";
 import { Button } from "@/lib/components/Button";
 import { IconButton } from "@/lib/components/IconButton";
 import axios from "axios";
@@ -24,6 +24,7 @@ import { CREATE_LEAVE_BALANCE } from "@env";
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { DayModeLegendModal } from "../leave/_components/DayModeLegendModal";
 
 const LabelContainerView = {
     Overlay: ContainerView,

@@ -1,14 +1,12 @@
+import { Button } from "@/lib/components/Button";
+import { getBaseStyle } from "@/lib/style/StyleUtil";
 import { RETRIEVE_LEAVE_BALANCE } from "@env";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Bike, CalendarCheck, Cross, HelpCircle } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
 import { Animated, FlatList, Platform, Pressable, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { EmployeeLeaveBalanceModal } from "./EmployeeLeaveBalanceModal";
-import { getBaseStyle } from "@/lib/style/StyleUtil";
-import { fetchEmployeeLeaveBalanceData } from "./_api/EmployeeLeaveBalanceApi";
-import { ContainerView } from "@/lib/components/ContainerView";
-import { Button } from "@/lib/components/Button";
+import { EmployeeLeaveBalanceModal } from "../EmployeeLeaveBalanceModal";
 
 const LabelContainerView = {
     Header: View,
@@ -47,7 +45,7 @@ const ExpandableView = ({ expanded = false }) => {
     );
 };
 
-export function EmployeeLeaveBalanceScreen() {
+function EmployeeLeaveBalanceScreen() {
     const baseStyle = getBaseStyle();
     const [leaveType, setLeaveType] = useState("Annual Leave");
     const [token] = useState(localStorage.getItem("token"));
@@ -472,3 +470,5 @@ const styles = StyleSheet.create({
         // backgroundColor:
     }
 });
+
+export default EmployeeLeaveBalanceScreen;
