@@ -7,6 +7,7 @@ import { Bike, CalendarCheck, Cross, HelpCircle } from 'lucide-react-native';
 import React, { useEffect, useState } from 'react';
 import { Animated, FlatList, Platform, Pressable, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { EmployeeLeaveBalanceModal } from "../EmployeeLeaveBalanceModal";
+import { useTokenStore } from "@/global-store/TokenStore";
 
 const LabelContainerView = {
     Header: View,
@@ -48,7 +49,7 @@ const ExpandableView = ({ expanded = false }) => {
 function EmployeeLeaveBalanceScreen() {
     const baseStyle = getBaseStyle();
     const [leaveType, setLeaveType] = useState("Annual Leave");
-    const [token] = useState(localStorage.getItem("token"));
+    const {token, setToken} = useTokenStore();
     const [employeeData, setEmployeeData] = useState({
         leaveBalanceList: [],
         totalLeave: "",
