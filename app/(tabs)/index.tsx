@@ -1,9 +1,7 @@
-import { Dimensions, ImageBackground, Text, View } from "react-native";
+import { ImageBackground, Text, View } from "react-native";
 
-import { router } from "expo-router";
 import { Button } from "@/lib/components/Button";
-import { useTokenStore } from "@/global-store/TokenStore";
-import { useEffect } from "react";
+import { router } from "expo-router";
 
 const image = { uri: "https://legacy.reactjs.org/logo-og.png" };
 
@@ -13,7 +11,7 @@ export default function AppScreen() {
         <View
             style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
             <ImageBackground
-                source={require("../assets/images/home_bg.jpg")}
+                // source={require("@/assets/images/home_bg.jpg")}
                 resizeMode="cover"
                 style={{
                     flex: 1,

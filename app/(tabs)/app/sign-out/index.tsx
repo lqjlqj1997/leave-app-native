@@ -1,7 +1,7 @@
 // import axios from "axios";
 
 import { Text } from "react-native";
-import { useThemeStore } from "../../../global-store/ThemeStore";
+import { useThemeStore } from "@/global-store/ThemeStore";
 import { ContainerView } from "@/lib/components/ContainerView";
 import { ThemeSwitch } from "@/lib/components/ThemeToggle";
 import { getBaseStyle } from "@/lib/style/StyleUtil";

@@ -5,7 +5,7 @@ import { getBaseStyle, getDefaultColourStyle } from "@/lib/style/StyleUtil";
 import axios from "axios";
 import React from "react";
 import { Text, TextInput, View } from "react-native";
-import { useThemeStore } from "../../global-store/ThemeStore";
+import { useThemeStore } from "@/global-store/ThemeStore";
 
 import { tw } from "@/lib/util/Tailwind";
 import { LOGIN_URL } from "@env";
@@ -22,7 +22,7 @@ const loginSchema = z.object({
 type loginSchemaType = z.infer<typeof loginSchema>;
 
 export default function LoginScreen() {
-    const {token, setToken} = useTokenStore() 
+    const { token, setToken } = useTokenStore();
     const isDark = useThemeStore((state) => state.isDark);
     const baseStyle = getBaseStyle(isDark);
 
@@ -65,7 +65,7 @@ export default function LoginScreen() {
         if (!response) return;
 
         const { token, role } = response.data;
-        setToken(token)
+        setToken(token);
         // await AsyncStorage.setItem("role", role);
         router.navigate("/app/leave");
         console.log("success");

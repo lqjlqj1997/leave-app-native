@@ -1,7 +1,7 @@
 import { Text, TextInput } from "react-native";
 
 import { router } from "expo-router";
-import { useThemeStore } from "../../global-store/ThemeStore";
+import { useThemeStore } from "@/global-store/ThemeStore";
 import { Button } from "@/lib/components/Button";
 import { ContainerView } from "@/lib/components/ContainerView";
 import { ThemeSwitch } from "@/lib/components/ThemeToggle";

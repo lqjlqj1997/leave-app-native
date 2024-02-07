@@ -45,7 +45,7 @@ const newEmployeeDetail = (): EmployeeDetail => {
             "Single",
             "Married"
         ])[0]!,
-        phoneNumber: faker.phone.number('+60(1#) ### ####'),
+        phoneNumber: faker.phone.number(),
         role: faker.helpers.shuffle<EmployeeDetail["role"]>([
             "Employee", 
             "Manager",

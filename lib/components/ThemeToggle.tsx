@@ -1,5 +1,5 @@
 import { Switch } from "react-native";
-import { useThemeStore } from "../../global-store/ThemeStore";
+import { useThemeStore } from "@/global-store/ThemeStore";
 import { getBaseStyle } from "../style/StyleUtil";
 
 export function ThemeSwitch() {

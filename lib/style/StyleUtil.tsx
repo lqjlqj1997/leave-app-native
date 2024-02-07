@@ -1,4 +1,4 @@
-import { useThemeStore } from "../../global-store/ThemeStore";
+import { useThemeStore } from "@/global-store/ThemeStore";
 import { DarkStyle, LightStyle } from "./GlobalStyle";
 
 export const getBaseStyle = (isDark?: boolean) => {
